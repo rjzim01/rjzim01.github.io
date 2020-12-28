@@ -1,0 +1,49 @@
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+header{
+	padding-top:10px;
+	padding-bottom:10px;
+	width:100%;
+	position:fixed;
+	background-color:#a59a8f57;
+	overflow:hidden;
+	z-index:99;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+nav ul{
+	float: right;
+	margin-right: 20px;
+}
+nav ul li{
+	display: inline-block;
+	line-height: 80px;
+	margin: 0 5px;
+}
+.company{
+	padding-top:10px;
+	padding-left:35px;
+	float:left;
+}
+.company img{
+	float:left;
+	display:block;
+}
+.company h2{
+	float:left;
+	color:black;
+	font-size:2rem;
+	text-transform:uppercase;
+	margin-top:0px;
+	margin-left:10px;
+}
+
+
+
+
+
+  

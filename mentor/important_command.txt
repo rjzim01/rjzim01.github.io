@@ -1,0 +1,18 @@
+2nd migration after the seeder column added for remove the database information and regenerate the file
+-----------------------------------------
+php artisan migrate:fresh --seed
+-----------------------------------------
+------------------
+php artisan optimize
+------------------
+php artisan config:cache
+------------------
+php artisan cache:clear
+------------------
+php artisan view:clear
+------------------
+
+
+------------------to backup or restore
+composer update
+------------------

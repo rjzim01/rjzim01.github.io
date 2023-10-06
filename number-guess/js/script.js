@@ -1,21 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Set the range
     let lower = 1;
     let upper = 10;
+    let correct_ans;
+    let chances;
+    let chancesElement;
+    let resultElement;
+    let guessInput;
+    let submitButton;
 
-    // Generate a random number within the range
-    let correct_ans = Math.floor(Math.random() * (upper - lower + 1)) + lower;
-
-    // Update the UI with the range
-    document.getElementById('lower').textContent = lower;
-    document.getElementById('upper').textContent = upper;
-
-    // Initialize the number of chances
-    let chances = 3;
+    function initializeGame() {
+        correct_ans = Math.floor(Math.random() * (upper - lower + 1)) + lower;
+        chances = 3;
+        chancesElement = document.getElementById('chances');
+        resultElement = document.getElementById('result');
+        guessInput = document.getElementById('guess');
+        submitButton = document.querySelector('button');
+        chancesElement.textContent = `Chances left: ${chances}`;
+        resultElement.textContent = "";
+        guessInput.value = "";
+        guessInput.disabled = false;
+        submitButton.disabled = false;
+    }
 
     function checkGuess() {
-        let userGuess = parseInt(document.getElementById('guess').value);
-        let resultElement = document.getElementById('result');
+        let userGuess = parseInt(guessInput.value);
 
         if (isNaN(userGuess) || userGuess < lower || userGuess > upper) {
             resultElement.textContent = `Please enter a valid number between ${lower} and ${upper}.`;
@@ -33,16 +41,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
         chances--;
 
-        if (chances === 0) {
+        if (chances === 0 && userGuess === correct_ans) {
+            resultElement.textContent = `Congratulations! You've guessed the correct number (${correct_ans})!`;
+            disableInputAndButton();
+        } else if (chances === 0){
             resultElement.textContent = `Sorry, you've used all your chances. The correct answer was ${correct_ans}. You lose!`;
             disableInputAndButton();
         }
+
+        chancesElement.textContent = `Chances left: ${chances}`;
     }
 
     function disableInputAndButton() {
-        document.getElementById('guess').disabled = true;
-        document.querySelector('button').disabled = true;
+        guessInput.disabled = true;
+        submitButton.disabled = true;
     }
 
+    function restartGame() {
+        initializeGame();
+    }
+
+    initializeGame();
+
     document.querySelector('button').addEventListener('click', checkGuess);
+    document.getElementById('restart').addEventListener('click', restartGame);
 });

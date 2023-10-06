@@ -10,9 +10,12 @@
     <div class="container">
         <h1>Number Guessing Game</h1>
         <p>Guess a number between <span id="lower"></span> and <span id="upper"></span>.</p>
+        <div id="chances">Chances left: 3</div>
         <input type="number" id="guess" min="" max="" placeholder="Enter your guess">
         <button onclick="checkGuess()">Submit</button>
         <div id="result"></div>
+        <button id="restart">Restart</button>
+
     </div>
     <script src="js/script.js"></script>
 </body>

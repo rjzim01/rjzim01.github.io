@@ -17,7 +17,8 @@ let timer;
 let autoplay = 0;
 let loop = 0;
 
-let index_no = 10;
+//let index_no = 10;
+let index_no = 0;
 let Playing_song = false;
 
 //create a audio Element
@@ -28,27 +29,28 @@ let All_song = [{
         name: "Only Music",
         //path: "music/song1.mp3",
         path: "music/amusic15.mp3",
-        img: "img/img1.jpg",
+        //img: "img/img1.jpg",
+        img: "img/1_img.png",
         singer: "just wow"
     },
     {
         name: "Majhe Majhe",
         //path: "music/song5.mp3",
         path: "music/Majhe_Majhe_Tobo_Arindom.mp3",
-        img: "img/img2.jpg",
+        img: "img/2_img.png",
         singer: "!sad"
     },
     {
         name: "Samajagavana",
         path: "music/song3.mp3",
-        img: "img/img3.jpg",
+        img: "img/3_img.png",
         singer: "telegu"
     },
     {
         name: "Evaly",
         //path: "music/song4.mp3",
         path: "music/Evaly_-_We_Care.mp3",
-        img: "img/img4.jpg",
+        img: "img/4_img.png",
         singer: "!marketing"
     },
     {
@@ -62,49 +64,49 @@ let All_song = [{
         name: "Dhoro Jodi",
         //path: "music/song2.mp3",
         path: "music/DhoroJodi.mp3",
-        img: "img/dhoro.png",
+        img: "img/6_dhoro.png",
         singer: "!Sad"
     },
     {
         name: "Lamborgini",
         //path: "music/song2.mp3",
-        path: "music/lamborgini.mp3",
-        img: "img/lamborgini.jpg",
+        path: "music/7_lamborgini.mp3",
+        img: "img/7_lamborgini.jpg",
         singer: "!Strong"
     },
     {
         name: "Srotoshinni",
         //path: "music/song2.mp3",
         path: "music/Srotoshinni.mp3",
-        img: "img/Srotoshinni.jpg",
+        img: "img/8_Srotoshinni.png",
         singer: "!Strong"
     },
     {
         name: "jannat",
         //path: "music/song2.mp3",
         path: "music/jannat.mp3",
-        img: "img/jannat.jpg",
+        img: "img/9_jannat.jpg",
         singer: "forLove"
     },
     {
         name: "jokhon",
         //path: "music/song2.mp3",
         path: "music/JokhonPorbeNaMor.mp3",
-        img: "img/jodiAmar.jpg",
+        img: "img/10_jodiAmar.png",
         singer: "Revealed"
     },
     {
         name: "BeSuccessFull",
         //path: "music/song2.mp3",
         path: "music/music2.mp3",
-        img: "img/music2.jpg",
+        img: "img/11_music2.png",
         singer: "AchieveTheGoal"
     },
     {
         name: "LoL",
         //path: "music/song2.mp3",
         path: "music/lol.mp3",
-        img: "img/lol.jpg",
+        img: "img/12_lol.jpg",
         singer: "AchieveTheGoal"
     }        
 ];

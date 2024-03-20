@@ -1,1 +1,0 @@
-<h1>Invalid Role type. Login as right role to access this.<a href="{{ route('home1')}}">Home</a></h1>

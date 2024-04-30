@@ -80,3 +80,37 @@ body{
     font-size: 28px;
     margin-top: -6px;
 }
+/* CSS for mobile responsiveness */
+@media only screen and (max-width: 600px) {
+    .card {
+        padding: 30px 25px;
+    }
+    .search input {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    .search button {
+        width: 50px;
+        height: 50px;
+    }
+    .weather-icon {
+        width: 120px;
+        margin-top: 20px;
+    }
+    .weather h1 {
+        font-size: 60px;
+    }
+    .weather h2 {
+        font-size: 35px;
+    }
+    .details {
+        padding: 0 10px;
+        margin-top: 30px;
+    }
+    .col img {
+        width: 30px;
+    }
+    .humidity, .wind {
+        font-size: 22px;
+    }
+}

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFS Alumni</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #000;
+            background: url('image/inf-dhaka-banner-image-1.jpg') center/cover no-repeat;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, white 0%, transparent 100%);
+            z-index: 2;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 3;
+        }
+
+        .hero h1 {
+            margin-top: 200px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .image-footer {
+            background-image: url('image/footer-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .footer-overlay {
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1));
+            padding: 40px 20px;
+        }
+        .footer-bottom {
+            background-color: #a51c1c;
+        }
+        .header-custom {
+            background: linear-gradient(90deg, #8C1515 0%, #8C1515 20%, #000000 20%, #000000 100%);
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .logo-text {
+            font-size: 3rem;
+        }
+        .alumni-text {
+            font-size: 2rem;
+        }
+        .search-btn {
+            border: 2px solid white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .search-btn:hover {
+            background: white;
+            color: #8C1515;
+        }
+        .mobile-menu-overlay {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1050;
+            top: 0;
+            left: 0;
+            background-color: white;
+            overflow-x: hidden;
+            transition: 0.5s;
+        }
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+        .mobile-menu-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .mobile-menu-overlay .close-btn {
+            font-size: 2rem;
+            color: #333;
+            text-decoration: none;
+            margin-left: auto;
+        }
+        .mobile-menu-content {
+            padding: 1rem;
+        }
+        .mobile-menu-overlay a {
+            padding: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+            transition: 0.3s;
+        }
+        .mobile-menu-overlay a:hover, .mobile-menu-overlay a:focus {
+            color: #8C1515;
+        }
+        .mission-card {
+            min-height: 300px;
+        }
+
+        .book2-card-wrapper {
+            margin: 0 40px;
+        }
+
+        .mission-card1 {
+            min-height: 150px;
+        }
+
+        @media (max-width: 1100px) {
+            .logo-text {
+                font-size: 2.9rem;
+            }
+            .alumni-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .logo-text {
+                font-size: 2.0rem;
+            }
+            .alumni-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            .alumni-text {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            .alumni-text {
+                font-size: 0.7rem;
+            }
+        }
+
+        .search-overlay {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1050;
+            top: 0;
+            left: 0;
+            background-color: rgba(0,0,0, 0.9);
+            overflow-x: hidden;
+            transition: 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-overlay-content {
+            position: relative;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        .search-overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 60px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .search-overlay .close-btn:hover,
+        .search-overlay .close-btn:focus {
+            color: #ccc;
+        }
+
+        .search-overlay input[type=text] {
+            padding: 15px;
+            border: none;
+            background: #f1f1f1;
+            width: 100%;
+            font-size: 17px;
+            color: #333;
+        }
+
+        .search-overlay input[type=text]:focus {
+            outline: none;
+        }
+
+        .search-overlay-content h5 {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            padding-bottom: 2px;
+        }
+
+        .search-overlay-content h5::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #8C1515;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .search-overlay-content h5:hover::after {
+            width: 100%;
+        }
+    </style>
+    <style>
+        .custom-dropdown-menu {
+            background-color: white;
+            color: #333;
+            width: 100%;
+            padding: 2rem 0;
+            margin-top: 15px !important;
+            border-radius: 0;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .custom-dropdown-menu h5 {
+            font-weight: bold;
+        }
+        .custom-dropdown-menu p {
+            font-size: 0.9rem;
+        }
+        .custom-dropdown-menu a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .custom-dropdown-menu a:hover {
+            text-decoration: underline;
+        }
+        .second-nav-row .nav-item.dropdown {
+            position: static;
+        }
+        .second-nav-row .nav-item.dropdown .dropdown-menu {
+            width: 100%;
+            left: 0;
+        }
+        .second-nav-row .nav-item.dropdown .nav-link.show,
+        .second-nav-row .nav-item.dropdown .nav-link.active {
+            color: red !important;
+        }
+        .second-nav-row .nav-item.dropdown .nav-link.show i {
+            transform: rotate(180deg);
+        }
+
+        /* Styles for the About dropdown links */
+        .about-links-menu .col-lg-4 > a {
+            display: block;
+            padding: 8px 0;
+            color: #333;
+            text-decoration: none;
+        }
+        .about-links-menu .col-lg-4 > a:hover,
+        .about-links-menu .col-lg-4 > a.active {
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-custom text-white d-none d-lg-block">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="logo-container">
+                        <a class="navbar-brand text-white" href="#">
+                            <h1 class="d-inline logo-text">INFS</h1>
+                            <span class="fst-italic alumni-text">alumni</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                            <ul class="nav py-3">
+                                <li class="nav-item"><a class="nav-link text-white" href="#">Alumni Directory <i class="fas fa-angle-down ms-2"></i></a></li>
+                                <li class="nav-item"><a class="nav-link text-white" href="#">Email <i class="fas fa-angle-down ms-2"></i></a></li>
+                                <li class="nav-item"><a class="nav-link text-white" href="#">Log in</a></li>
+                                <li class="nav-item">
+                                    <button class="search-btn" aria-label="Search" id="open-search-btn">Search 🔍</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                            <ul class="second-nav-row nav py-3">
+                                <li class="nav-item">
+                                    <a class="nav-link text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span style="font-weight: 700; font-size: 1.3rem;">Events</span>
+                                        <i class="fas fa-angle-down ms-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu custom-dropdown-menu">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h5>Upcoming Events</h5>
+                                                    <p>Check out our calendar of upcoming events for alumni.</p>
+                                                    <a href="#">View calendar</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Past Events</h5>
+                                                    <p>Watch recordings and see photos from past events.</p>
+                                                    <a href="#">Browse gallery</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Host an Event</h5>
+                                                    <p>Learn how you can host an alumni event in your area.</p>
+                                                    <a href="#">Get involved</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span style="font-weight: 700; font-size: 1.3rem;">Reading & Resources</span>
+                                        <i class="fas fa-angle-down ms-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu custom-dropdown-menu">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h5>Alumni Magazine</h5>
+                                                    <p>Read the latest issue of the alumni magazine.</p>
+                                                    <a href="#">Read now</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Career Resources</h5>
+                                                    <p>Access career resources and job listings.</p>
+                                                    <a href="#">Find jobs</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Library Access</h5>
+                                                    <p>Get access to the university's online library resources.</p>
+                                                    <a href="#">Learn more</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span style="font-weight: 700; font-size: 1.3rem;">Programs & Perks</span>
+                                        <i class="fas fa-angle-down ms-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu custom-dropdown-menu">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h5>Discounts</h5>
+                                                    <p>Enjoy discounts on a variety of products and services.</p>
+                                                    <a href="#">View discounts</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Travel Programs</h5>
+                                                    <p>Explore the world with fellow alumni on our travel programs.</p>
+                                                    <a href="#">See trips</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Lifelong Learning</h5>
+                                                    <p>Continue your education with our lifelong learning programs.</p>
+                                                    <a href="#">Browse courses</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span style="font-weight: 700; font-size: 1.3rem;">Communities</span>
+                                        <i class="fas fa-angle-down ms-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu custom-dropdown-menu">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h5>Regional Clubs</h5>
+                                                    <p>Connect with alumni in your area through regional clubs.</p>
+                                                    <a href="#">Find a club</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Affinity Groups</h5>
+                                                    <p>Join an affinity group to connect with alumni who share your interests.</p>
+                                                    <a href="#">Explore groups</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Online Communities</h5>
+                                                    <p>Connect with alumni online through our social media channels.</p>
+                                                    <a href="#">Follow us</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span style="font-weight: 700; font-size: 1.3rem;">Volunteer</span>
+                                        <i class="fas fa-angle-down ms-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu custom-dropdown-menu">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h5>Mentoring</h5>
+                                                    <p>Become a mentor and help guide the next generation of alumni.</p>
+                                                    <a href="#">Get involved</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Event Support</h5>
+                                                    <p>Help out at alumni events in your area.</p>
+                                                    <a href="#">Volunteer</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Leadership Roles</h5>
+                                                    <p>Take on a leadership role in your regional club or affinity group.</p>
+                                                    <a href="#">Learn more</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span style="font-weight: 700; font-size: 1.3rem;">About</span>
+                                        <i class="fas fa-angle-down ms-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu custom-dropdown-menu about-links-menu">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <h5>About Us</h5>
+                                                    <a href="#">Get to Know SAA</a>
+                                                    <a href="#">Departments</a>
+                                                    <a href="#">Executive Leadership</a>
+                                                    <a href="#">Jobs(external link)</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Alumni Center</h5>
+                                                    <a href="#">Amenities & Space</a>
+                                                    <a href="#">Dedication & Donors</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <h5>Contact Us</h5>
+                                                    <a href="{{ route('contact') }}" class="{{ Route::is('contact') ? 'active' : '' }}">Get in Touch</a>
+                                                    <a href="{{ route('faq') }}" class="{{ Route::is('faq') ? 'active' : '' }}">Frequently Asked Questions</a>
+                                                    <a href="#">Update Your Contact Info</a>
+                                                    <a href="#">Submit a Class Note</a>
+                                                    <a href="#">Submit an Obituary</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <header class="header-custom text-white d-lg-none">
+        <nav class="navbar navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="#">
+                    <h1 class="d-inline logo-text">INFS</h1>
+                    <span class="fst-italic alumni-text">alumni</span>
+                </a>
+                <button class="navbar-toggler" type="button" id="open-menu-btn">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="mobile-menu" class="mobile-menu-overlay">
+        <div class="mobile-menu-header">
+            <h2 class="mobile-menu-title">Menu</h2>
+            <a href="javascript:void(0)" class="close-btn" id="close-menu-btn">&times;</a>
+        </div>
+        <div class="mobile-menu-content">
+            <a class="nav-link" href="#">Events</a>
+            <hr>
+            <a class="nav-link" href="#">Reading & Resources</a>
+            <hr>
+            <a class="nav-link" href="#">Programs & Perks</a>
+            <hr>
+            <a class="nav-link" href="#">Communities</a>
+            <hr>
+            <a class="nav-link" href="#">Volunteer</a>
+            <hr>
+            <a class="nav-link" href="#">About</a>
+            <hr>
+        </div>
+    </div>
+
+    <div id="search-overlay" class="search-overlay">
+        <a href="javascript:void(0)" class="close-btn" id="close-search-btn">&times;</a>
+        <div class="search-overlay-content">
+            <h2 class="text-white mb-4 text-center">Hello, what can we help you find today?</h2>
+            <input type="text" placeholder="Search..." name="search">
+            <h2 class="text-white text-start mt-5">Consider browsing by category:</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-white text-start mt-5">Popular Topics</h4>
+                    <h5 class="text-white text-start mt-5">Programs & Resources for Students</h5>
+                    <h5 class="text-white text-start">Request your official Stanford transcript</h5>
+                    <h5 class="text-white text-start">Potential COVID Exposures on Campus</h5>
+                    <h5 class="text-white text-start">Alumni Membership Card</h5>
+                    <h5 class="text-white text-start">INFS Alumni Email</h5>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-white text-start mt-5">Contact Information</h4>
+                    <h5 class="text-white text-start mt-5">SAA Customer Service</h5>
+                    <h5 class="text-white text-start">Stanford University Contact Information</h5>
+                    <h5 class="text-white text-start">SAA Departments</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="display-1">Welcome Home</h1>
+                <p class="lead">Step into the virtual home of Stanford's global community—a place where the Cardinal spirit thrives beyond the palm-lined campus. Reconnect with classmates, discover opportunities, and stay up-to-date on the latest research and ideas coming out of Stanford.</p>
+            </div>
+        </section>
+
+        <section class="py-5 text-center">
+            <div class="container">
+                <h1>Our Mission</h1>
+                <p class="lead">To foster a lifelong intellectual and emotional connection between the university and its graduates, and to provide the university with goodwill and support.</p>
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 mission-card">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title">Card 1</h5>
+                                <p class="card-text">Some general text for card 1.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 mission-card">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title">Card 2</h5>
+                                <p class="card-text">Some general text for card 2.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4 justify-content-center">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 mission-card">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title">Card 3</h5>
+                                <p class="card-text">Some general text for card 3.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 mission-card">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title">Card 4</h5>
+                                <p class="card-text">Some general text for card 4.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5 bg-dark text-white">
+            <div class="container">
+                <h2 class="text-center mb-5">"Every corner tells our story."</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 mb-4 mx-auto">
+                            <div class="card bg-secondary text-white">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 1">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">News Headline 1</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-4 mx-auto">
+                            <div class="card bg-secondary text-white">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 2">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">News Headline 2</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-4 mx-auto">
+                            <div class="card bg-secondary text-white">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 3">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">News Headline 3</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-4 mx-auto">
+                            <div class="card bg-secondary text-white">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 4">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">News Headline 4</h5>
+                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="book1 py-5 mb-5" style="background-color: #f8f9fa;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <p>History</p>
+                        <h1>Behind the Building:</h1>
+                        <h1 class="mb-4">Dedication and Donors</h1>
+                        <p>The "INFS" Alumni Center is named for an alumna of courage,</p>
+                        <p class="mb-5">boundless enthusiasm and unfailing devotion to all alma mater, it's community and family.</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-8 text-start">
+                        <div>
+                            <h3>Institute of Nutrition and Food Science (INFS) Alumni Center</h3>
+                            <p>Bridging Generations, Nourishing Excellence The Institute of Nutrition and Food Science (INFS) at the University of Dhaka is proud to announce the establishment of the INFS Alumni Center - a dynamic hub designed to reconnect, engage, and empower our global community of nutrition professionals and food scientists.</p>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>Our Vision</h3>
+                            <p>This pioneering center will serve as:</p>
+                            <ul>
+                                <li>A professional nexus fostering lifelong connections between alumni, faculty, and students</li>
+                                <li>An innovation incubator supporting cutting-edge research in nutrition and food science</li>
+                                <li>A mentorship platform cultivating the next generation of industry leaders</li>
+                                <li>A legacy project celebrating INFS's remarkable contributions to public health and nutrition</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>Why This Matters</h3>
+                            <p>For decades, INFS has been at the forefront of nutritional science in Bangladesh. Our alumni have transformed communities, shaped policies, and advanced scientific knowledge worldwide. This center will amplify that impact by:</p>
+                            <ul>
+                                <li>Facilitating collaborative research opportunities</li>
+                                <li>Hosting annual symposiums with industry pioneers</li>
+                                <li>Creating scholarship programs for promising students</li>
+                                <li>Maintaining an up-to-date professional directory</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>Your Invitation to Build Legacy</h3>
+                            <p>We invite our distinguished alumni to contribute through:</p>
+                            <ul>
+                                <li>Financial support for infrastructure and programs</li>
+                                <li>Knowledge sharing as guest lecturers or mentors</li>
+                                <li>Networking opportunities for current students</li>
+                                <li>Sponsorship of research initiatives</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>Join Us in This Transformative Journey</h3>
+                            <p>Contact:</p>
+                            <p>+8801624737832</p>
+                            <p>+8801819-522545</p>
+                            <p>Please email us (this writing s how the link of mail)</p>
+                            <p>INFS Alumni Association</p>
+                            <p>INFS, University of Dhaka</p>
+                            <p>"Together, we're not just building a center - we're nourishing futures."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="book2 py-5" style="background-color: #f8f9fa;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h1>Building Donors</h1>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-12 text-start">
+                        <div>
+                            <h3>A Legacy of Generosity: The INFS Alumni Center</h3>
+                            <p>
+                                Where Vision Meets Commitment
+                                In 2025, the INFS Alumni Association (INFSAA) brought to life a long-cherished dream - the INFS
+                                Alumni Center. This landmark achievement stands as a testament to the extraordinary generosity of our
+                                alumni community, whose steadfast support has consistently fueled academic excellence at the Institute
+                                of Nutrition and Food Science.
+
+                                The Center was made possible almost entirely through the contributions of our dedicated INFSAA mem-
+                                bers - visionary donors who have made supporting INFS's core academic mission a personal commit-
+                                ment. Their collective belief in our institution's future transformed blueprints into reality, creating a dy-
+                                namic hub that will nurture generations of nutrition and food science leaders.
+
+                                Throughout the Center, donor recognition plaques stand as permanent reminders of this remarkable
+                                alumni solidarity. Each name represents more than financial support - it embodies a shared promise to
+
+                                advance nutritional science education and research in Bangladesh.Throughout the Center, donor recog-
+                                nition plaques stand as permanent reminders of this remarkable alumni solidarity. Each name rep-
+                                resents more than financial support - it embodies a shared promise to advance nutritional science edu-
+                                cation and research in Bangladesh.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3>To Our Donors:</h3>
+                            <p>Your philanthropy has built more than a building. You've created:</p>
+                            <ul>
+                                <li>A home for innovation where students and researchers collaborate</li>
+                                <li>A bridge connecting INFS's proud history to its ambitious future</li>
+                                <li>A living testament to the power of alumni unity</li>
+                            </ul>
+                            <p>
+                                As we celebrate this milestone, we renew our commitment to honoring your trust by ensuring the Center becomes everything you envisioned - and more. "What we build together, endures together."
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-5">
+                    <div class="col-lg-8 text-center" style="color: red">
+                        <p>See INFSAA Alumni Center donors</p>
+                        <p>See Alumni Relations Endowment Fund donors</p>
+                    </div>
+                </div>
+
+                <div class="row mt-5 justify-content-center text-center">
+                    <div class="col-md-3 mb-4 book2-card-wrapper">
+                        <div class="card h-50 mission-card1">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <div class="card-title" style="color: red;">
+                                    <i class="fa-regular fa-message" style="font-size: 2rem;"></i>
+                                </div>
+                                <p class="card-text">
+                                    Get in touch with the INFS Alumni Association.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4 book2-card-wrapper">
+                        <div class="card h-50 mission-card1">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <div class="card-title" style="color: red;">
+                                    <i class="far fa-calendar-check" style="font-size: 2rem;"></i>
+                                </div>
+                                <p class="card-text">
+                                    Make a Munzer Business Center Reservation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="image-footer">
+        <div class="footer-overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2><strong>INFS</strong> | <span class="fst-italic">Alumni</span></h2>
+                        <p>INFS Alumni Association</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><a href="#" class="text-white text-decoration-none">Access INFSAA Member Card</a></li>
+                                    <li><a href="#" class_="text-white text-decoration-none">Check your alumni email<span>📌</span></a></li>
+                                    <li><a href="#" class="text-white text-decoration-none">My Alumni Account<span>📌</span></a></li>
+                                    <li><a href="#" class="text-white text-decoration-none">Give to INFSAA</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><a href="#" class="text-white text-decoration-none">Contact us</a></li>
+                                    <li><a href="#" class="text-white text-decoration-none">Accessibility</a></li>
+                                    <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                                    <li><a href="#" class="text-white text-decoration-none">Terms of Use</a></li>
+                                    <li><a href="#" class="text-white text-decoration-none">Code of Conduct</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom py-3">
+            <div class="container">
+                <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('open-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').style.width = '100%';
+        });
+
+        document.getElementById('close-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').style.width = '0';
+        });
+
+        document.getElementById('open-search-btn').addEventListener('click', function() {
+            document.getElementById('search-overlay').style.width = '100%';
+        });
+
+        document.getElementById('close-search-btn').addEventListener('click', function() {
+            document.getElementById('search-overlay').style.width = '0%';
+        });
+    </script>
+</body>
+</html>

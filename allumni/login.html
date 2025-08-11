@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .main-row {
+            min-height: calc(100vh - 56px - 197px);
+        }
+        .form-body {
+            font-family: Arial, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background-color: #4da3ff;
+            border-color: #4da3ff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2680e8;
+            border-color: #2680e8;
+        }
+    </style>
+</head>
+<body>
+    <div style="background-color: #8C1515; color: white; font-size: 18px; font-weight: bold;">
+        <div style="padding: 7px 0px 7px 45px;">
+            <a class="text-white" style="text-decoration: none;" href="index.html">INFS ALUMNI</a>
+        </div>
+    </div>
+
+    <div class="container-fluid px-0">
+        <div class="row g-0 main-row">
+            <div class="col-md-6 d-none d-md-flex align-items-center" style="background-image: url('/image/StanfordPass_leftpanelimage_01.jpg'); background-size: cover; background-position: center;">
+                <div class="p-5 text-white m-5" style="background-color: rgba(0, 0, 0, 0.43);">
+                    <h1 class="display-4">Infs | pass</h1>
+                    <h4 class="lead1">Your single login for alumni, donors, and friends of INFS</h4>
+                    <p>INFSAA Pass is your single login to access alumni and donor services like Stanford Alumni email, the Alumni Directory, groups, events, giving forms, giving history, and more. INFSAA Pass is available to INFSian, but access to certain services is limited based on your alia-tion with INFSAA.</p>
+                    <h4 style="color: #f70000ff;">Learn more about INFS Pass</h4>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
+                <div class="container py-5 form-body">
+                    <div class="row justify-content-center">
+                        <div class="col-md-5">
+
+                            <div class="text-end mb-3">
+                                <a href="#" class="text-primary">Sign up</a>
+                            </div>
+
+                            <h5 class="mb-4 fw-bold text-primary">Log in</h5>
+
+                            <form>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" id="username" class="form-control">
+                                    <div class="text-end mt-1">
+                                        <a href="#" class="small text-primary">Forgot your username?</a>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" id="password" class="form-control">
+                                    <div class="text-end mt-1">
+                                        <a href="#" class="small text-primary">Forgot your password?</a>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Log in</button>
+                                </div>
+                            </form>
+
+                            <hr class="my-4">
+
+                            <p class="text-center mb-0">Your account is now INFSSA Pass.<br>Don’t have an account yet?</p>
+
+                            <div class="text-center my-3">
+                                <span class="border-top border-bottom py-2 px-3 d-inline-block">
+                                    ⭐
+                                </span>
+                            </div>
+
+                            <div class="text-center mb-3">
+                                <a href="#" class="text-primary">Sign up</a>
+                            </div>
+
+                            <p class="text-center small">
+                                Students and recent grads up to 5 years out,
+                                <a href="#" class="text-primary">log in with your INFASS ID</a>
+                                to look up your username, reset your password, or create your account for the first time.
+                            </p>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between small">
+                                <a href="#" class="text-primary">More Account Help →</a>
+                                <a href="#" class="text-primary">Customer Service →</a>
+                            </div>
+
+                            <p class="mt-3 small text-center">
+                                By logging in to INFASS secure alumni and donor systems, you agree to our
+                                <a href="#" class="text-primary">Privacy Policy</a>
+                                and
+                                <a href="#" class="text-primary">Terms of Use</a>.<br>
+                                Learn more about <a href="#" class="text-primary">data security at INFSSA</a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-white text-center text-lg-start" style="background-color: #8C1515;">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <a href="#" class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-light btn-floating m-1" role="button"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

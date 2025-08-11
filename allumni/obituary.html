@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Submit an Obituary</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.4;
+    color: #000;
+  }
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+  .header-img {
+    display: block;
+    margin: 0 auto 1rem;
+    max-width: 250px;
+  }
+  h1, h2 {
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    text-align: center;
+    font-weight: bold;
+  }
+  a.email-link {
+    color: #3399ff;
+    text-decoration: none;
+    margin: 1rem 0;
+    display: inline-block;
+  }
+  a.email-link:hover {
+    text-decoration: underline;
+  }
+  .description {
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+  }
+
+  form {
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+    font-size: 13px;
+  }
+  label span.required {
+    color: red;
+    margin-left: 4px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+  }
+
+  /* Grid for two-column inputs */
+  .grid-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 15px;
+  }
+  .grid-row > div {
+    flex: 1;
+  }
+
+  /* Full width single input */
+  .full-width {
+    margin-bottom: 15px;
+  }
+
+  /* Smaller labels for secondary text */
+  .secondary-label {
+    font-weight: normal;
+    font-size: 12px;
+    color: #555;
+    margin-top: -12px;
+    margin-bottom: 10px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <img src="image/logo.png" alt="INFS Alumni Logo" class="header-img" />
+
+  <h2>Submit an Obituary</h2>
+  <p class="description">
+    INFSAA publishes brief staff-written obituaries of all alumni and faculty whose deaths come to our attention. To submit obituary information, please fill out the form below. Our published obituaries generally average less than 100 words; we do our best within that constraint to include information that will be meaningful to the deceased’s fellow alumni and/or faculty. We appreciate receiving information about deaths within two years of the person's passing; we publish obituaries for deaths that occurred longer ago at our discretion.
+  </p>
+
+  <a href="mailto:infsaa.du.bd@gmail.com" class="email-link">infsaa.du.bd@gmail.com</a>
+
+  <form>
+    <fieldset>
+      <!-- <legend><strong>About Sender (You)</strong></legend> -->
+
+      <p>About Sender (You)</p>
+      
+      <label for="senderName">Sender name<span class="required">*</span></label>
+      <input type="text" id="senderName" name="senderName" placeholder="Full name" required />
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="senderPhone">Sender phone<span class="required">*</span></label>
+          <input type="tel" id="senderPhone" name="senderPhone" placeholder="Phone number" required />
+        </div>
+        <div>
+          <label for="senderEmail">Sender email<span class="required">*</span></label>
+          <input type="email" id="senderEmail" name="senderEmail" placeholder="Email address" required />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="relationship">Sender relationship to the deceased<span class="required">*</span></label>
+          <input type="text" id="relationship" name="relationship" placeholder="Relationship" required />
+        </div>
+        <div>
+          <label for="classYear">Sender Stanford class year (if applicable)</label>
+          <input type="text" id="classYear" name="classYear" placeholder="Class Year" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="survivorFirstName">Immediate survivor we may contact (if different from sender)</label>
+          <input type="text" id="survivorFirstName" name="survivorFirstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="survivorLastName" class="secondary-label">Last Name</label>
+          <input type="text" id="survivorLastName" name="survivorLastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="survivorPhone">Phone of immediate survivor (if different from sender)</label>
+          <input type="tel" id="survivorPhone" name="survivorPhone" placeholder="Phone number" />
+        </div>
+        <div>
+          <label for="survivorEmail">Email of immediate survivor (if different from sender)</label>
+          <input type="email" id="survivorEmail" name="survivorEmail" placeholder="Email address" />
+        </div>
+      </div>
+
+      <!--  -->
+
+      <p>About the Deceased</p>
+      
+      <div class="grid-row">
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+    </fieldset>
+  </form>
+</div>
+
+</body>
+</html>

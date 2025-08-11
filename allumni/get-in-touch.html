@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .hero {
+        .about {
             position: relative;
             height: 100vh;
             display: flex;
@@ -15,31 +15,41 @@
             justify-content: center;
             text-align: center;
             color: #000;
-            background: url('image/inf-dhaka-banner-image-1.jpg') center/cover no-repeat;
+            background: url('image/id-hero-ideas_3.jpg') center/cover no-repeat;
             z-index: 1;
         }
 
-        .hero::before {
+        /* .about::before {
             content: "";
             position: absolute;
             inset: 0;
             background: linear-gradient(to top, white 0%, transparent 100%);
             z-index: 2;
-        }
+        } */
 
-        .hero .container {
+        .about .container {
             position: relative;
             z-index: 3;
         }
 
-        .hero h1 {
+        .about h1 {
             margin-top: 200px;
             font-weight: 700;
+            color: white;
         }
 
-        .hero p {
+        .about h5 {
+            color: white;
+        }
+
+        .about h3 {
+            color: white;
+        }
+
+        .about p {
             font-size: 1.5rem;
             font-weight: 400;
+            color: white;
         }
 
         .image-footer {
@@ -577,259 +587,112 @@
     </div>
 
     <main>
-        <section class="hero">
-            <div class="container">
-                <h1 class="display-1">Welcome Home</h1>
-                <p class="lead">Step into the virtual home of Stanford's global community—a place where the Cardinal spirit thrives beyond the palm-lined campus. Reconnect with classmates, discover opportunities, and stay up-to-date on the latest research and ideas coming out of Stanford.</p>
+        <section class="about py-5">
+            <div class="container text-center">
+                <h3 class="fw-bold">Contact SAA</h3>
+                <h5 class="display-4 fw-bold">Get in Touch</h5>
+                <p class="lead mb-4">
+                    Searching for a specific team or know who you need to reach? Browse our department directory for more info.
+                </p>
+                <button class="btn btn-danger btn-lg text-uppercase">view department contacts</button>
             </div>
         </section>
 
-        <section class="py-5 text-center">
+        <section class="py-5">
             <div class="container">
-                <h1>Our Mission</h1>
-                <p class="lead">To foster a lifelong intellectual and emotional connection between the university and its graduates, and to provide the university with goodwill and support.</p>
-                <div class="row mt-5 justify-content-center">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 mission-card">
-                            <div class="card-body d-flex flex-column justify-content-center">
-                                <h5 class="card-title">Card 1</h5>
-                                <p class="card-text">Some general text for card 1.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 mission-card">
-                            <div class="card-body d-flex flex-column justify-content-center">
-                                <h5 class="card-title">Card 2</h5>
-                                <p class="card-text">Some general text for card 2.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4 justify-content-center">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 mission-card">
-                            <div class="card-body d-flex flex-column justify-content-center">
-                                <h5 class="card-title">Card 3</h5>
-                                <p class="card-text">Some general text for card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 mission-card">
-                            <div class="card-body d-flex flex-column justify-content-center">
-                                <h5 class="card-title">Card 4</h5>
-                                <p class="card-text">Some general text for card 4.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-5 bg-dark text-white">
-            <div class="container">
-                <h2 class="text-center mb-5">"Every corner tells our story."</h2>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-4 mx-auto">
-                            <div class="card bg-secondary text-white">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 1">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">News Headline 1</h5>
-                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-4 mx-auto">
-                            <div class="card bg-secondary text-white">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 2">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">News Headline 2</h5>
-                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-4 mx-auto">
-                            <div class="card bg-secondary text-white">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 3">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">News Headline 3</h5>
-                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-4 mx-auto">
-                            <div class="card bg-secondary text-white">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="image/dhaka-img-01.jpg" class="img-fluid rounded-start" alt="News Image 4">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">News Headline 4</h5>
-                                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="book1 py-5 mb-5" style="background-color: #f8f9fa;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <p>History</p>
-                        <h1>Behind the Building:</h1>
-                        <h1 class="mb-4">Dedication and Donors</h1>
-                        <p>The "INFS" Alumni Center is named for an alumna of courage,</p>
-                        <p class="mb-5">boundless enthusiasm and unfailing devotion to all alma mater, it's community and family.</p>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-5">
-                    <div class="col-lg-8 text-start">
-                        <div>
-                            <h3>Institute of Nutrition and Food Science (INFS) Alumni Center</h3>
-                            <p>Bridging Generations, Nourishing Excellence The Institute of Nutrition and Food Science (INFS) at the University of Dhaka is proud to announce the establishment of the INFS Alumni Center - a dynamic hub designed to reconnect, engage, and empower our global community of nutrition professionals and food scientists.</p>
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <div class="">
+                            <hr>
+                            <h5 class="fw-bold text-danger">Get to Know INFSAA</h5>
+                            <hr>
+                            <h5 class="fw-bold text-danger">Executive Leadership</h5>
+                            <hr>
+                            <h5 class="fw-bold text-danger">Jobs</h5>
                         </div>
 
-                        <div style="margin-top: 30px;">
-                            <h3>Our Vision</h3>
-                            <p>This pioneering center will serve as:</p>
-                            <ul>
-                                <li>A professional nexus fostering lifelong connections between alumni, faculty, and students</li>
-                                <li>An innovation incubator supporting cutting-edge research in nutrition and food science</li>
-                                <li>A mentorship platform cultivating the next generation of industry leaders</li>
-                                <li>A legacy project celebrating INFS's remarkable contributions to public health and nutrition</li>
-                            </ul>
-                        </div>
+                        <div style="border: 1px solid #ccc; padding: 50px; margin-top: 60px;">
+                            <h4 class="fw-bold">CONTACT US</h4>
 
-                        <div style="margin-top: 30px;">
-                            <h3>Why This Matters</h3>
-                            <p>For decades, INFS has been at the forefront of nutritional science in Bangladesh. Our alumni have transformed communities, shaped policies, and advanced scientific knowledge worldwide. This center will amplify that impact by:</p>
-                            <ul>
-                                <li>Facilitating collaborative research opportunities</li>
-                                <li>Hosting annual symposiums with industry pioneers</li>
-                                <li>Creating scholarship programs for promising students</li>
-                                <li>Maintaining an up-to-date professional directory</li>
-                            </ul>
-                        </div>
+                            <p class="mb-1">+8801624737832</p>
+                            <p class="mb-1">+8801819522545</p>
 
-                        <div style="margin-top: 30px;">
-                            <h3>Your Invitation to Build Legacy</h3>
-                            <p>We invite our distinguished alumni to contribute through:</p>
-                            <ul>
-                                <li>Financial support for infrastructure and programs</li>
-                                <li>Knowledge sharing as guest lecturers or mentors</li>
-                                <li>Networking opportunities for current students</li>
-                                <li>Sponsorship of research initiatives</li>
-                            </ul>
-                        </div>
-
-                        <div style="margin-top: 30px;">
-                            <h3>Join Us in This Transformative Journey</h3>
-                            <p>Contact:</p>
-                            <p>+8801624737832</p>
-                            <p>+8801819-522545</p>
-                            <p>Please email us (this writing s how the link of mail)</p>
-                            <p>INFS Alumni Association</p>
-                            <p>INFS, University of Dhaka</p>
-                            <p>"Together, we're not just building a center - we're nourishing futures."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="book2 py-5" style="background-color: #f8f9fa;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <h1>Building Donors</h1>
-                    </div>
-                </div>
-                <div class="row justify-content-center mt-5">
-                    <div class="col-lg-12 text-start">
-                        <div>
-                            <h3>A Legacy of Generosity: The INFS Alumni Center</h3>
-                            <p>
-                                Where Vision Meets Commitment
-                                In 2025, the INFS Alumni Association (INFSAA) brought to life a long-cherished dream - the INFS
-                                Alumni Center. This landmark achievement stands as a testament to the extraordinary generosity of our
-                                alumni community, whose steadfast support has consistently fueled academic excellence at the Institute
-                                of Nutrition and Food Science.
-
-                                The Center was made possible almost entirely through the contributions of our dedicated INFSAA mem-
-                                bers - visionary donors who have made supporting INFS's core academic mission a personal commit-
-                                ment. Their collective belief in our institution's future transformed blueprints into reality, creating a dy-
-                                namic hub that will nurture generations of nutrition and food science leaders.
-
-                                Throughout the Center, donor recognition plaques stand as permanent reminders of this remarkable
-                                alumni solidarity. Each name represents more than financial support - it embodies a shared promise to
-
-                                advance nutritional science education and research in Bangladesh.Throughout the Center, donor recog-
-                                nition plaques stand as permanent reminders of this remarkable alumni solidarity. Each name rep-
-                                resents more than financial support - it embodies a shared promise to advance nutritional science edu-
-                                cation and research in Bangladesh.
+                            <p class="text-danger fw-bold mt-3 mb-1">PLEASE EMAIL US</p>
+                            <p class="mt-3 mb-3">
+                                <a href="mailto:infsaa.du.bd@gmail.com" class="text-primary">infsaa.du.bd@gmail.com</a>
                             </p>
+
+                            <p class="mb-0">INFS Alumni Association</p>
+                            <p class="">INFS, University of dhaka</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-8">
+                        <h1 class="">Suggested Topics</h1>
+
+                        <div class="mt-5 mb-5">
+                            <p>Find what you need (faster!) with these commonly searched help topics.</p>
                         </div>
 
-                        <div style="margin-top: 30px;">
-                            <h3>To Our Donors:</h3>
-                            <p>Your philanthropy has built more than a building. You've created:</p>
-                            <ul>
-                                <li>A home for innovation where students and researchers collaborate</li>
-                                <li>A bridge connecting INFS's proud history to its ambitious future</li>
-                                <li>A living testament to the power of alumni unity</li>
-                            </ul>
-                            <p>
-                                As we celebrate this milestone, we renew our commitment to honoring your trust by ensuring the Center becomes everything you envisioned - and more. "What we build together, endures together."
-                            </p>
+                        <div class="text-danger">
+                            <p><i class="fa-solid fa-arrow-right text-dark me-2"></i>Request your official Stanford transcript</p>
+                            <p><i class="fa-solid fa-arrow-right text-dark me-2"></i>Contact Stanford Alumni Customer service</p>
+                            <p><i class="fa-solid fa-arrow-right text-dark me-2"></i>View Stanford University contact information</p>
+                            <p><i class="fa-solid fa-arrow-right text-dark me-2"></i>Request a replacement diploma</p>
+                            <p><i class="fa-solid fa-arrow-right text-dark me-2"></i>Request a gender identity record change</p>
+                        </div>
+
+                        <div class="container my-5">
+                            <div class="card shadow-sm">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title mb-4">Contact Us</h5>
+                                    <form>
+                                        <div class="row mb-3">
+                                            <label class="form-label">Name <span class="text-danger">*</span></label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" placeholder="First Name">
+                                                <small class="text-muted">First Name</small>
+                                            </div>
+                                            <div class="col-md-6 mt-3 mt-md-0">
+                                                <input type="text" class="form-control" placeholder="Last Name">
+                                                <small class="text-muted">Last Name</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                                            <div class="col-md-6">
+                                                <input type="email" class="form-control" placeholder="Your Email">
+                                            </div>
+                                            <div class="col-md-6 mt-3 mt-md-0">
+                                                <input type="text" class="form-control" placeholder="Class Year and Degree (if applicable)">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label">Your message: <span class="text-danger">*</span></label>
+                                            <textarea class="form-control" rows="4" placeholder="Type your message here..."></textarea>
+                                        </div>
+
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-danger px-4 py-2">Send message</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="row justify-content-center mt-5">
-                    <div class="col-lg-8 text-center" style="color: red">
-                        <p>See INFSAA Alumni Center donors</p>
-                        <p>See Alumni Relations Endowment Fund donors</p>
-                    </div>
-                </div>
-
+        <section style="background-color: #f8f9fa; padding: 50px 0;">
+            <div class="container">
                 <div class="row mt-5 justify-content-center text-center">
+
                     <div class="col-md-3 mb-4 book2-card-wrapper">
                         <div class="card h-50 mission-card1">
                             <div class="card-body d-flex flex-column justify-content-center">
@@ -837,11 +700,12 @@
                                     <i class="fa-regular fa-message" style="font-size: 2rem;"></i>
                                 </div>
                                 <p class="card-text">
-                                    Get in touch with the INFS Alumni Association.
+                                    I want to update my contact information.
                                 </p>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-3 mb-4 book2-card-wrapper">
                         <div class="card h-50 mission-card1">
                             <div class="card-body d-flex flex-column justify-content-center">
@@ -849,16 +713,30 @@
                                     <i class="far fa-calendar-check" style="font-size: 2rem;"></i>
                                 </div>
                                 <p class="card-text">
-                                    Make a Munzer Business Center Reservation.
+                                    Submit a Class Note.
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                    <div class="col-md-3 mb-4 book2-card-wrapper">
+                        <a href="obituary.html" style="text-decoration: none; color: inherit;">
+                            <div class="card h-50 mission-card1">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <div class="card-title" style="color: red;">
+                                <i class="far fa-calendar-check" style="font-size: 2rem;"></i>
+                                </div>
+                                <p class="card-text">
+                                Submit an Obituary.
+                                </p>
+                            </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
             </div>
         </section>
-
     </main>
 
     <footer class="image-footer">
@@ -867,7 +745,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h2><strong>INFS</strong> | <span class="fst-italic">Alumni</span></h2>
-                        <p>INFS Alumni Association</p>
+                        <p>University of Dhaka ( INFS ) Alumni Association</p>
                     </div>
                     <div class="col-md-6">
                         <div class="row">

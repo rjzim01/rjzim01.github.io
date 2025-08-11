@@ -37,6 +37,10 @@
   a.email-link:hover {
     text-decoration: underline;
   }
+  .text-center {
+    text-align: center;
+    margin: 1rem 0;
+  }
   .description {
     margin-bottom: 1.5rem;
     font-size: 14px;
@@ -60,7 +64,8 @@
   
   input[type="text"],
   input[type="email"],
-  input[type="tel"] {
+  input[type="tel"],
+  textarea {
     width: 100%;
     padding: 8px 10px;
     border: 1px solid #aaa;
@@ -106,7 +111,7 @@
     INFSAA publishes brief staff-written obituaries of all alumni and faculty whose deaths come to our attention. To submit obituary information, please fill out the form below. Our published obituaries generally average less than 100 words; we do our best within that constraint to include information that will be meaningful to the deceased’s fellow alumni and/or faculty. We appreciate receiving information about deaths within two years of the person's passing; we publish obituaries for deaths that occurred longer ago at our discretion.
   </p>
 
-  <a href="mailto:infsaa.du.bd@gmail.com" class="email-link">infsaa.du.bd@gmail.com</a>
+  <a href="mailto:infsaa.du.bd@gmail.com" class="email-link">infsaa.du.bd@gmail.com</a> 
 
   <form>
     <fieldset>
@@ -191,8 +196,133 @@
         </div>
       </div>
 
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Deceased previous name(s) - maiden etc</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Deceased class year(s)</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Deceased date of birth</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Deceased date of death</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Deceased age at death</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Deceased cause of death</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">City</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Division</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+        <div>
+          <label for="lastName">Zip code</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <p>Country</p>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Deceased student activites at INFSAA</label>
+          <textarea id="firstName" name="firstName" placeholder="Activities" rows="8"></textarea>
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Deceased summary of the career and personal history</label>
+          <textarea id="firstName" name="firstName" placeholder="Activities" rows="8"></textarea>
+        </div>
+      </div>
+
+      <p>Survivors</p>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Relationship to deceased</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">infs class year (if applicable)</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <p>Previous Deceased Spouse and/or Children</p>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Relationship to deceased</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+        </div>
+        <div>
+          <label for="lastName">infs class year (if applicable)</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+        </div>
+      </div>
+
+      <p>Additional Information</p>
+
+      <div class="grid-row">
+        <div>
+          <label for="firstName">Links to published obituries or memorial programs:</label>
+          <textarea id="firstName" name="firstName" placeholder="Activities" rows="8"></textarea>
+        </div>
+      </div>
+
     </fieldset>
   </form>
+
+  <div class="text-center">
+    Submit via email to <a href="mailto:infsaa.du.bd@gmail.com" class="email-link">infsaa.du.bd@gmail.com</a>
+  </div>
 </div>
 
 </body>

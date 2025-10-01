@@ -39,7 +39,8 @@
     <div class="d-flex flex-column">
 
       <div class="profile">
-        <img src="assets/img/profile-img.png" alt="" class="img-fluid rounded-circle">
+        <!-- <img src="assets/img/profile-img.png" alt="" class="img-fluid rounded-circle"> -->
+        <img src="assets/img/zim_02.png" alt="" class="img-fluid rounded-circle">
 
         <h1 class="text-light">
           <a href="/portfolio">RJ ZIM</a>
@@ -104,7 +105,8 @@
 
         <div class="row">
           <div class="col-lg-4" data-aos="fade-right">
-            <img src="assets/img/profile-img.png" class="img-fluid" alt="">
+            <!-- <img src="assets/img/profile-img.png" class="img-fluid" alt=""> -->
+            <img src="assets/img/zim_01.png" class="img-fluid" alt="">
           </div>
           <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
             <h3>Junior Software Developer</h3>
@@ -114,15 +116,21 @@
             <div class="row">
               <div class="col-lg-6">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>6 September 2000</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>www.example.com</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span id="birthday">6 September 2000</span></li>
+                  <li>
+                    <i class="bi bi-chevron-right"></i> 
+                    <strong>Website:</strong> 
+                    <span>
+                      <a href="https://rjzim01.github.io/portfolio/" target="_blank">RJ ZIM</a>
+                    </span>
+                  </li>
                   <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>01302917207</span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Dhaka, Bangladesh</span></li>
                 </ul>
               </div>
               <div class="col-lg-6">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>23</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span id="age"></span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Bsc</span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>PhEmailone:</strong> <span>rjzim01@gmail.com</span></li>
                   <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
@@ -152,80 +160,21 @@
 
           <div class="col-lg-6" data-aos="fade-up">
 
-            <div class="progress">
-              <span class="skill">PHP <i class="val">93%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100"></div>
+            <!-- Loading Spinner -->
+            <div id="loading" style="text-align:center; padding:20px;">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
               </div>
+              <p>Fetching language stats...</p>
             </div>
 
-            <div class="progress">
-              <span class="skill">Python <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">JavaScript <i class="val">89%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Java <i class="val">88%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Sql <i class="val">93%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
+            <!-- Language Progress Bars -->
+            <div id="language-stats" style="display:none;"></div>
 
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="progress">
-              <span class="skill">Laravel <i class="val">82%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Django <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">React Js <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Android <i class="val">95%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Mysql and sqlite <i class="val">95%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-
+            <div id="framework-stats" style="display:none;"></div>
           </div>
 
         </div>
@@ -512,6 +461,183 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    function calculateFullAge(birthdate) {
+      const now = new Date();
+      const birth = new Date(birthdate);
+
+      // Years, months, days calculation
+      let years = now.getFullYear() - birth.getFullYear();
+      let months = now.getMonth() - birth.getMonth();
+      let days = now.getDate() - birth.getDate();
+
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      // Hours, minutes, seconds calculation
+      let hours = now.getHours() - birth.getHours();
+      let minutes = now.getMinutes() - birth.getMinutes();
+      let seconds = now.getSeconds() - birth.getSeconds();
+
+      if (seconds < 0) {
+        minutes--;
+        seconds += 60;
+      }
+      if (minutes < 0) {
+        hours--;
+        minutes += 60;
+      }
+      if (hours < 0) {
+        days--;
+        hours += 24;
+      }
+
+      return `${years} Y, ${months} M, ${days} D, ${hours} H, ${minutes} M, ${seconds} S`;
+    }
+
+    function updateAge() {
+      document.getElementById("age").innerText = calculateFullAge("2000-09-06T00:00:00");
+    }
+
+    // Update every second
+    setInterval(updateAge, 1000);
+    updateAge();
+  </script>
+
+  <script>
+    // const token = "Secret";
+
+    // async function fetchOverallLanguages() {
+    //   let languageTotals = {};
+
+    //   // 1. Fetch repos (first page only here)
+    //   const reposRes = await fetch("https://api.github.com/user/repos?per_page=100&page=1", {
+    //     headers: { "Authorization": `token ${token}` }
+    //   });
+    //   const repos = await reposRes.json();
+
+    //   // 2. Fetch languages for each repo
+    //   for (let repo of repos) {
+    //     const langRes = await fetch(repo.languages_url, {
+    //       headers: { "Authorization": `token ${token}` }
+    //     });
+    //     const langData = await langRes.json();
+
+    //     for (let [lang, bytes] of Object.entries(langData)) {
+    //       languageTotals[lang] = (languageTotals[lang] || 0) + bytes;
+    //     }
+    //   }
+
+    //   // 3. Percentages
+    //   const totalBytes = Object.values(languageTotals).reduce((a, b) => a + b, 0);
+    //   return Object.entries(languageTotals).map(([lang, bytes]) => ({
+    //     name: lang,
+    //     percent: ((bytes / totalBytes) * 100).toFixed(1)
+    //   }));
+    // }
+
+    // async function renderLanguages() {
+    //   const container = document.getElementById("language-stats");
+    //   const frameworksContainer = document.getElementById("framework-stats");
+    //   const loader = document.getElementById("loading");
+
+    //   try {
+    //     const percentages = await fetchOverallLanguages();
+
+    //     // Languages you don't want to display
+    //     const excluded = ["HTML", "CSS", "Blade", "Vue", "SCSS", "EJS", "Hack", "TypeScript"];
+
+    //     // Mapping languages → frameworks
+    //     const frameworkMap = {
+    //       "JavaScript": "React JS",
+    //       "PHP": "Laravel",
+    //       "Python": "Django",
+    //       "Java": "Android",
+    //       "Kotlin": "Android",
+    //       "SQL": "MySQL / SQLite"
+    //     };
+
+    //     // Step 1: Filter out unwanted languages
+    //     const filtered = percentages
+    //       .filter(lang => parseFloat(lang.percent) > 0)
+    //       .filter(lang => !excluded.includes(lang.name));
+
+    //     // Step 2: Recalculate percentages so they sum to 100%
+    //     const totalFilteredBytes = filtered.reduce((sum, lang) => sum + parseFloat(lang.percent), 0);
+    //     const normalized = filtered.map(lang => ({
+    //       name: lang.name,
+    //       percent: ((parseFloat(lang.percent) / totalFilteredBytes) * 100).toFixed(1)
+    //     }));
+
+    //     // Step 3: Sort
+    //     const sorted = normalized.sort((a, b) => b.percent - a.percent);
+
+    //     // Hide loader, show results
+    //     loader.style.display = "none";
+    //     container.style.display = "block";
+    //     frameworksContainer.style.display = "block";
+
+    //     // Clear old contents (in case of refresh)
+    //     container.innerHTML = "";
+    //     frameworksContainer.innerHTML = "";
+
+    //     // Build HTML
+    //     sorted.forEach(lang => {
+    //       // --- left column (languages) ---
+    //       const progressDiv = document.createElement("div");
+    //       progressDiv.classList.add("progress", "mb-3");
+
+    //       progressDiv.innerHTML = `
+    //         <span class="skill">${lang.name} <i class="val">${lang.percent}%</i></span>
+    //         <div class="progress-bar-wrap">
+    //           <div class="progress-bar bg-success" role="progressbar" 
+    //               aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100" 
+    //               style="width: ${lang.percent}%;"></div>
+    //         </div>
+    //       `;
+    //       container.appendChild(progressDiv);
+
+    //       // --- right column (frameworks) ---
+    //       if (frameworkMap[lang.name]) {
+    //         const fwDiv = document.createElement("div");
+    //         fwDiv.classList.add("progress", "mb-3");
+
+    //         fwDiv.innerHTML = `
+    //           <span class="skill">${frameworkMap[lang.name]} <i class="val">${lang.percent}%</i></span>
+    //           <div class="progress-bar-wrap">
+    //             <div class="progress-bar bg-info" role="progressbar" 
+    //                 aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100" 
+    //                 style="width: ${lang.percent}%;"></div>
+    //           </div>
+    //         `;
+    //         frameworksContainer.appendChild(fwDiv);
+    //       }
+    //     });
+
+    //   } catch (e) {
+    //     loader.innerHTML = `<p class="text-danger">❌ Error loading languages</p>`;
+    //   }
+    // }
+
+    // renderLanguages();
+  </script>
+
+  <script>
+  fetch("data/languages.json")
+    .then(res => res.json())
+    .then(langs => {
+      console.log(langs); // [{ name: "JavaScript", percent: "47.6" }, ...]
+      // build your progress bars here
+    });
+  </script>
 
 </body>
 

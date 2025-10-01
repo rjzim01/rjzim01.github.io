@@ -1,32 +1,37 @@
 name: Fetch GitHub Languages
-
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *" # runs daily at midnight UTC
-  workflow_dispatch: # allows manual trigger
+    - cron: "0 0 * * 0" # weekly
 
 jobs:
-  fetch-languages:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          npm init -y
+          npm install node-fetch@2
 
       - name: Fetch repos and languages
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           mkdir -p data
           node scripts/fetchLanguages.js
 
-      - name: Commit and push
+      - name: Commit results
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add data/languages.json
-          git commit -m "Update languages.json [skip ci]" || echo "No changes to commit"
+          git commit -m "Update languages.json" || echo "No changes to commit"
           git push

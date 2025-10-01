@@ -513,130 +513,73 @@
   </script>
 
   <script>
-    // const token = "Secret";
+    const container = document.getElementById("language-stats");
+    const loader = document.getElementById("loading");
+    const frameworksContainer = document.getElementById("framework-stats");
 
-    // async function fetchOverallLanguages() {
-    //   let languageTotals = {};
+    fetch("../data/languages.json")
+      .then(res => res.json())
+      .then(langs => {
+        // Hide loader and show containers
+        loader.style.display = "none";
+        container.style.display = "block";
+        frameworksContainer.style.display = "block";
 
-    //   // 1. Fetch repos (first page only here)
-    //   const reposRes = await fetch("https://api.github.com/user/repos?per_page=100&page=1", {
-    //     headers: { "Authorization": `token ${token}` }
-    //   });
-    //   const repos = await reposRes.json();
+        // Languages you don't want to show
+        const excluded = ["HTML", "CSS", "Blade", "Vue", "SCSS", "EJS", "Hack", "TypeScript"];
 
-    //   // 2. Fetch languages for each repo
-    //   for (let repo of repos) {
-    //     const langRes = await fetch(repo.languages_url, {
-    //       headers: { "Authorization": `token ${token}` }
-    //     });
-    //     const langData = await langRes.json();
+        // Framework mapping
+        const frameworkMap = {
+          "JavaScript": "React JS",
+          "PHP": "Laravel",
+          "Python": "Django",
+          "Java": "Spring Boot",
+          "Kotlin": "Android",
+          "SQL": "MySQL / SQLite"
+        };
 
-    //     for (let [lang, bytes] of Object.entries(langData)) {
-    //       languageTotals[lang] = (languageTotals[lang] || 0) + bytes;
-    //     }
-    //   }
+        // Filter, sort
+        const filtered = langs
+          .filter(lang => parseFloat(lang.percent) > 0)
+          .filter(lang => !excluded.includes(lang.name))
+          .sort((a, b) => b.percent - a.percent);
 
-    //   // 3. Percentages
-    //   const totalBytes = Object.values(languageTotals).reduce((a, b) => a + b, 0);
-    //   return Object.entries(languageTotals).map(([lang, bytes]) => ({
-    //     name: lang,
-    //     percent: ((bytes / totalBytes) * 100).toFixed(1)
-    //   }));
-    // }
+        // Build language progress bars
+        filtered.forEach(lang => {
+          const progressDiv = document.createElement("div");
+          progressDiv.classList.add("progress", "mb-3");
 
-    // async function renderLanguages() {
-    //   const container = document.getElementById("language-stats");
-    //   const frameworksContainer = document.getElementById("framework-stats");
-    //   const loader = document.getElementById("loading");
+          progressDiv.innerHTML = `
+            <span class="skill">${lang.name} <i class="val">${lang.percent}%</i></span>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar bg-success" role="progressbar"
+                  aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100"
+                  style="width: ${lang.percent}%;"></div>
+            </div>
+          `;
+          container.appendChild(progressDiv);
 
-    //   try {
-    //     const percentages = await fetchOverallLanguages();
+          // Framework progress bars
+          if (frameworkMap[lang.name]) {
+            const fwDiv = document.createElement("div");
+            fwDiv.classList.add("progress", "mb-3");
 
-    //     // Languages you don't want to display
-    //     const excluded = ["HTML", "CSS", "Blade", "Vue", "SCSS", "EJS", "Hack", "TypeScript"];
-
-    //     // Mapping languages → frameworks
-    //     const frameworkMap = {
-    //       "JavaScript": "React JS",
-    //       "PHP": "Laravel",
-    //       "Python": "Django",
-    //       "Java": "Android",
-    //       "Kotlin": "Android",
-    //       "SQL": "MySQL / SQLite"
-    //     };
-
-    //     // Step 1: Filter out unwanted languages
-    //     const filtered = percentages
-    //       .filter(lang => parseFloat(lang.percent) > 0)
-    //       .filter(lang => !excluded.includes(lang.name));
-
-    //     // Step 2: Recalculate percentages so they sum to 100%
-    //     const totalFilteredBytes = filtered.reduce((sum, lang) => sum + parseFloat(lang.percent), 0);
-    //     const normalized = filtered.map(lang => ({
-    //       name: lang.name,
-    //       percent: ((parseFloat(lang.percent) / totalFilteredBytes) * 100).toFixed(1)
-    //     }));
-
-    //     // Step 3: Sort
-    //     const sorted = normalized.sort((a, b) => b.percent - a.percent);
-
-    //     // Hide loader, show results
-    //     loader.style.display = "none";
-    //     container.style.display = "block";
-    //     frameworksContainer.style.display = "block";
-
-    //     // Clear old contents (in case of refresh)
-    //     container.innerHTML = "";
-    //     frameworksContainer.innerHTML = "";
-
-    //     // Build HTML
-    //     sorted.forEach(lang => {
-    //       // --- left column (languages) ---
-    //       const progressDiv = document.createElement("div");
-    //       progressDiv.classList.add("progress", "mb-3");
-
-    //       progressDiv.innerHTML = `
-    //         <span class="skill">${lang.name} <i class="val">${lang.percent}%</i></span>
-    //         <div class="progress-bar-wrap">
-    //           <div class="progress-bar bg-success" role="progressbar" 
-    //               aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100" 
-    //               style="width: ${lang.percent}%;"></div>
-    //         </div>
-    //       `;
-    //       container.appendChild(progressDiv);
-
-    //       // --- right column (frameworks) ---
-    //       if (frameworkMap[lang.name]) {
-    //         const fwDiv = document.createElement("div");
-    //         fwDiv.classList.add("progress", "mb-3");
-
-    //         fwDiv.innerHTML = `
-    //           <span class="skill">${frameworkMap[lang.name]} <i class="val">${lang.percent}%</i></span>
-    //           <div class="progress-bar-wrap">
-    //             <div class="progress-bar bg-info" role="progressbar" 
-    //                 aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100" 
-    //                 style="width: ${lang.percent}%;"></div>
-    //           </div>
-    //         `;
-    //         frameworksContainer.appendChild(fwDiv);
-    //       }
-    //     });
-
-    //   } catch (e) {
-    //     loader.innerHTML = `<p class="text-danger">❌ Error loading languages</p>`;
-    //   }
-    // }
-
-    // renderLanguages();
-  </script>
-
-  <script>
-  fetch("data/languages.json")
-    .then(res => res.json())
-    .then(langs => {
-      console.log(langs); // [{ name: "JavaScript", percent: "47.6" }, ...]
-      // build your progress bars here
-    });
+            fwDiv.innerHTML = `
+              <span class="skill">${frameworkMap[lang.name]} <i class="val">${lang.percent}%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar bg-info" role="progressbar"
+                    aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100"
+                    style="width: ${lang.percent}%;"></div>
+              </div>
+            `;
+            frameworksContainer.appendChild(fwDiv);
+          }
+        });
+      })
+      .catch(err => {
+        loader.innerHTML = `<p class="text-danger">❌ Error loading languages</p>`;
+        console.error("Error loading languages:", err);
+      });
   </script>
 
 </body>

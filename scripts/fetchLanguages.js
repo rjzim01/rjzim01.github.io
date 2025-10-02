@@ -2,7 +2,7 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 
 const token = process.env.GH_TOKEN; // from GitHub secrets
-const username = "YOUR_USERNAME"; // change this
+const username = "rjzim01"; // change this
 
 async function fetchLanguages() {
   let repos = [];

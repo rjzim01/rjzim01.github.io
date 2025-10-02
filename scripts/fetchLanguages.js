@@ -6,7 +6,7 @@ const username = "YOUR_USERNAME"; // change this
 
 async function fetchLanguages() {
   let repos = [];
-  let page = 1;
+  let page = 2;
 
   // Fetch all repos (public + private)
   while (true) {

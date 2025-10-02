@@ -48,6 +48,10 @@
     "percent": "0.0"
   },
   {
+    "name": "Kotlin",
+    "percent": "0.0"
+  },
+  {
     "name": "TypeScript",
     "percent": "0.6"
   },
@@ -73,10 +77,6 @@
   },
   {
     "name": "C++",
-    "percent": "0.0"
-  },
-  {
-    "name": "Kotlin",
     "percent": "0.0"
   }
 ]

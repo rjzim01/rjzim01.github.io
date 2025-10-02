@@ -1,18 +1,82 @@
 [
   {
-    "name": "Vue",
-    "percent": "70.7"
+    "name": "JavaScript",
+    "percent": "47.6"
   },
   {
     "name": "CSS",
-    "percent": "17.1"
-  },
-  {
-    "name": "JavaScript",
-    "percent": "8.7"
+    "percent": "8.2"
   },
   {
     "name": "HTML",
-    "percent": "3.4"
+    "percent": "8.2"
+  },
+  {
+    "name": "Python",
+    "percent": "0.2"
+  },
+  {
+    "name": "Java",
+    "percent": "0.3"
+  },
+  {
+    "name": "PHP",
+    "percent": "22.9"
+  },
+  {
+    "name": "C#",
+    "percent": "0.0"
+  },
+  {
+    "name": "Go",
+    "percent": "0.0"
+  },
+  {
+    "name": "Blade",
+    "percent": "10.4"
+  },
+  {
+    "name": "Vue",
+    "percent": "1.1"
+  },
+  {
+    "name": "Dockerfile",
+    "percent": "0.0"
+  },
+  {
+    "name": "Shell",
+    "percent": "0.0"
+  },
+  {
+    "name": "Kotlin",
+    "percent": "0.0"
+  },
+  {
+    "name": "TypeScript",
+    "percent": "0.6"
+  },
+  {
+    "name": "Hack",
+    "percent": "0.1"
+  },
+  {
+    "name": "SCSS",
+    "percent": "0.3"
+  },
+  {
+    "name": "Batchfile",
+    "percent": "0.0"
+  },
+  {
+    "name": "EJS",
+    "percent": "0.1"
+  },
+  {
+    "name": "Ruby",
+    "percent": "0.0"
+  },
+  {
+    "name": "C++",
+    "percent": "0.0"
   }
 ]

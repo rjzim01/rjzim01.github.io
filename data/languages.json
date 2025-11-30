@@ -1,27 +1,63 @@
 [
   {
-    "name": "JavaScript",
-    "percent": "47.6"
-  },
-  {
-    "name": "CSS",
-    "percent": "8.2"
-  },
-  {
-    "name": "HTML",
-    "percent": "8.2"
+    "name": "TypeScript",
+    "percent": "11.8"
   },
   {
     "name": "Python",
-    "percent": "0.2"
+    "percent": "9.6"
+  },
+  {
+    "name": "Jupyter Notebook",
+    "percent": "1.9"
+  },
+  {
+    "name": "JavaScript",
+    "percent": "37.0"
+  },
+  {
+    "name": "HTML",
+    "percent": "7.2"
+  },
+  {
+    "name": "Shell",
+    "percent": "0.1"
+  },
+  {
+    "name": "Dockerfile",
+    "percent": "0.0"
+  },
+  {
+    "name": "Jinja",
+    "percent": "0.0"
+  },
+  {
+    "name": "Smarty",
+    "percent": "0.0"
+  },
+  {
+    "name": "CSS",
+    "percent": "6.1"
+  },
+  {
+    "name": "Makefile",
+    "percent": "0.0"
+  },
+  {
+    "name": "Pug",
+    "percent": "0.0"
+  },
+  {
+    "name": "Mako",
+    "percent": "0.0"
   },
   {
     "name": "Java",
-    "percent": "0.3"
+    "percent": "0.2"
   },
   {
     "name": "PHP",
-    "percent": "22.9"
+    "percent": "17.1"
   },
   {
     "name": "C#",
@@ -33,27 +69,15 @@
   },
   {
     "name": "Blade",
-    "percent": "10.4"
+    "percent": "7.7"
   },
   {
     "name": "Vue",
-    "percent": "1.1"
-  },
-  {
-    "name": "Dockerfile",
-    "percent": "0.0"
-  },
-  {
-    "name": "Shell",
-    "percent": "0.0"
+    "percent": "0.8"
   },
   {
     "name": "Kotlin",
     "percent": "0.1"
-  },
-  {
-    "name": "TypeScript",
-    "percent": "0.6"
   },
   {
     "name": "Hack",
@@ -61,7 +85,7 @@
   },
   {
     "name": "SCSS",
-    "percent": "0.3"
+    "percent": "0.2"
   },
   {
     "name": "Batchfile",

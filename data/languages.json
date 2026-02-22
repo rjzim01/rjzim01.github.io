@@ -1,7 +1,7 @@
 [
   {
     "name": "TypeScript",
-    "percent": "11.8"
+    "percent": "11.6"
   },
   {
     "name": "Python",
@@ -13,11 +13,11 @@
   },
   {
     "name": "JavaScript",
-    "percent": "36.9"
+    "percent": "37.0"
   },
   {
     "name": "HTML",
-    "percent": "7.1"
+    "percent": "7.2"
   },
   {
     "name": "Shell",
@@ -37,7 +37,7 @@
   },
   {
     "name": "CSS",
-    "percent": "6.1"
+    "percent": "6.2"
   },
   {
     "name": "Makefile",
@@ -77,7 +77,7 @@
   },
   {
     "name": "Kotlin",
-    "percent": "0.1"
+    "percent": "0.2"
   },
   {
     "name": "Hack",

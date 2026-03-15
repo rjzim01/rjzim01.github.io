@@ -1,23 +1,23 @@
 [
   {
     "name": "TypeScript",
-    "percent": "11.6"
+    "percent": "11.5"
   },
   {
     "name": "Python",
-    "percent": "9.6"
+    "percent": "9.5"
   },
   {
     "name": "Jupyter Notebook",
-    "percent": "1.9"
+    "percent": "3.2"
   },
   {
     "name": "JavaScript",
-    "percent": "37.0"
+    "percent": "36.3"
   },
   {
     "name": "HTML",
-    "percent": "7.2"
+    "percent": "7.0"
   },
   {
     "name": "Shell",
@@ -57,7 +57,7 @@
   },
   {
     "name": "PHP",
-    "percent": "17.1"
+    "percent": "16.8"
   },
   {
     "name": "C#",

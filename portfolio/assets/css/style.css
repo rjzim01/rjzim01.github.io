@@ -287,7 +287,7 @@ h6 {
 
 @media (max-width: 768px) {
   #hero {
-    background-position: 100% top;
+    background-position: 90% top;
   }
 
   #hero h1 {

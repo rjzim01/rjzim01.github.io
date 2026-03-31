@@ -1,602 +1,544 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="dark" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>RJ ZIM - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "inverse-primary": "#006971",
+            "surface-dim": "#131313",
+            "error-container": "#93000a",
+            "secondary-container": "#3b4855",
+            "error": "#ffb4ab",
+            "primary-container": "#00edff",
+            "inverse-on-surface": "#313030",
+            "surface-container": "#201f1f",
+            "on-secondary": "#25323d",
+            "tertiary-fixed-dim": "#edc225",
+            "on-primary-fixed-variant": "#004f55",
+            "on-surface": "#e5e2e1",
+            "on-tertiary": "#3c2f00",
+            "on-secondary-fixed": "#101d28",
+            "surface-container-low": "#1c1b1b",
+            "secondary-fixed": "#d6e4f3",
+            "on-tertiary-fixed": "#231b00",
+            "inverse-surface": "#e5e2e1",
+            "background": "#131313",
+            "secondary": "#bac8d7",
+            "on-tertiary-fixed-variant": "#574500",
+            "surface-container-highest": "#353534",
+            "on-primary-fixed": "#001f23",
+            "on-primary": "#00363b",
+            "surface-container-lowest": "#0e0e0e",
+            "on-surface-variant": "#b9c9cb",
+            "surface-variant": "#353534",
+            "on-primary-container": "#006770",
+            "surface-container-high": "#2a2a2a",
+            "on-error": "#690005",
+            "primary-fixed-dim": "#00dbec",
+            "secondary-fixed-dim": "#bac8d7",
+            "tertiary-fixed": "#ffe086",
+            "on-secondary-container": "#a9b7c5",
+            "surface-tint": "#00dbec",
+            "tertiary-container": "#ffd237",
+            "on-secondary-fixed-variant": "#3b4855",
+            "outline-variant": "#3b494b",
+            "on-background": "#e5e2e1",
+            "primary": "#d4faff",
+            "outline": "#849495",
+            "surface-bright": "#3a3939",
+            "on-error-container": "#ffdad6",
+            "surface": "#131313",
+            "tertiary": "#fff2d6",
+            "primary-fixed": "#88f3ff",
+            "on-tertiary-container": "#715a00"
+          },
+          fontFamily: {
+            "headline": ["Newsreader"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .noise-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.02;
+    }
+    .hero-bg {
+      background: url('assets/img/hero-bg_48kb.webp') top right / cover no-repeat;
+    }
+    @media (min-width: 768px) {
+      .hero-bg {
+        background-position: top center;
+      }
+    }
 
-  <title>RJ ZIM</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
+  </style>
 </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary">
+  <div class="fixed inset-0 noise-overlay pointer-events-none z-[100]"></div>
 
-<body>
-
-  <!-- ======= Mobile nav toggle button ======= -->
-  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
-
-  <!-- ======= Header ======= -->
-  <header id="header">
-    <div class="d-flex flex-column">
-
-      <div class="profile">
-        <!-- <img src="assets/img/profile-img.png" alt="" class="img-fluid rounded-circle"> -->
-        <img src="assets/img/zim_02_12kb.webp" alt="" class="img-fluid rounded-circle">
-
-        <h1 class="text-light">
-          <a href="/portfolio">RJ ZIM</a>
-        </h1>
-
-        <div class="social-links mt-3 text-center">
-
-          <a href="https://github.com/rjzim01/" target="_blank" class="google-plus">
-            <i class="bx bxl-github"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/rifat-jahan-zim-48b1081a1/" target="_blank" class="linkedin">
-            <i class="bx bxl-linkedin"></i>
-          </a>
-          <a href="https://twitter.com/" target="_blank" class="twitter">
-            <i class="bx bxl-twitter"></i>
-          </a>
-          <a href="https://facebook.com/" target="_blank" class="facebook">
-            <i class="bx bxl-facebook"></i>
-          </a>
-          <a href="https://www.instagram.com/" target="_blank" class="instagram">
-            <i class="bx bxl-instagram"></i>
-          </a>
-
-        </div>
+  <!-- TopNavBar -->
+  <nav class="fixed top-0 w-full z-50 bg-[#1c1b1b]/60 backdrop-blur-xl shadow-2xl shadow-black/50">
+    <div class="flex justify-between items-center px-4 md:px-12 py-4 md:py-6 w-full max-w-[1920px] mx-auto">
+      <div class="font-['Newsreader'] font-bold text-2xl tracking-tighter text-[#e5e2e1]">RJ ZIM</div>
+      <div class="hidden md:flex gap-12 items-center">
+        <a class="text-[#00edff] font-medium border-b border-[#00edff] pb-1 font-['Newsreader'] italic text-2xl tracking-tight transition-opacity duration-300 hover:opacity-80" href="#hero">Home</a>
+        <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors font-['Newsreader'] italic text-2xl tracking-tight transition-opacity duration-300 hover:opacity-80" href="#about">About</a>
+        <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors font-['Newsreader'] italic text-2xl tracking-tight transition-opacity duration-300 hover:opacity-80" href="#skills">Skills</a>
+        <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors font-['Newsreader'] italic text-2xl tracking-tight transition-opacity duration-300 hover:opacity-80" href="#resume">Resume</a>
+        <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors font-['Newsreader'] italic text-2xl tracking-tight transition-opacity duration-300 hover:opacity-80" href="#projects">Projects</a>
+        <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors font-['Newsreader'] italic text-2xl tracking-tight transition-opacity duration-300 hover:opacity-80" href="#contact">Contact</a>
       </div>
-
-      <nav id="navbar" class="nav-menu navbar">
-        <ul>
-          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <li><a href="#skills" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Skills</span></a></li>
-          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-          <li><a href="#projects" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Projects</span></a></li>
-          <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
-        </ul>
-      </nav>
-      <!-- .nav-menu -->
-
+      <button class="md:hidden text-on-surface" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
     </div>
-  </header>
-  <!-- End Header -->
-
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-    <div class="hero-container" data-aos="fade-in">
-      <h1 >RIFAT JAHAN ZIM</h1>
-      <p ><span class="typed" data-typed-items="I'm a Software Engineer, Expert in... Php (Laravel), Expert in... Javascript (React Js), Expert in... Sql (Mysql Sqlite)"></span></p>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden flex flex-col gap-4 px-4 pb-6">
+      <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] font-['Newsreader'] italic text-xl" href="#hero">Home</a>
+      <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] font-['Newsreader'] italic text-xl" href="#about">About</a>
+      <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] font-['Newsreader'] italic text-xl" href="#skills">Skills</a>
+      <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] font-['Newsreader'] italic text-xl" href="#resume">Resume</a>
+      <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] font-['Newsreader'] italic text-xl" href="#projects">Projects</a>
+      <a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] font-['Newsreader'] italic text-xl" href="#contact">Contact</a>
     </div>
-  </section>
-  <!-- End Hero -->
+  </nav>
 
-  <main id="main">
-
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>About</h2>
-          <p>Hello, I'm RIFAT JAHAN ZIM, a graduate from Daffodil International University, under Computer Science and Engineering Department. In the journey of 4 years of bachelor degree i work on different domain and gained knowledge about them. </p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4" data-aos="fade-right">
-            <!-- <img src="assets/img/profile-img.png" class="img-fluid" alt=""> -->
-            <img src="assets/img/zim_01_49kb.webp" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-            <h3>Junior Software Developer</h3>
-            <p class="fst-italic">
-              Here my short description below. My full description is in my resume. You can check that from the resume section.
-            </p>
-            <div class="row">
-              <div class="col-lg-12">
-                <ul>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Date of Birth:</strong>06-Sep-1998 &nbsp;
-                    <span id="age"></span>
-                  </li>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>BMI:</strong> <span id="bmi-value"></span> &nbsp;
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-6">
-                <ul>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Height:</strong> <span id="height-value">5'8"</span> &nbsp;
-                  </li>
-                  <li>
-                    <i class="bi bi-chevron-right"></i> 
-                    <strong>Website:</strong> 
-                    <span>
-                      <a href="https://rjzim01.github.io/portfolio/" target="_blank">RJ ZIM</a>
-                    </span>
-                  </li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>01302917207</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Dhaka, Bangladesh</span></li>
-                </ul>
-              </div>
-              <div class="col-lg-6">
-                <ul>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Weight:</strong> <span id="weight-value">89</span> kg &nbsp;
-                  </li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Bsc</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>PhEmailone:</strong> <span>rjzim01@gmail.com</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
-                </ul>
-              </div>
-            </div>
-            <p>
-              Currently I live in Dhaka, Bangladesh. My home town is Manikgonj. Passionate about software development with a vision to explore diverse domains, contribute as a team player, and continuously expand knowledge while sharing expertise. I aspire to become a versatile software developer dedicated to collaborative innovation.
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center px-4 md:px-12 pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden hero-bg">
+      <div class="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30"></div>
+      <div class="grid grid-cols-12 w-full max-w-[1920px] mx-auto relative z-10">
+        <div class="col-span-12 lg:col-span-8">
+          <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 md:mb-8 block">Software Engineer</span>
+          <h1 class="font-headline text-[clamp(2.2rem,8vw,6rem)] leading-[0.9] -tracking-[0.03em] mb-8 md:mb-12 italic">
+            RIFAT JAHAN <br/>
+            <span class="not-italic text-on-surface-variant">ZIM</span>
+          </h1>
+          <div class="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">
+            <a class="bg-primary-container text-on-primary px-8 md:px-10 py-4 md:py-5 rounded-md font-medium tracking-tight hover:bg-primary-fixed-dim transition-all duration-300 active:scale-95 shadow-xl shadow-primary-container/10" href="#projects">
+              View Projects
+            </a>
+            <p class="max-w-md text-on-surface-variant font-body text-base md:text-lg leading-relaxed">
+              <span id="typed-text"></span>
             </p>
           </div>
         </div>
-
       </div>
     </section>
-    <!-- End About Section -->
 
-    <!-- ======= Skills Section ======= -->
-    <section id="skills" class="skills section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Skills</h2>
-          <p>Proficient in a range of programming languages and frameworks including PHP (Laravel), Python (Django), JavaScript (React), and Java for Android development. Experienced in leveraging these tools to create dynamic and responsive applications, showcasing adaptability across various tech stacks.</p>
+    <!-- About Section -->
+    <section id="about" class="py-20 md:py-40 px-4 md:px-12">
+      <div class="max-w-[1920px] mx-auto grid grid-cols-12 gap-8 md:gap-12">
+        <div class="col-span-12 lg:col-span-5">
+          <img src="assets/img/zim_01_49kb.webp" class="rounded-lg w-full max-w-sm md:max-w-md opacity-80 hover:opacity-100 transition-opacity duration-500 mx-auto lg:mx-0" alt="RJ ZIM">
         </div>
+        <div class="col-span-12 lg:col-span-7">
+          <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 md:mb-8 block">About Me</span>
+          <h2 class="font-headline text-3xl md:text-5xl leading-tight mb-6 md:mb-8 italic">Junior Software Developer</h2>
+          <p class="text-on-surface-variant text-base md:text-xl font-body leading-relaxed mb-6 md:mb-8">
+            Hello, I'm RIFAT JAHAN ZIM, a graduate from Daffodil International University, under Computer Science and Engineering Department. Currently I live in Dhaka, Bangladesh. My home town is Manikgonj. Passionate about software development with a vision to explore diverse domains, contribute as a team player, and continuously expand knowledge while sharing expertise.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
+            <div>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">Date of Birth:</span> 06-Sep-1998</p>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">Height:</span> 5'8"</p>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">Phone:</span> 01302917207</p>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">City:</span> Dhaka, Bangladesh</p>
+            </div>
+            <div>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">Degree:</span> Bsc</p>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">Email:</span> rjzim01@gmail.com</p>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">Freelance:</span> Available</p>
+              <p class="text-on-surface-variant text-sm mb-3"><span class="text-primary font-medium">BMI:</span> <span id="bmi-value"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="row skills-content">
-
-          <div class="col-lg-6" data-aos="fade-up">
-
-            <!-- Loading Spinner -->
-            <div id="loading" style="text-align:center; padding:20px;">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
+    <!-- Skills Section -->
+    <section id="skills" class="bg-surface-container-low py-20 md:py-32 px-4 md:px-12">
+      <div class="max-w-[1920px] mx-auto">
+        <div class="flex justify-between items-end mb-12 md:mb-20">
+          <div>
+            <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 block">Expertise</span>
+            <h2 class="font-headline text-3xl md:text-5xl tracking-tight">Skills</h2>
+          </div>
+        </div>
+        <p class="text-on-surface-variant text-base md:text-lg max-w-3xl mb-10 md:mb-16">
+          Proficient in a range of programming languages and frameworks including PHP (Laravel), Python (Django), JavaScript (React), and Java for Android development.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
+          <!-- Languages -->
+          <div>
+            <h3 class="font-headline text-2xl mb-8 text-primary">Languages</h3>
+            <div id="language-stats">
+              <div id="loading" style="text-align:center; padding:20px;">
+                <div class="animate-pulse text-on-surface-variant">Fetching language stats...</div>
               </div>
-              <p>Fetching language stats...</p>
             </div>
-
-            <!-- Language Progress Bars -->
-            <div id="language-stats" style="display:none;"></div>
-
           </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div id="framework-stats" style="display:none;"></div>
+          <!-- Frameworks -->
+          <div>
+            <h3 class="font-headline text-2xl mb-8 text-primary">Frameworks & Tools</h3>
+            <div id="framework-stats"></div>
           </div>
-
         </div>
-
       </div>
     </section>
-    <!-- End Skills Section -->
 
-    <!-- ======= Resume Section ======= -->
-    <section id="resume" class="resume">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Resume</h2>
-          <p>Through this section I present my academic and professional qualification.</p>
+    <!-- Resume Section -->
+    <section id="resume" class="py-20 md:py-40 px-4 md:px-12">
+      <div class="max-w-[1920px] mx-auto">
+        <div class="mb-12 md:mb-20">
+          <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 block">Qualifications</span>
+          <h2 class="font-headline text-3xl md:text-5xl tracking-tight">Resume</h2>
         </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
+          <!-- Education -->
+          <div>
+            <h3 class="font-headline text-2xl mb-10 text-primary italic">Education</h3>
 
-        <div class="row">
-          <div class="col-lg-6" data-aos="fade-up">
-            <h3 class="resume-title">Sumary</h3>
-            <div class="resume-item pb-0">
-              <h4>RJ ZIM</h4>
-              <p><em>Passionate about programming. </em></p>
-              <ul>
-                <li>Dhaka, Bangladesh</li>
-                <li>01302917207</li>
-                <li>rjzim01@gmail.com</li>
-              </ul>
-            </div>
-
-            <h3 class="resume-title">Education</h3>
-            <div class="resume-item">
-              <h4>Masters PMSCS &amp; Computer Science</h4>
-              <h5>May 2025 - 2026</h5>
-              <p><em>Jahangirnagar University, Dhaka, Bangladesh</em></p>
-              <p>In this 1 year I am strengthening my knowledge in advanced computer science topics, research methods, and practical problem-solving while continuing to improve my software development skills.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Bachelor of Engineering &amp; Computer Science</h4>
-              <h5>2020 - 2023</h5>
-              <p><em>Daffodil International University, Dhaka, Bangladesh</em></p>
-              <p>In this 4 year i learned different kind of programming language like c, c++, php, javascript, java, python, kotlin, dart. Participate in different programming contest.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Higher Secondery &amp; Science</h4>
-              <h5>2016 - 2018</h5>
-              <p><em>Milestone college, Dhaka, Bangladesh</em></p>
-              <p>For this higher secondary certificate i need to do 1 professional exam, different subject in our country curriculum is also include to read in my study list.</p>
-            </div>
-            <div class="resume-item">
-              <h4>Secondery &amp; Science</h4>
-              <h5>2012 - 2016</h5>
-              <p><em>Manikgonj Govt. High School, Manikgonj, Bangladesh</em></p>
-              <p>For this secondary certificate i need to do 1 professional exam, different subject in our country curriculum is also include to read in my study list.</p>
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">May 2025 - 2026</span>
+              <h4 class="font-headline text-xl mt-2">Masters PMSCS & Computer Science</h4>
+              <p class="text-on-surface-variant text-sm mt-1">Jahangirnagar University, Dhaka, Bangladesh</p>
+              <p class="text-on-surface-variant/70 text-sm mt-3">Strengthening knowledge in advanced computer science topics, research methods, and practical problem-solving.</p>
             </div>
 
-            <!--  
-            <h3 class="resume-title">Professional Experience</h3>
-            <div class="resume-item">
-              <h4>Web Development Course</h4>
-              <h5>2023</h5>
-              <p><em>Ostad, Dhaka, Bangladesh </em></p>
-              <p>
-              <ul>
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">2020 - 2023</span>
+              <h4 class="font-headline text-xl mt-2">Bachelor of Engineering & Computer Science</h4>
+              <p class="text-on-surface-variant text-sm mt-1">Daffodil International University, Dhaka, Bangladesh</p>
+              <p class="text-on-surface-variant/70 text-sm mt-3">Learned different programming languages like C, C++, PHP, JavaScript, Java, Python, Kotlin, Dart.</p>
+            </div>
+
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">2016 - 2018</span>
+              <h4 class="font-headline text-xl mt-2">Higher Secondary & Science</h4>
+              <p class="text-on-surface-variant text-sm mt-1">Milestone College, Dhaka, Bangladesh</p>
+            </div>
+
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">2012 - 2016</span>
+              <h4 class="font-headline text-xl mt-2">Secondary & Science</h4>
+              <p class="text-on-surface-variant text-sm mt-1">Manikgonj Govt. High School, Manikgonj, Bangladesh</p>
+            </div>
+          </div>
+
+          <!-- Work Experience -->
+          <div>
+            <h3 class="font-headline text-2xl mb-10 text-primary italic">Work Experience</h3>
+
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">June 2025 - Present (<span id="b2b-duration"></span>)</span>
+              <h4 class="font-headline text-xl mt-2">Jr. Software Engineer</h4>
+              <p class="text-on-surface-variant text-sm mt-1">B2B Solver</p>
+              <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
                 <li>Lead in the Development, and implementation of the database, layout, and production communication materials</li>
-                <li>Delegate tasks to the 7 members of the development team and provide counsel on all aspects of the project. </li>
-                <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
+                <li>Delegate tasks to the 7 members of the development team</li>
+                <li>Supervise the assessment of all graphic materials for quality and accuracy</li>
                 <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
               </ul>
-              </p>
             </div>
-            <div class="resume-item">
-              <h4>Bohubri Web Development Course</h4>
-              <h5>2023</h5>
-              <p><em>Bohubrihi, Dhaka, Bangladesh</em></p>
-              <p>
-              <ul>
-                <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
+
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">January 2025 - April 2025 (4 Months)</span>
+              <h4 class="font-headline text-xl mt-2">Jr. Software Engineer</h4>
+              <p class="text-on-surface-variant text-sm mt-1">Bkolpo Constructions Limited</p>
+              <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
+                <li>Developed numerous marketing programs (logos, brochures, infographics, presentations)</li>
                 <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
                 <li>Recommended and consulted with clients on the most appropriate web project</li>
-                <li>Created 4+ projects presentations and proposals a month for clients and account managers</li>
+                <li>Created 4+ project presentations and proposals a month</li>
               </ul>
-              </p>
             </div>
-             -->
 
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <h3 class="resume-title">Working Experience</h3>
-            <!--  -->
-            <div class="resume-item">
-              <h4>Jr. Software Engineer</h4>
-              <h5>June, 2025 - Present (<span id="b2b-duration"></span>)</h5>
-              <p><em>B2B Solver</em></p>
-              <p>
-              <ul>
-                <li>Lead in the Development, and implementation of the database, layout, and production communication materials</li>
-                <li>Delegate tasks to the 7 members of the development team and provide counsel on all aspects of the project. </li>
-                <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
-                <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
+            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">September 2024 - December 2024 (4 Months)</span>
+              <h4 class="font-headline text-xl mt-2">Internship</h4>
+              <p class="text-on-surface-variant text-sm mt-1">Bkolpo Constructions Limited</p>
+              <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
+                <li>Developed numerous marketing programs (logos, brochures, infographics, presentations)</li>
+                <li>Managed up to 5 projects or tasks at a given time</li>
+                <li>Recommended and consulted with clients on web projects</li>
+                <li>Created 4+ project presentations and proposals a month</li>
               </ul>
-              </p>
             </div>
-            <!--  -->
-
-            <!--  -->
-            <div class="resume-item">
-              <h4>Jr. Software Engineer</h4>
-              <h5>January, 2025 - April, 2025 ( 4 Months )</h5>
-              <p><em>Bkolpo Constructions Limited</em></p>
-              <p>
-              <ul>
-                <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
-                <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
-                <li>Recommended and consulted with clients on the most appropriate web project</li>
-                <li>Created 4+ projects presentations and proposals a month for clients and account managers</li>
-              </ul>
-              </p>
-            </div>
-            <!--  -->
-
-            <!--  -->
-            <div class="resume-item">
-              <h4>Intern Ship</h4>
-              <h5>September, 2024 - December, 2024 ( 4 Months )</h5>
-              <p><em>Bkolpo Constructions Limited</em></p>
-              <p>
-              <ul>
-                <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
-                <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
-                <li>Recommended and consulted with clients on the most appropriate web project</li>
-                <li>Created 4+ projects presentations and proposals a month for clients and account managers</li>
-              </ul>
-              </p>
-            </div>
-            <!--  -->
-
           </div>
         </div>
-
       </div>
     </section>
-    <!-- End Resume Section -->
 
-    <!-- ======= projects Section ======= -->
-    <section id="projects" class="testimonials section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>projects</h2>
-          <p>I do this projects for my personal portfolio. By this kind of project i can show my knowledge about this topic to you. I Mainly use two kind of stack here laravel and django. Also i use bootstrap templates for frontend.</p>
-        </div>
-
-        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  This is kind of online educational platform. Where student can learn different kind of course. This is a full stack project. I use laravel for backend and bootstrap template for frontend.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/projects/project_1_mentor.png" class="testimonial-img" alt="">
-                <h3>Mentor</h3>
-                <h4>Educational Website</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  This is a kind of online ticketing system. Where user can buy ticket for different Bus. This is a full stack project. I use laravel for backend and bootstrap template for frontend.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/projects/project_2_tikki.png" class="testimonial-img" alt="">
-                <h3>Tikki</h3>
-                <h4>Online Tickting System</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  This app for the shop. Where shop owner can manage their shops transaction history, sales report and generate report.  I use laravel for backend and ajax for frontend.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/projects/project_3_pos.png" class="testimonial-img" alt="">
-                <h3>Sales</h3>
-                <h4>Manage the sales track for shop</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="300">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Project Name is Video django. In this app user can upload video and show video. User Can also comment on each video. I use django for backend and bootstrap template for frontend.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/projects/project_4_video.png" class="testimonial-img" alt="">
-                <h3>Video App</h3>
-                <h4>Show Video using Django</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item" data-aos="fade-up" data-aos-delay="400">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  Project name blog django. In this app user can post blog. Also comment on other blog and like if dislike. I use django for backend and bootstrap template for frontend.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/projects/project_5_blog.png" class="testimonial-img" alt="">
-                <h3>Blog App</h3>
-                <h4>User can post blog</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
+    <!-- Projects Section -->
+    <section id="projects" class="bg-surface-container-low py-20 md:py-32 px-4 md:px-12">
+      <div class="max-w-[1920px] mx-auto">
+        <div class="flex justify-between items-end mb-12 md:mb-20">
+          <div>
+            <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 block">Portfolio</span>
+            <h2 class="font-headline text-3xl md:text-5xl tracking-tight">Projects</h2>
           </div>
-          <div class="swiper-pagination"></div>
         </div>
-
-      </div>
-    </section>
-    <!-- End Testimonials Section -->
-
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Contact</h2>
-          <!-- <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> -->
-        </div>
-
-        <div class="row" data-aos="fade-in">
-
-          <div class="col-lg-5 d-flex align-items-stretch">
-            <div class="info">
-              <div class="address">
-                <i class="bi bi-geo-alt"></i>
-                <h4>Location:</h4>
-                <p>Dhaka, Bangladesh</p>
+        <p class="text-on-surface-variant text-base md:text-lg max-w-3xl mb-10 md:mb-16">
+          Personal portfolio projects showcasing knowledge in Laravel and Django with Bootstrap templates for frontend.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
+          <!-- Project 1: Mentor -->
+          <div class="group cursor-pointer">
+            <div class="aspect-video overflow-hidden rounded-lg mb-8 bg-surface-container-highest relative">
+              <img class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" src="assets/img/projects/project_1_mentor.png" alt="Mentor Project">
+              <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-surface-container-lowest to-transparent">
+                <span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-label uppercase tracking-widest mb-2 inline-block">Laravel</span>
               </div>
-
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p>rjzim01@gmail.com</p>
-              </div>
-
-              <div class="phone">
-                <i class="bi bi-phone"></i>
-                <h4>Call:</h4>
-                <p>01302917207</p>
-              </div>
-
             </div>
-
+            <h3 class="font-headline text-2xl mb-2 group-hover:text-primary transition-colors">Mentor</h3>
+            <p class="text-on-surface-variant font-body text-sm uppercase tracking-widest">Educational Website</p>
           </div>
 
-        </div>
+          <!-- Project 2: Tikki -->
+          <div class="group cursor-pointer">
+            <div class="aspect-video overflow-hidden rounded-lg mb-8 bg-surface-container-highest relative">
+              <img class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" src="assets/img/projects/project_2_tikki.png" alt="Tikki Project">
+              <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-surface-container-lowest to-transparent">
+                <span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-label uppercase tracking-widest mb-2 inline-block">Laravel</span>
+              </div>
+            </div>
+            <h3 class="font-headline text-2xl mb-2 group-hover:text-primary transition-colors">Tikki</h3>
+            <p class="text-on-surface-variant font-body text-sm uppercase tracking-widest">Online Ticketing System</p>
+          </div>
 
+          <!-- Project 3: Sales -->
+          <div class="group cursor-pointer">
+            <div class="aspect-video overflow-hidden rounded-lg mb-8 bg-surface-container-highest relative">
+              <img class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" src="assets/img/projects/project_3_pos.png" alt="Sales Project">
+              <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-surface-container-lowest to-transparent">
+                <span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-label uppercase tracking-widest mb-2 inline-block">Laravel + AJAX</span>
+              </div>
+            </div>
+            <h3 class="font-headline text-2xl mb-2 group-hover:text-primary transition-colors">Sales</h3>
+            <p class="text-on-surface-variant font-body text-sm uppercase tracking-widest">Shop Sales Management</p>
+          </div>
+
+          <!-- Project 4: Video App -->
+          <div class="group cursor-pointer">
+            <div class="aspect-video overflow-hidden rounded-lg mb-8 bg-surface-container-highest relative">
+              <img class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" src="assets/img/projects/project_4_video.png" alt="Video App Project">
+              <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-surface-container-lowest to-transparent">
+                <span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-label uppercase tracking-widest mb-2 inline-block">Django</span>
+              </div>
+            </div>
+            <h3 class="font-headline text-2xl mb-2 group-hover:text-primary transition-colors">Video App</h3>
+            <p class="text-on-surface-variant font-body text-sm uppercase tracking-widest">Video Streaming using Django</p>
+          </div>
+
+          <!-- Project 5: Blog App -->
+          <div class="group cursor-pointer">
+            <div class="aspect-video overflow-hidden rounded-lg mb-8 bg-surface-container-highest relative">
+              <img class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105" src="assets/img/projects/project_5_blog.png" alt="Blog App Project">
+              <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-surface-container-lowest to-transparent">
+                <span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-label uppercase tracking-widest mb-2 inline-block">Django</span>
+              </div>
+            </div>
+            <h3 class="font-headline text-2xl mb-2 group-hover:text-primary transition-colors">Blog App</h3>
+            <p class="text-on-surface-variant font-body text-sm uppercase tracking-widest">Blog Platform using Django</p>
+          </div>
+        </div>
       </div>
     </section>
-    <!-- End Contact Section -->
 
-  </main><!-- End #main -->
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 md:py-40 px-4 md:px-12">
+      <div class="max-w-[1920px] mx-auto">
+        <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 md:mb-8 block">Get In Touch</span>
+        <h2 class="font-headline text-3xl md:text-5xl leading-tight mb-8 md:mb-12 italic max-w-2xl">
+          Let's build something extraordinary together.
+        </h2>
+        <div class="flex flex-col gap-6 md:gap-8">
+            <div class="flex items-center gap-6">
+              <span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+              <div>
+                <p class="text-on-surface-variant text-sm uppercase tracking-widest font-label mb-1">Location</p>
+                <p class="text-on-surface text-lg">Dhaka, Bangladesh</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-6">
+              <span class="material-symbols-outlined text-primary text-3xl">mail</span>
+              <div>
+                <p class="text-on-surface-variant text-sm uppercase tracking-widest font-label mb-1">Email</p>
+                <a class="text-on-surface text-lg hover:text-primary transition-colors" href="mailto:rjzim01@gmail.com">rjzim01@gmail.com</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-6">
+              <span class="material-symbols-outlined text-primary text-3xl">call</span>
+              <div>
+                <p class="text-on-surface-variant text-sm uppercase tracking-widest font-label mb-1">Phone</p>
+                <p class="text-on-surface text-lg">01302917207</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <div class="copyright">
-        <!-- &copy; Copyright <strong><span>iPortfolio</span></strong> -->
+  <!-- Footer -->
+  <footer class="bg-[#131313] w-full py-12 md:py-20 px-4 md:px-12 border-t border-[#3b494b]/15">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 w-full max-w-[1920px] mx-auto">
+      <div class="font-['Newsreader'] text-xl text-[#e5e2e1]">RJ ZIM</div>
+      <div class="flex flex-wrap justify-center gap-6 md:gap-12">
+        <a class="font-['Manrope'] uppercase tracking-[0.2em] text-[10px] text-[#e5e2e1]/40 hover:text-[#00edff] transition-colors duration-500" href="https://github.com/rjzim01/" target="_blank">GitHub</a>
+        <a class="font-['Manrope'] uppercase tracking-[0.2em] text-[10px] text-[#e5e2e1]/40 hover:text-[#00edff] transition-colors duration-500" href="https://www.linkedin.com/in/rifat-jahan-zim-48b1081a1/" target="_blank">LinkedIn</a>
+        <a class="font-['Manrope'] uppercase tracking-[0.2em] text-[10px] text-[#e5e2e1]/40 hover:text-[#00edff] transition-colors duration-500" href="https://twitter.com/" target="_blank">Twitter</a>
+        <a class="font-['Manrope'] uppercase tracking-[0.2em] text-[10px] text-[#e5e2e1]/40 hover:text-[#00edff] transition-colors duration-500" href="https://facebook.com/" target="_blank">Facebook</a>
+        <a class="font-['Manrope'] uppercase tracking-[0.2em] text-[10px] text-[#e5e2e1]/40 hover:text-[#00edff] transition-colors duration-500" href="#hero">Back to Top</a>
       </div>
-      <div class="credits">
-        <!-- Designed by <a href="">BootstrapMade</a> -->
-      </div>
+      <p class="font-['Manrope'] uppercase tracking-[0.2em] text-[10px] text-[#e5e2e1]/50">
+        &copy; 2024 RJ ZIM. ALL RIGHTS RESERVED.
+      </p>
     </div>
-  </footer><!-- End  Footer -->
+  </footer>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <!-- Scripts -->
+  <script>
+    // Scroll spy for nav links
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    const sections = document.querySelectorAll('main section[id]');
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 200;
+        if (window.scrollY >= top) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('text-[#00edff]', 'border-b', 'border-[#00edff]', 'pb-1');
+        link.classList.add('text-[#e5e2e1]/70');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.remove('text-[#e5e2e1]/70');
+          link.classList.add('text-[#00edff]', 'border-b', 'border-[#00edff]', 'pb-1');
+        }
+      });
+    }
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
 
   <script>
+    // Typed text animation
+    const items = ["I'm a Software Engineer", "Expert in PHP (Laravel)", "Expert in JavaScript (React Js)", "Expert in SQL (MySQL, SQLite)"];
+    let itemIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedEl = document.getElementById('typed-text');
+
+    function typeEffect() {
+      const current = items[itemIndex];
+      if (isDeleting) {
+        typedEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typedEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? 30 : 60;
+
+      if (!isDeleting && charIndex === current.length) {
+        speed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        itemIndex = (itemIndex + 1) % items.length;
+        speed = 500;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+    typeEffect();
+  </script>
+
+  <script>
+    // Age calculator
     function calculateFullAge(birthdate) {
       const now = new Date();
       const birth = new Date(birthdate);
-
-      // Years, months, days calculation
       let years = now.getFullYear() - birth.getFullYear();
       let months = now.getMonth() - birth.getMonth();
       let days = now.getDate() - birth.getDate();
-
-      if (days < 0) {
-        months--;
-        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-        days += prevMonth.getDate();
-      }
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
-
-      // Hours, minutes, seconds calculation
+      if (days < 0) { months--; const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0); days += prevMonth.getDate(); }
+      if (months < 0) { years--; months += 12; }
       let hours = now.getHours() - birth.getHours();
       let minutes = now.getMinutes() - birth.getMinutes();
       let seconds = now.getSeconds() - birth.getSeconds();
-
-      if (seconds < 0) {
-        minutes--;
-        seconds += 60;
-      }
-      if (minutes < 0) {
-        hours--;
-        minutes += 60;
-      }
-      if (hours < 0) {
-        days--;
-        hours += 24;
-      }
-
+      if (seconds < 0) { minutes--; seconds += 60; }
+      if (minutes < 0) { hours--; minutes += 60; }
+      if (hours < 0) { days--; hours += 24; }
       return `( ${years} Y, ${months} M, ${days} D, ${hours} H, ${minutes} M, ${seconds} S )`;
     }
-
     function updateAge() {
       document.getElementById("age").innerText = calculateFullAge("1998-09-06T00:00:00");
     }
-
-    // Update every second
     setInterval(updateAge, 1000);
     updateAge();
   </script>
 
   <script>
+    // BMI calculator
     function calculateAndUpdateBMI() {
-      const heightStr = document.getElementById('height-value').textContent;
-      const weightKg = parseFloat(document.getElementById('weight-value').textContent);
-
-      // Parse height '5\'8"' into meters
+      const heightStr = "5'8\"";
+      const weightKg = 89;
       const heightParts = heightStr.match(/(\d+)'(\d+)/);
       if (heightParts) {
         const feet = parseInt(heightParts[1], 10);
         const inches = parseInt(heightParts[2], 10);
         const totalInches = (feet * 12) + inches;
         const heightMeters = totalInches * 0.0254;
-
         if (heightMeters > 0) {
           const bmi = weightKg / (heightMeters * heightMeters);
-          
           let category = '';
-          let emoji = '';
-          let suggestion = '';
-
-          if (bmi < 18.5) {
-            category = 'Underweight';
-            emoji = '🤔';
-            suggestion = 'You may want to consult a healthcare provider.';
-          } else if (bmi >= 18.5 && bmi < 25) {
-            category = 'Normal weight';
-            emoji = '😊';
-            suggestion = 'Keep up the great work!';
-          } else if (bmi >= 25 && bmi < 30) {
-            category = 'Overweight';
-            emoji = '😟';
-            suggestion = 'A balanced diet and regular exercise can help. 25 is the limit.';
-          } else if (bmi >= 30 && bmi < 35) {
-            category = 'Obesity Class I';
-            emoji = '😥';
-            suggestion = 'Consult a healthcare provider for advice.';
-          } else if (bmi >= 35 && bmi < 40) {
-            category = 'Obesity Class II';
-            emoji = '😨';
-            suggestion = 'Seeking guidance from a professional is recommended.';
-          } else {
-            category = 'Obesity Class III';
-            emoji = '😱';
-            suggestion = 'Please consult a healthcare provider.';
-          }
-
-          const bmiElement = document.getElementById('bmi-value');
-          bmiElement.innerHTML = `${bmi.toFixed(1)} <span>(${category} ${emoji})</span> <span>${suggestion}</span>`;
+          if (bmi < 18.5) category = 'Underweight';
+          else if (bmi < 25) category = 'Normal';
+          else if (bmi < 30) category = 'Overweight';
+          else category = 'Obese';
+          document.getElementById('bmi-value').textContent = `${bmi.toFixed(1)} (${category})`;
         }
       }
     }
-
-    // Calculate BMI on page load
     calculateAndUpdateBMI();
   </script>
 
@@ -605,117 +547,81 @@
     const loader = document.getElementById("loading");
     const frameworksContainer = document.getElementById("framework-stats");
 
-    fetch("../data/languages.json")
-      .then(res => res.json())
-      .then(langs => {
-        // Hide loader and show containers
-        loader.style.display = "none";
-        container.style.display = "block";
-        frameworksContainer.style.display = "block";
+    const langs = [
+      {"name":"TypeScript","percent":"11.7"},{"name":"Python","percent":"9.5"},
+      {"name":"Jupyter Notebook","percent":"3.2"},{"name":"JavaScript","percent":"36.3"},
+      {"name":"HTML","percent":"7.0"},{"name":"Shell","percent":"0.1"},
+      {"name":"CSS","percent":"6.1"},{"name":"Java","percent":"0.2"},
+      {"name":"PHP","percent":"16.8"},{"name":"Kotlin","percent":"0.2"}
+    ];
 
-        // Languages you don't want to show
-        const excluded = ["HTML", "CSS", "Blade", "Vue", "SCSS", "EJS", "Hack", "TypeScript"];
+    loader.style.display = "none";
+    const excluded = ["HTML", "CSS", "Blade", "Vue", "SCSS", "EJS", "Hack", "TypeScript"];
+    const frameworkMap = {
+      "JavaScript": "React JS", "PHP": "Laravel", "Python": "Django",
+      "Java": "Android", "Kotlin": "Android", "SQL": "MySQL / SQLite"
+    };
+    const filtered = langs
+      .filter(lang => parseFloat(lang.percent) > 0)
+      .filter(lang => !excluded.includes(lang.name))
+      .sort((a, b) => b.percent - a.percent);
 
-        // Framework mapping
-        const frameworkMap = {
-          "JavaScript": "React JS",
-          "PHP": "Laravel",
-          "Python": "Django",
-          "Java": "Android",
-          "Kotlin": "Android",
-          "SQL": "MySQL / SQLite"
-        };
+    filtered.forEach(lang => {
+      const div = document.createElement("div");
+      div.className = "mb-6";
+      div.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm font-semibold uppercase tracking-wider" style="color:#e5e2e1;">${lang.name}</span>
+          <span class="text-xs font-medium" style="color:#849495;">${lang.percent}%</span>
+        </div>
+        <div class="w-full rounded-full" style="background:#2a2a2a; height:10px;">
+          <div class="h-full rounded-full transition-all duration-1000" style="width:${lang.percent}%; background: linear-gradient(90deg, #00edff, #00dbec);"></div>
+        </div>
+      `;
+      container.appendChild(div);
 
-        // Filter, sort
-        const filtered = langs
-          .filter(lang => parseFloat(lang.percent) > 0)
-          .filter(lang => !excluded.includes(lang.name))
-          .sort((a, b) => b.percent - a.percent);
-
-        // Build language progress bars
-        filtered.forEach(lang => {
-          const progressDiv = document.createElement("div");
-          progressDiv.classList.add("progress", "mb-3");
-
-          progressDiv.innerHTML = `
-            <span class="skill">${lang.name} <i class="val">${lang.percent}%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar bg-success" role="progressbar"
-                  aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100"
-                  style="width: ${lang.percent}%;"></div>
-            </div>
-          `;
-          container.appendChild(progressDiv);
-
-          // Framework progress bars
-          if (frameworkMap[lang.name]) {
-            const fwDiv = document.createElement("div");
-            fwDiv.classList.add("progress", "mb-3");
-
-            fwDiv.innerHTML = `
-              <span class="skill">${frameworkMap[lang.name]} <i class="val">${lang.percent}%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar bg-info" role="progressbar"
-                    aria-valuenow="${lang.percent}" aria-valuemin="0" aria-valuemax="100"
-                    style="width: ${lang.percent}%;"></div>
-              </div>
-            `;
-            frameworksContainer.appendChild(fwDiv);
-          }
-        });
-      })
-      .catch(err => {
-        loader.innerHTML = `<p class="text-danger">❌ Error loading languages</p>`;
-        console.error("Error loading languages:", err);
-      });
+      if (frameworkMap[lang.name]) {
+        const fwDiv = document.createElement("div");
+        fwDiv.className = "mb-6";
+        fwDiv.innerHTML = `
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-semibold uppercase tracking-wider" style="color:#e5e2e1;">${frameworkMap[lang.name]}</span>
+            <span class="text-xs font-medium" style="color:#849495;">${lang.percent}%</span>
+          </div>
+          <div class="w-full rounded-full" style="background:#2a2a2a; height:10px;">
+            <div class="h-full rounded-full transition-all duration-1000" style="width:${lang.percent}%; background: linear-gradient(90deg, #ffd237, #edc225);"></div>
+          </div>
+        `;
+        frameworksContainer.appendChild(fwDiv);
+      }
+    });
   </script>
 
   <script>
+    // Job duration
     function updateJobDuration() {
-        const startDate = new Date('2025-06-01');
-        const now = new Date();
-
-        let yearDiff = now.getFullYear() - startDate.getFullYear();
-        let monthDiff = now.getMonth() - startDate.getMonth();
-        
-        if (now.getDate() < startDate.getDate()) {
-            monthDiff--;
-        }
-
-        if (monthDiff < 0) {
-            yearDiff--;
-            monthDiff += 12;
-        }
-
-        let durationString = '';
-        if (yearDiff > 0) {
-            durationString += `${yearDiff} Year${yearDiff > 1 ? 's' : ''}`;
-        }
-        if (monthDiff > 0) {
-            if (durationString) {
-                durationString += ', ';
-            }
-            durationString += `${monthDiff} Month${monthDiff > 1 ? 's' : ''}`;
-        }
-        
-        if (!durationString) {
-            const dayDiff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-            if (dayDiff > 0) {
-                durationString = `${dayDiff} Day${dayDiff > 1 ? 's' : ''}`;
-            } else {
-                durationString = 'Just started';
-            }
-        }
-
-        const durationElement = document.getElementById('b2b-duration');
-        if (durationElement) {
-            durationElement.textContent = durationString;
-        }
+      const startDate = new Date('2025-06-01');
+      const now = new Date();
+      let yearDiff = now.getFullYear() - startDate.getFullYear();
+      let monthDiff = now.getMonth() - startDate.getMonth();
+      if (now.getDate() < startDate.getDate()) monthDiff--;
+      if (monthDiff < 0) { yearDiff--; monthDiff += 12; }
+      let durationString = '';
+      if (yearDiff > 0) durationString += `${yearDiff} Year${yearDiff > 1 ? 's' : ''}`;
+      if (monthDiff > 0) {
+        if (durationString) durationString += ', ';
+        durationString += `${monthDiff} Month${monthDiff > 1 ? 's' : ''}`;
+      }
+      if (!durationString) {
+        const dayDiff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        durationString = dayDiff > 0 ? `${dayDiff} Day${dayDiff > 1 ? 's' : ''}` : 'Just started';
+      }
+      const el = document.getElementById('b2b-duration');
+      if (el) el.textContent = durationString;
     }
     updateJobDuration();
-    setInterval(updateJobDuration, 1000 * 60 * 60 * 24); // Update daily
+    setInterval(updateJobDuration, 1000 * 60 * 60 * 24);
   </script>
 
 </body>
-
 </html>

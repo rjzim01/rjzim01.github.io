@@ -212,84 +212,55 @@
           <span class="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 block">Qualifications</span>
           <h2 class="font-headline text-3xl md:text-5xl tracking-tight">Resume</h2>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
-          <!-- Education -->
-          <div>
-            <h3 class="font-headline text-2xl mb-10 text-primary italic">Education</h3>
-
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">May 2025 - 2026</span>
-              <h4 class="font-headline text-xl mt-2">Masters PMSCS & Computer Science</h4>
-              <p class="text-on-surface-variant text-sm mt-1">Jahangirnagar University, Dhaka, Bangladesh</p>
-              <p class="text-on-surface-variant/70 text-sm mt-3">Strengthening knowledge in advanced computer science topics, research methods, and practical problem-solving.</p>
-            </div>
-
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">2020 - 2023</span>
-              <h4 class="font-headline text-xl mt-2">Bachelor of Engineering & Computer Science</h4>
-              <p class="text-on-surface-variant text-sm mt-1">Daffodil International University, Dhaka, Bangladesh</p>
-              <p class="text-on-surface-variant/70 text-sm mt-3">Learned different programming languages like C, C++, PHP, JavaScript, Java, Python, Kotlin, Dart.</p>
-            </div>
-
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">2016 - 2018</span>
-              <h4 class="font-headline text-xl mt-2">Higher Secondary & Science</h4>
-              <p class="text-on-surface-variant text-sm mt-1">Milestone College, Dhaka, Bangladesh</p>
-            </div>
-
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">2012 - 2016</span>
-              <h4 class="font-headline text-xl mt-2">Secondary & Science</h4>
-              <p class="text-on-surface-variant text-sm mt-1">Manikgonj Govt. High School, Manikgonj, Bangladesh</p>
-            </div>
-          </div>
-
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">       
           <!-- Work Experience -->
           <div>
             <h3 class="font-headline text-2xl mb-10 text-primary italic">Work Experience</h3>
+            <div id="work-container"></div>
 
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">June 2025 - Present (<span id="b2b-duration"></span>)</span>
-              <h4 class="font-headline text-xl mt-2">Jr. Software Engineer</h4>
-              <p class="text-on-surface-variant text-sm mt-1">B2B Solver</p>
-              <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
-                <li>Lead in the Development, and implementation of the database, layout, and production communication materials</li>
-                <li>Delegate tasks to the 7 members of the development team</li>
-                <li>Supervise the assessment of all graphic materials for quality and accuracy</li>
-                <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
-              </ul>
+            <!-- Summary of Experience -->
+            <div class="bg-surface-container rounded-lg p-6 border border-outline-variant mt-8">
+              <h3 class="font-headline text-xl mb-4 text-primary">Summary</h3>
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <span class="text-primary text-xs uppercase tracking-wider">Total Experience</span>
+                  <p class="text-on-surface text-lg font-medium">
+                    <span id="total-experience"></span>
+                    <span id="total-experience-detail" class="text-xs font-normal opacity-50"></span>
+                  </p>
+                </div>
+                <div>
+                  <span class="text-primary text-xs uppercase tracking-wider">Industry</span>
+                  <p class="text-on-surface text-sm">Software Development</p>
+                </div>
+                <div>
+                  <span class="text-primary text-xs uppercase tracking-wider">Current Role</span>
+                  <p class="text-on-surface text-sm">Jr. Software Engineer</p>
+                </div>
+                <div>
+                  <span class="text-primary text-xs uppercase tracking-wider">Education</span>
+                  <p class="text-on-surface text-sm">M.Sc Running</p>
+                </div>
+              </div>
+              <p class="text-on-surface-variant/70 text-sm leading-relaxed mb-4">
+                Software engineer with hands-on experience in full-stack web development using Laravel, Django, and React. 
+                Proven ability to lead teams, manage projects, and deliver solutions from concept to deployment. 
+                Passionate about building scalable applications and continuously learning new technologies.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-surface-container-high px-3 py-1 rounded-full text-xs text-on-surface-variant">Problem Solving</span>
+                <span class="bg-surface-container-high px-3 py-1 rounded-full text-xs text-on-surface-variant">Team Leadership</span>
+                <span class="bg-surface-container-high px-3 py-1 rounded-full text-xs text-on-surface-variant">Agile/Scrum</span>
+                <span class="bg-surface-container-high px-3 py-1 rounded-full text-xs text-on-surface-variant">REST APIs</span>
+                <span class="bg-surface-container-high px-3 py-1 rounded-full text-xs text-on-surface-variant">Version Control</span>
+              </div>
             </div>
+          </div>
 
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">January 2025 - April 2025 (4 Months)</span>
-              <h4 class="font-headline text-xl mt-2">Jr. Software Engineer</h4>
-              <p class="text-on-surface-variant text-sm mt-1">Bkolpo Constructions Limited</p>
-              <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
-                <li>Developed numerous marketing programs (logos, brochures, infographics, presentations)</li>
-                <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
-                <li>Recommended and consulted with clients on the most appropriate web project</li>
-                <li>Created 4+ project presentations and proposals a month</li>
-              </ul>
-            </div>
-
-            <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
-              <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
-              <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">September 2024 - December 2024 (4 Months)</span>
-              <h4 class="font-headline text-xl mt-2">Internship</h4>
-              <p class="text-on-surface-variant text-sm mt-1">Bkolpo Constructions Limited</p>
-              <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
-                <li>Developed numerous marketing programs (logos, brochures, infographics, presentations)</li>
-                <li>Managed up to 5 projects or tasks at a given time</li>
-                <li>Recommended and consulted with clients on web projects</li>
-                <li>Created 4+ project presentations and proposals a month</li>
-              </ul>
-            </div>
+          <!-- Education -->
+          <div>
+            <h3 class="font-headline text-2xl mb-10 text-primary italic">Education</h3>
+            <div id="education-container"></div>
           </div>
         </div>
       </div>
@@ -559,7 +530,8 @@
     const excluded = ["HTML", "CSS", "Blade", "Vue", "SCSS", "EJS", "Hack", "TypeScript"];
     const frameworkMap = {
       "JavaScript": "React JS", "PHP": "Laravel", "Python": "Django",
-      "Java": "Android", "Kotlin": "Android", "SQL": "MySQL / SQLite"
+      "Java": "Android", "Kotlin": "Android", "SQL": "MySQL / SQLite",
+      "Jupyter Notebook": "Jupyter Notebook", "Shell": "Bash"
     };
     const filtered = langs
       .filter(lang => parseFloat(lang.percent) > 0)
@@ -621,6 +593,160 @@
     }
     updateJobDuration();
     setInterval(updateJobDuration, 1000 * 60 * 60 * 24);
+
+    // Calculate total experience from all work periods
+    function calculateTotalExperience() {
+      const workPeriods = [
+        { start: new Date('2024-09-01'), end: new Date('2024-12-31') },  // Internship
+        { start: new Date('2025-01-01'), end: new Date('2025-05-31') },  // Jr. Software Engineer
+        { start: new Date('2025-06-01'), end: new Date() }                // Current (B2B Solver)
+      ];
+
+      let totalMonths = 0;
+      const now = new Date();
+
+      workPeriods.forEach(period => {
+        const endDate = period.end > now ? now : period.end;
+        const months = (endDate.getFullYear() - period.start.getFullYear()) * 12 + (endDate.getMonth() - period.start.getMonth());
+        totalMonths += Math.max(0, months);
+      });
+
+      const years = Math.floor(totalMonths / 12);
+      const months = totalMonths % 12;
+
+      let mainText = '';
+      let detailText = '';
+
+      if (years > 0) {
+        mainText = `${years} year +`;
+        detailText = months > 0 ? `(${months} months)` : '';
+      } else if (months > 0) {
+        mainText = `${months}+ months`;
+        detailText = '';
+      }
+
+      const mainEl = document.getElementById('total-experience');
+      const detailEl = document.getElementById('total-experience-detail');
+      if (mainEl) mainEl.textContent = mainText || '0 months';
+      if (detailEl) detailEl.textContent = ' ' + detailText;
+    }
+    calculateTotalExperience();
+
+    // Work Experience data
+    const workData = [
+      {
+        period: "June 2025 - Present",
+        isCurrent: true,
+        title: "Jr. Software Engineer",
+        company: "B2B Solver",
+        tasks: [
+          "Developed and maintained full-stack web applications using Laravel",
+          "Built RESTful APIs and integrated third-party services",
+          "Designed and optimized database schemas with MySQL",
+          "Collaborated with team members using Git version control",
+          "Debugged and resolved software defects and performance issues",
+          "Participated in code reviews and agile development processes"
+        ]
+      },
+      {
+        period: "January 2025 - May 2025",
+        isCurrent: false,
+        title: "Jr. Software Engineer",
+        company: "Bkolpo Constructions Limited",
+        tasks: [
+          "Developed numerous marketing programs (logos, brochures, infographics, presentations)",
+          "Managed up to 5 projects or tasks at a given time while under pressure",
+          "Recommended and consulted with clients on the most appropriate web project",
+          "Created 4+ project presentations and proposals a month"
+        ]
+      },
+      {
+        period: "September 2024 - December 2024",
+        isCurrent: false,
+        title: "Internship",
+        company: "Bkolpo Constructions Limited",
+        tasks: [
+          "Developed numerous marketing programs (logos, brochures, infographics, presentations)",
+          "Managed up to 5 projects or tasks at a given time",
+          "Recommended and consulted with clients on web projects",
+          "Created 4+ project presentations and proposals a month"
+        ]
+      }
+    ];
+
+    // Render work experience entries
+    function renderWork() {
+      const container = document.getElementById('work-container');
+      if (!container) return;
+
+      container.innerHTML = workData.map(work => `
+        <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+          <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+          <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">
+            ${work.period}${work.isCurrent ? ` (<span id="b2b-duration"></span>)` : ''}
+          </span>
+          <h4 class="font-headline text-xl mt-2">${work.title}</h4>
+          <p class="text-on-surface-variant text-sm mt-1">${work.company}</p>
+          <ul class="text-on-surface-variant/70 text-sm mt-3 space-y-2 list-disc list-inside">
+            ${work.tasks.map(task => `<li>${task}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      // Re-run b2b duration after rendering
+      updateJobDuration();
+    }
+    renderWork();
+
+    // Education data
+    const educationData = [
+      {
+        period: "May 2025 - 2026 (Expected)",
+        title: "Masters (PMSCS) in Computer Science and Engineering (CSE)",
+        institution: "Jahangirnagar University, Dhaka, Bangladesh",
+        description: "Strengthening knowledge in advanced computer science topics, research methods, and practical problem-solving.",
+        result: "Second Semester complete"
+      },
+      {
+        period: "2020 - 2023",
+        title: "Bachelor of Science (Bsc) in Computer Science and Engineering (CSE)",
+        institution: "Daffodil International University, Dhaka, Bangladesh",
+        description: "Final thesis project: Developed an ML-powered educational platform that predicts student performance using regression models and recommends personalized learning paths.",
+        result: "3.37 (A)"
+      },
+      {
+        period: "2016 - 2018",
+        title: "Higher Secondary Certificate (HSC) in Science",
+        institution: "Milestone College, Dhaka, Bangladesh",
+        description: "",
+        result: "4.17 (A)"
+      },
+      {
+        period: "2012 - 2016",
+        title: "Secondary School Certificate (SSC) in Science",
+        institution: "Manikgonj Govt. High School, Manikgonj, Bangladesh",
+        description: "",
+        result: "4.78 (A)"
+      }
+    ];
+
+    // Render education entries
+    function renderEducation() {
+      const container = document.getElementById('education-container');
+      if (!container) return;
+
+      container.innerHTML = educationData.map(edu => `
+        <div class="border-l-2 border-outline-variant pl-8 mb-10 relative">
+          <div class="absolute -left-[7px] top-0 w-3 h-3 bg-primary-container rounded-full"></div>
+          <span class="text-primary text-xs uppercase tracking-[0.2em] font-label">${edu.period}</span>
+          <h4 class="font-headline text-xl mt-2">${edu.title}</h4>
+          <p class="text-on-surface-variant text-sm mt-1">${edu.institution}</p>
+          ${edu.description ? `<p class="text-on-surface-variant/70 text-sm mt-3">${edu.description}</p>` : ''}
+          <p class="text-on-surface-variant text-sm mt-1">Result : ${edu.result}</p>
+        </div>
+      `).join('');
+    }
+    renderEducation();
   </script>
 
 </body>

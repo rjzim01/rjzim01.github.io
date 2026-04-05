@@ -87,9 +87,9 @@ export const frameworkMap = {
   "JavaScript": "React JS",
   "PHP": "Laravel",
   "Python": "Django",
-  "Java": "Android",
+  "Java": "Spring Boot",
   "Kotlin": "Android",
-  "Jupyter Notebook": "Jupyter Notebook",
+  "Jupyter Notebook": "Machine Learning",
   "Shell": "Bash"
 };
 

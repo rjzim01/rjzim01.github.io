@@ -1,23 +1,23 @@
 [
   {
     "name": "TypeScript",
-    "percent": "11.1"
+    "percent": "11.0"
   },
   {
     "name": "Python",
-    "percent": "9.4"
+    "percent": "9.2"
   },
   {
     "name": "Jupyter Notebook",
-    "percent": "6.1"
+    "percent": "6.0"
   },
   {
     "name": "JavaScript",
-    "percent": "34.7"
+    "percent": "34.1"
   },
   {
     "name": "HTML",
-    "percent": "7.3"
+    "percent": "7.2"
   },
   {
     "name": "Shell",
@@ -37,7 +37,7 @@
   },
   {
     "name": "CSS",
-    "percent": "5.8"
+    "percent": "5.7"
   },
   {
     "name": "Makefile",
@@ -57,7 +57,7 @@
   },
   {
     "name": "PHP",
-    "percent": "16.3"
+    "percent": "17.2"
   },
   {
     "name": "C#",
@@ -69,11 +69,11 @@
   },
   {
     "name": "Blade",
-    "percent": "7.6"
+    "percent": "7.7"
   },
   {
     "name": "Vue",
-    "percent": "0.8"
+    "percent": "0.7"
   },
   {
     "name": "Kotlin",

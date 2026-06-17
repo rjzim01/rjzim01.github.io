@@ -152,10 +152,6 @@ kbd {
     left: 20px;
 }
 
-.joystick-container.right {
-    right: 20px;
-}
-
 .joystick-base {
     width: 120px;
     height: 120px;
@@ -171,19 +167,11 @@ kbd {
 .joystick-stick {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
     border-radius: 50%;
     position: absolute;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.05s ease-out;
-}
-
-.joystick-container.left .joystick-stick {
-    background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
-}
-
-.joystick-container.right .joystick-stick {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
 }
 
 .kick-btn {
@@ -197,14 +185,7 @@ kbd {
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.1s, box-shadow 0.1s;
-}
-
-#kickBtn1 {
     background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
-}
-
-#kickBtn2 {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
 }
 
 .kick-btn:active {

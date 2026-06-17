@@ -9,7 +9,7 @@ const CONFIG = {
     playerSpeed: 5,
     ballFriction: 0.98,
     kickPower: 15,
-    gameDuration: 120,
+    gameDuration: 60,
     aiDifficulty: {
         easy: { speed: 2.5, reactionDelay: 300, accuracy: 0.6 },
         medium: { speed: 3.5, reactionDelay: 150, accuracy: 0.8 },
@@ -19,23 +19,21 @@ const CONFIG = {
 
 // Game State
 let gameState = {
-    mode: 'pvp',
-    aiLevel: 'easy',
+    aiLevel: 'medium',
     running: false,
     paused: false,
     timeLeft: CONFIG.gameDuration,
-    score: { player1: 0, player2: 0 }
+    score: { player: 0, ai: 0 }
 };
 
 // Game Objects
-let player1, player2, ball;
+let player, ai, ball;
 let keys = {};
 let aiLastUpdate = 0;
 let aiTarget = { x: 0, y: 0 };
 
 // Touch/Joystick state
-let joystick1 = { active: false, dx: 0, dy: 0 };
-let joystick2 = { active: false, dx: 0, dy: 0 };
+let joystick = { active: false, dx: 0, dy: 0 };
 let isMobile = false;
 
 // Canvas Setup
@@ -66,11 +64,9 @@ function resizeCanvas() {
 function checkMobile() {
     isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
     const mobileControls = document.getElementById('mobileControls');
-    const joystick2Container = document.getElementById('joystick2');
 
     if (isMobile && gameState.running) {
         mobileControls.style.display = 'block';
-        joystick2Container.style.display = gameState.mode === 'pvp' ? 'flex' : 'none';
     } else if (!gameState.running) {
         mobileControls.style.display = 'none';
     }
@@ -79,8 +75,6 @@ function checkMobile() {
 // DOM Elements
 const menu = document.getElementById('menu');
 const gameOver = document.getElementById('gameOver');
-const pvpBtn = document.getElementById('pvpBtn');
-const pvcBtn = document.getElementById('pvcBtn');
 const difficultyDiv = document.getElementById('difficulty');
 const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
@@ -94,7 +88,7 @@ const mobileControls = document.getElementById('mobileControls');
 
 // Initialize Game Objects
 function initGameObjects() {
-    player1 = {
+    player = {
         x: 100,
         y: CONFIG.fieldHeight / 2,
         radius: CONFIG.playerRadius,
@@ -103,7 +97,7 @@ function initGameObjects() {
         vy: 0
     };
 
-    player2 = {
+    ai = {
         x: CONFIG.fieldWidth - 100,
         y: CONFIG.fieldHeight / 2,
         radius: CONFIG.playerRadius,
@@ -151,10 +145,12 @@ function drawField() {
 
     const goalY = (CONFIG.fieldHeight - CONFIG.goalHeight) / 2;
 
-    ctx.fillStyle = '#ff6b6b';
+    // Left goal - Player's goal (blue)
+    ctx.fillStyle = '#4dabf7';
     ctx.fillRect(0, goalY, CONFIG.goalWidth, CONFIG.goalHeight);
 
-    ctx.fillStyle = '#4dabf7';
+    // Right goal - AI's goal (red)
+    ctx.fillStyle = '#ff6b6b';
     ctx.fillRect(CONFIG.fieldWidth - CONFIG.goalWidth, goalY, CONFIG.goalWidth, CONFIG.goalHeight);
 
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
@@ -172,15 +168,15 @@ function drawField() {
     }
 }
 
-function drawPlayer(player, isPlayer1) {
+function drawPlayer(p, isPlayer) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.beginPath();
-    ctx.ellipse(player.x + 3, player.y + player.radius - 5, player.radius * 0.8, player.radius * 0.3, 0, 0, Math.PI * 2);
+    ctx.ellipse(p.x + 3, p.y + p.radius - 5, p.radius * 0.8, p.radius * 0.3, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = player.color;
+    ctx.fillStyle = p.color;
     ctx.beginPath();
-    ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
@@ -188,10 +184,10 @@ function drawPlayer(player, isPlayer1) {
     ctx.stroke();
 
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 16px Arial';
+    ctx.font = 'bold 14px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(isPlayer1 ? '1' : '2', player.x, player.y);
+    ctx.fillText(isPlayer ? 'YOU' : 'AI', p.x, p.y);
 }
 
 function drawBall() {
@@ -218,12 +214,12 @@ function drawBall() {
 }
 
 // Physics Functions
-function movePlayer(player, dx, dy) {
-    player.x += dx * CONFIG.playerSpeed;
-    player.y += dy * CONFIG.playerSpeed;
+function moveEntity(entity, dx, dy) {
+    entity.x += dx * CONFIG.playerSpeed;
+    entity.y += dy * CONFIG.playerSpeed;
 
-    player.x = Math.max(player.radius, Math.min(CONFIG.fieldWidth - player.radius, player.x));
-    player.y = Math.max(player.radius, Math.min(CONFIG.fieldHeight - player.radius, player.y));
+    entity.x = Math.max(entity.radius, Math.min(CONFIG.fieldWidth - entity.radius, entity.x));
+    entity.y = Math.max(entity.radius, Math.min(CONFIG.fieldHeight - entity.radius, entity.y));
 }
 
 function updateBall() {
@@ -241,18 +237,20 @@ function updateBall() {
     const goalY = (CONFIG.fieldHeight - CONFIG.goalHeight) / 2;
     const inGoalY = ball.y > goalY && ball.y < goalY + CONFIG.goalHeight;
 
+    // Left goal (Player's goal) - AI scores here
     if (ball.x - ball.radius < 0) {
         if (inGoalY) {
-            scoreGoal(1);
+            scoreGoal('ai');
         } else {
             ball.vx *= -0.8;
             ball.x = ball.radius;
         }
     }
 
+    // Right goal (AI's goal) - Player scores here
     if (ball.x + ball.radius > CONFIG.fieldWidth) {
         if (inGoalY) {
-            scoreGoal(2);
+            scoreGoal('player');
         } else {
             ball.vx *= -0.8;
             ball.x = CONFIG.fieldWidth - ball.radius;
@@ -260,20 +258,20 @@ function updateBall() {
     }
 }
 
-function checkCollision(player) {
-    const dx = ball.x - player.x;
-    const dy = ball.y - player.y;
+function checkCollision(entity) {
+    const dx = ball.x - entity.x;
+    const dy = ball.y - entity.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const minDist = player.radius + ball.radius;
+    const minDist = entity.radius + ball.radius;
 
     if (dist < minDist) {
         const nx = dx / dist;
         const ny = dy / dist;
 
-        ball.x = player.x + nx * minDist;
-        ball.y = player.y + ny * minDist;
+        ball.x = entity.x + nx * minDist;
+        ball.y = entity.y + ny * minDist;
 
-        const relVel = (player.vx || 0) - ball.vx;
+        const relVel = (entity.vx || 0) - ball.vx;
         ball.vx += nx * 3 + relVel * 0.3;
         ball.vy += ny * 3;
 
@@ -282,12 +280,12 @@ function checkCollision(player) {
     return false;
 }
 
-function kickBall(player, power) {
-    const dx = ball.x - player.x;
-    const dy = ball.y - player.y;
+function kickBall(entity, power) {
+    const dx = ball.x - entity.x;
+    const dy = ball.y - entity.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
-    if (dist < player.radius + ball.radius + 15) {
+    if (dist < entity.radius + ball.radius + 15) {
         const nx = dx / dist;
         const ny = dy / dist;
         ball.vx = nx * power;
@@ -297,22 +295,20 @@ function kickBall(player, power) {
 
 // AI Logic
 function updateAI() {
-    if (gameState.mode !== 'pvc') return;
-
     const now = Date.now();
-    const ai = CONFIG.aiDifficulty[gameState.aiLevel];
+    const aiConfig = CONFIG.aiDifficulty[gameState.aiLevel];
 
-    if (now - aiLastUpdate < ai.reactionDelay) return;
+    if (now - aiLastUpdate < aiConfig.reactionDelay) return;
     aiLastUpdate = now;
 
     const ballMovingTowardsAI = ball.vx > 0;
-    const distToBall = Math.sqrt((ball.x - player2.x) ** 2 + (ball.y - player2.y) ** 2);
+    const distToBall = Math.sqrt((ball.x - ai.x) ** 2 + (ball.y - ai.y) ** 2);
 
     if (ballMovingTowardsAI || ball.x > CONFIG.fieldWidth * 0.5) {
         aiTarget.x = ball.x - 30;
         aiTarget.y = ball.y;
 
-        if (Math.random() > ai.accuracy) {
+        if (Math.random() > aiConfig.accuracy) {
             aiTarget.y += (Math.random() - 0.5) * 100;
         }
     } else {
@@ -322,29 +318,29 @@ function updateAI() {
 
     aiTarget.x = Math.max(CONFIG.fieldWidth * 0.4, aiTarget.x);
 
-    const dx = aiTarget.x - player2.x;
-    const dy = aiTarget.y - player2.y;
+    const dx = aiTarget.x - ai.x;
+    const dy = aiTarget.y - ai.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     if (dist > 5) {
-        const moveX = (dx / dist) * ai.speed;
-        const moveY = (dy / dist) * ai.speed;
-        movePlayer(player2, moveX / CONFIG.playerSpeed, moveY / CONFIG.playerSpeed);
+        const moveX = (dx / dist) * aiConfig.speed;
+        const moveY = (dy / dist) * aiConfig.speed;
+        moveEntity(ai, moveX / CONFIG.playerSpeed, moveY / CONFIG.playerSpeed);
     }
 
-    if (distToBall < player2.radius + ball.radius + 15) {
-        kickBall(player2, CONFIG.kickPower * (0.8 + Math.random() * 0.4));
+    if (distToBall < ai.radius + ball.radius + 15) {
+        kickBall(ai, CONFIG.kickPower * (0.8 + Math.random() * 0.4));
     }
 }
 
 // Game Flow
 function scoreGoal(scorer) {
-    if (scorer === 1) {
-        gameState.score.player1++;
-        score1Display.textContent = gameState.score.player1;
+    if (scorer === 'player') {
+        gameState.score.player++;
+        score1Display.textContent = gameState.score.player;
     } else {
-        gameState.score.player2++;
-        score2Display.textContent = gameState.score.player2;
+        gameState.score.ai++;
+        score2Display.textContent = gameState.score.ai;
     }
 
     showGoalAnimation();
@@ -361,10 +357,10 @@ function showGoalAnimation() {
 }
 
 function resetPositions() {
-    player1.x = 100;
-    player1.y = CONFIG.fieldHeight / 2;
-    player2.x = CONFIG.fieldWidth - 100;
-    player2.y = CONFIG.fieldHeight / 2;
+    player.x = 100;
+    player.y = CONFIG.fieldHeight / 2;
+    ai.x = CONFIG.fieldWidth - 100;
+    ai.y = CONFIG.fieldHeight / 2;
     ball.x = CONFIG.fieldWidth / 2;
     ball.y = CONFIG.fieldHeight / 2;
     ball.vx = 0;
@@ -389,16 +385,16 @@ function endGame() {
     mobileControls.style.display = 'none';
 
     let winner;
-    if (gameState.score.player1 > gameState.score.player2) {
-        winner = 'Player 1 Wins!';
-    } else if (gameState.score.player2 > gameState.score.player1) {
-        winner = gameState.mode === 'pvc' ? 'AI Wins!' : 'Player 2 Wins!';
+    if (gameState.score.player > gameState.score.ai) {
+        winner = 'You Win!';
+    } else if (gameState.score.ai > gameState.score.player) {
+        winner = 'AI Wins!';
     } else {
         winner = "It's a Draw!";
     }
 
     winnerText.textContent = winner;
-    finalScore.textContent = `Final Score: ${gameState.score.player1} - ${gameState.score.player2}`;
+    finalScore.textContent = `Final Score: ${gameState.score.player} - ${gameState.score.ai}`;
     gameOver.style.display = 'block';
 }
 
@@ -408,11 +404,11 @@ function startGame() {
 
     gameState.running = true;
     gameState.timeLeft = CONFIG.gameDuration;
-    gameState.score = { player1: 0, player2: 0 };
+    gameState.score = { player: 0, ai: 0 };
 
     score1Display.textContent = '0';
     score2Display.textContent = '0';
-    timerDisplay.textContent = '02:00';
+    timerDisplay.textContent = '01:00';
 
     initGameObjects();
     checkMobile();
@@ -424,11 +420,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'Space' && gameState.running) {
         e.preventDefault();
-        kickBall(player1, CONFIG.kickPower);
-    }
-    if (e.code === 'Enter' && gameState.running && gameState.mode === 'pvp') {
-        e.preventDefault();
-        kickBall(player2, CONFIG.kickPower);
+        kickBall(player, CONFIG.kickPower);
     }
 });
 
@@ -437,9 +429,9 @@ document.addEventListener('keyup', (e) => {
 });
 
 // Joystick Touch Controls
-function setupJoystick(joystickId, stickId, joystickState) {
-    const base = document.querySelector(`#${joystickId} .joystick-base`);
-    const stick = document.getElementById(stickId);
+function setupJoystick() {
+    const base = document.querySelector('#joystick1 .joystick-base');
+    const stick = document.getElementById('stick1');
 
     if (!base || !stick) return;
 
@@ -447,11 +439,11 @@ function setupJoystick(joystickId, stickId, joystickState) {
 
     function handleStart(e) {
         e.preventDefault();
-        joystickState.active = true;
+        joystick.active = true;
     }
 
     function handleMove(e) {
-        if (!joystickState.active) return;
+        if (!joystick.active) return;
         e.preventDefault();
 
         const rect = base.getBoundingClientRect();
@@ -478,15 +470,15 @@ function setupJoystick(joystickId, stickId, joystickState) {
 
         stick.style.transform = `translate(${dx}px, ${dy}px)`;
 
-        joystickState.dx = dx / maxDistance;
-        joystickState.dy = dy / maxDistance;
+        joystick.dx = dx / maxDistance;
+        joystick.dy = dy / maxDistance;
     }
 
     function handleEnd(e) {
         e.preventDefault();
-        joystickState.active = false;
-        joystickState.dx = 0;
-        joystickState.dy = 0;
+        joystick.active = false;
+        joystick.dx = 0;
+        joystick.dy = 0;
         stick.style.transform = 'translate(0, 0)';
     }
 
@@ -495,104 +487,52 @@ function setupJoystick(joystickId, stickId, joystickState) {
     base.addEventListener('touchend', handleEnd, { passive: false });
     base.addEventListener('touchcancel', handleEnd, { passive: false });
 
-    // Mouse support for testing
     base.addEventListener('mousedown', handleStart);
     document.addEventListener('mousemove', (e) => {
-        if (joystickState.active) handleMove(e);
+        if (joystick.active) handleMove(e);
     });
     document.addEventListener('mouseup', handleEnd);
 }
 
-// Setup kick buttons
-function setupKickButtons() {
-    const kickBtn1 = document.getElementById('kickBtn1');
-    const kickBtn2 = document.getElementById('kickBtn2');
+// Setup kick button
+function setupKickButton() {
+    const kickBtn = document.getElementById('kickBtn1');
 
-    if (kickBtn1) {
-        kickBtn1.addEventListener('touchstart', (e) => {
+    if (kickBtn) {
+        kickBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            if (gameState.running) kickBall(player1, CONFIG.kickPower);
+            if (gameState.running) kickBall(player, CONFIG.kickPower);
         }, { passive: false });
 
-        kickBtn1.addEventListener('click', () => {
-            if (gameState.running) kickBall(player1, CONFIG.kickPower);
-        });
-    }
-
-    if (kickBtn2) {
-        kickBtn2.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            if (gameState.running && gameState.mode === 'pvp') {
-                kickBall(player2, CONFIG.kickPower);
-            }
-        }, { passive: false });
-
-        kickBtn2.addEventListener('click', () => {
-            if (gameState.running && gameState.mode === 'pvp') {
-                kickBall(player2, CONFIG.kickPower);
-            }
+        kickBtn.addEventListener('click', () => {
+            if (gameState.running) kickBall(player, CONFIG.kickPower);
         });
     }
 }
 
 // Handle player movement
 function handleInput() {
-    // Player 1 - Keyboard
-    let p1dx = 0, p1dy = 0;
-    if (keys['KeyW']) p1dy = -1;
-    if (keys['KeyS']) p1dy = 1;
-    if (keys['KeyA']) p1dx = -1;
-    if (keys['KeyD']) p1dx = 1;
+    let dx = 0, dy = 0;
 
-    // Player 1 - Joystick
-    if (joystick1.dx !== 0 || joystick1.dy !== 0) {
-        p1dx = joystick1.dx;
-        p1dy = joystick1.dy;
+    // Keyboard
+    if (keys['KeyW'] || keys['ArrowUp']) dy = -1;
+    if (keys['KeyS'] || keys['ArrowDown']) dy = 1;
+    if (keys['KeyA'] || keys['ArrowLeft']) dx = -1;
+    if (keys['KeyD'] || keys['ArrowRight']) dx = 1;
+
+    // Joystick
+    if (joystick.dx !== 0 || joystick.dy !== 0) {
+        dx = joystick.dx;
+        dy = joystick.dy;
     }
 
-    if (p1dx !== 0 || p1dy !== 0) {
-        const len = Math.sqrt(p1dx * p1dx + p1dy * p1dy);
-        movePlayer(player1, p1dx / len, p1dy / len);
-    }
-
-    // Player 2 - only in PvP mode
-    if (gameState.mode === 'pvp') {
-        let p2dx = 0, p2dy = 0;
-
-        // Keyboard
-        if (keys['ArrowUp']) p2dy = -1;
-        if (keys['ArrowDown']) p2dy = 1;
-        if (keys['ArrowLeft']) p2dx = -1;
-        if (keys['ArrowRight']) p2dx = 1;
-
-        // Joystick
-        if (joystick2.dx !== 0 || joystick2.dy !== 0) {
-            p2dx = joystick2.dx;
-            p2dy = joystick2.dy;
-        }
-
-        if (p2dx !== 0 || p2dy !== 0) {
-            const len = Math.sqrt(p2dx * p2dx + p2dy * p2dy);
-            movePlayer(player2, p2dx / len, p2dy / len);
-        }
+    if (dx !== 0 || dy !== 0) {
+        const len = Math.sqrt(dx * dx + dy * dy);
+        moveEntity(player, dx / len, dy / len);
     }
 }
 
 // Menu Event Listeners
-pvpBtn.addEventListener('click', () => {
-    gameState.mode = 'pvp';
-    pvpBtn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
-    pvcBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-    difficultyDiv.style.display = 'none';
-});
-
-pvcBtn.addEventListener('click', () => {
-    gameState.mode = 'pvc';
-    pvcBtn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
-    pvpBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-    difficultyDiv.style.display = 'block';
-});
-
 document.querySelectorAll('.diff-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
@@ -618,12 +558,12 @@ function gameLoop() {
         handleInput();
         updateAI();
         updateBall();
-        checkCollision(player1);
-        checkCollision(player2);
+        checkCollision(player);
+        checkCollision(ai);
     }
 
-    drawPlayer(player1, true);
-    drawPlayer(player2, false);
+    drawPlayer(player, true);
+    drawPlayer(ai, false);
     drawBall();
 
     requestAnimationFrame(gameLoop);
@@ -633,9 +573,8 @@ function gameLoop() {
 function init() {
     resizeCanvas();
     initGameObjects();
-    setupJoystick('joystick1', 'stick1', joystick1);
-    setupJoystick('joystick2', 'stick2', joystick2);
-    setupKickButtons();
+    setupJoystick();
+    setupKickButton();
     checkMobile();
     gameLoop();
 }

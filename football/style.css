@@ -1,0 +1,501 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+}
+
+.header {
+    text-align: center;
+}
+
+.header h1 {
+    color: #fff;
+    font-size: 1.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 8px;
+}
+
+.score-board {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 20px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.team-name {
+    color: #aaa;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.player1 .score-value {
+    color: #4dabf7;
+}
+
+.player2 .score-value {
+    color: #ff6b6b;
+}
+
+.timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffd43b;
+    padding: 5px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+#gameCanvas {
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    height: auto;
+}
+
+/* Desktop Controls */
+.controls-info {
+    display: flex;
+    gap: 50px;
+    color: #fff;
+}
+
+.player-controls {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.player-controls h3 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.player-controls p {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin: 5px 0;
+}
+
+kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 8px;
+    border-radius: 5px;
+    margin: 0 2px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+/* Mobile Controls */
+.mobile-controls {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    pointer-events: none;
+    z-index: 200;
+}
+
+.joystick-container {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    pointer-events: auto;
+}
+
+.joystick-container.left {
+    left: 20px;
+}
+
+.joystick-container.right {
+    right: 20px;
+}
+
+.joystick-base {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.joystick-stick {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.05s ease-out;
+}
+
+.joystick-container.left .joystick-stick {
+    background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
+}
+
+.joystick-container.right .joystick-stick {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+}
+
+.kick-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+#kickBtn1 {
+    background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
+}
+
+#kickBtn2 {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+}
+
+.kick-btn:active {
+    transform: scale(0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Menu Styles */
+.menu, .game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 40, 0.95);
+    padding: 30px 40px;
+    border-radius: 20px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    width: 90%;
+    max-width: 350px;
+}
+
+.menu h2, .game-over h2 {
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+.menu-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 25px;
+    margin: 10px 0;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-btn:hover, .menu-btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.difficulty {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.difficulty p {
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.diff-btn {
+    padding: 8px 16px;
+    margin: 0 3px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.diff-btn:hover, .diff-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.diff-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+}
+
+.start-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 25px;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.start-btn:hover, .start-btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(56, 239, 125, 0.4);
+}
+
+.game-over p {
+    color: #aaa;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* Goal Animation */
+.goal-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: #ffd43b;
+    text-shadow: 0 0 20px rgba(255, 212, 59, 0.8);
+    animation: goalPulse 1.5s ease-out forwards;
+    z-index: 50;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+@keyframes goalPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Responsive - Tablet */
+@media (max-width: 900px) {
+    .header h1 {
+        font-size: 1.4rem;
+    }
+
+    .score-board {
+        gap: 15px;
+        padding: 6px 15px;
+    }
+
+    .score-value {
+        font-size: 1.6rem;
+    }
+
+    .timer {
+        font-size: 1.2rem;
+    }
+
+    .controls-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .player-controls {
+        padding: 10px 20px;
+    }
+}
+
+/* Mobile - Show touch controls */
+@media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        padding-top: 10px;
+    }
+
+    .game-container {
+        gap: 8px;
+        padding: 5px;
+    }
+
+    .header h1 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    .score-board {
+        gap: 10px;
+        padding: 5px 12px;
+    }
+
+    .score {
+        min-width: 60px;
+    }
+
+    .team-name {
+        font-size: 0.6rem;
+    }
+
+    .score-value {
+        font-size: 1.4rem;
+    }
+
+    .timer {
+        font-size: 1rem;
+        padding: 3px 10px;
+    }
+
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-controls {
+        display: block;
+    }
+
+    .goal-animation {
+        font-size: 2rem;
+    }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+    .joystick-base {
+        width: 100px;
+        height: 100px;
+    }
+
+    .joystick-stick {
+        width: 40px;
+        height: 40px;
+    }
+
+    .kick-btn {
+        width: 65px;
+        height: 65px;
+        font-size: 0.8rem;
+    }
+
+    .joystick-container.left {
+        left: 10px;
+    }
+
+    .joystick-container.right {
+        right: 10px;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .game-container {
+        padding: 5px;
+        gap: 5px;
+    }
+
+    .header h1 {
+        font-size: 1rem;
+        margin-bottom: 3px;
+    }
+
+    .score-board {
+        padding: 4px 10px;
+    }
+
+    .score-value {
+        font-size: 1.2rem;
+    }
+
+    .timer {
+        font-size: 0.9rem;
+    }
+
+    .mobile-controls {
+        height: 150px;
+    }
+
+    .joystick-base {
+        width: 80px;
+        height: 80px;
+    }
+
+    .joystick-stick {
+        width: 35px;
+        height: 35px;
+    }
+
+    .kick-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 0.7rem;
+    }
+
+    .joystick-container {
+        bottom: 10px;
+        gap: 10px;
+    }
+}

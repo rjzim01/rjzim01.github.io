@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>2D Football Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>2D Football</h1>
+            <div class="score-board">
+                <div class="score player1">
+                    <span class="team-name">Player 1</span>
+                    <span class="score-value" id="score1">0</span>
+                </div>
+                <div class="timer" id="timer">02:00</div>
+                <div class="score player2">
+                    <span class="team-name">Player 2 / AI</span>
+                    <span class="score-value" id="score2">0</span>
+                </div>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Desktop Controls Info -->
+        <div class="controls-info desktop-only">
+            <div class="player-controls">
+                <h3>Player 1 (Blue)</h3>
+                <p><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> - Move</p>
+                <p><kbd>Space</kbd> - Kick</p>
+            </div>
+            <div class="player-controls">
+                <h3>Player 2 (Red)</h3>
+                <p><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> - Move</p>
+                <p><kbd>Enter</kbd> - Kick</p>
+            </div>
+        </div>
+
+        <!-- Mobile Touch Controls -->
+        <div class="mobile-controls" id="mobileControls">
+            <!-- Player 1 Joystick (Left) -->
+            <div class="joystick-container left" id="joystick1">
+                <div class="joystick-base">
+                    <div class="joystick-stick" id="stick1"></div>
+                </div>
+                <button class="kick-btn" id="kickBtn1">KICK</button>
+            </div>
+
+            <!-- Player 2 Joystick (Right) - only in PvP -->
+            <div class="joystick-container right" id="joystick2">
+                <div class="joystick-base">
+                    <div class="joystick-stick" id="stick2"></div>
+                </div>
+                <button class="kick-btn" id="kickBtn2">KICK</button>
+            </div>
+        </div>
+
+        <div class="menu" id="menu">
+            <h2>Select Game Mode</h2>
+            <button class="menu-btn" id="pvpBtn">Player vs Player</button>
+            <button class="menu-btn" id="pvcBtn">Player vs AI</button>
+            <div class="difficulty" id="difficulty" style="display: none;">
+                <p>AI Difficulty:</p>
+                <button class="diff-btn active" data-level="easy">Easy</button>
+                <button class="diff-btn" data-level="medium">Medium</button>
+                <button class="diff-btn" data-level="hard">Hard</button>
+            </div>
+            <button class="start-btn" id="startBtn">Start Game</button>
+        </div>
+
+        <div class="game-over" id="gameOver" style="display: none;">
+            <h2 id="winnerText">Game Over!</h2>
+            <p id="finalScore"></p>
+            <button class="menu-btn" id="restartBtn">Play Again</button>
+            <button class="menu-btn" id="menuBtn">Main Menu</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

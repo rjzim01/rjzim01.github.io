@@ -133,52 +133,108 @@ kbd {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 200px;
+    height: 180px;
     pointer-events: none;
     z-index: 200;
 }
 
-.joystick-container {
-    position: absolute;
-    bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+/* D-Pad */
+.dpad {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    width: 170px;
+    height: 170px;
     pointer-events: auto;
-}
-
-.joystick-container.left {
-    left: 20px;
-}
-
-.joystick-base {
-    width: 120px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.15);
+    touch-action: none;
+    cursor: grab;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    position: relative;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 200;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.dpad.dragging {
+    cursor: grabbing;
+    opacity: 0.7;
+}
+
+.dpad-btn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.dpad-btn:active, .dpad-btn.pressed {
+    background: rgba(77, 171, 247, 0.6);
+    transform: scale(0.92);
+}
+
+.dpad-up    { top: 8px;   left: 50%; transform: translateX(-50%); }
+.dpad-down  { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.dpad-left  { left: 8px;  top: 50%; transform: translateY(-50%); }
+.dpad-right { right: 8px; top: 50%; transform: translateY(-50%); }
+
+.dpad-up:active, .dpad-up.pressed     { transform: translateX(-50%) scale(0.92); }
+.dpad-down:active, .dpad-down.pressed  { transform: translateX(-50%) scale(0.92); }
+.dpad-left:active, .dpad-left.pressed  { transform: translateY(-50%) scale(0.92); }
+.dpad-right:active, .dpad-right.pressed { transform: translateY(-50%) scale(0.92); }
+
+/* Kick Container */
+.kick-container {
+    position: fixed;
+    bottom: 30px;
+    right: 25px;
+    width: 130px;
+    height: 130px;
+    pointer-events: auto;
+    touch-action: none;
+    cursor: grab;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 200;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.joystick-stick {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
-    border-radius: 50%;
-    position: absolute;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.05s ease-out;
+.kick-container.dragging {
+    cursor: grabbing;
+    opacity: 0.7;
 }
 
+/* Kick Button */
 .kick-btn {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: none;
+    border: 3px solid rgba(255, 255, 255, 0.3);
     font-size: 0.9rem;
     font-weight: bold;
     color: #fff;
@@ -186,11 +242,175 @@ kbd {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.1s, box-shadow 0.1s;
     background: linear-gradient(135deg, #4dabf7 0%, #339af0 100%);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
-.kick-btn:active {
+.kick-btn:active, .kick-btn.pressed {
+    transform: scale(0.85);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(77, 171, 247, 0.6);
+}
+
+/* Pause Button */
+.pause-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 300;
+    display: none;
+    pointer-events: auto;
+    backdrop-filter: blur(5px);
+}
+
+.pause-btn:active {
     transform: scale(0.9);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Pause Overlay */
+.pause-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 150;
+    backdrop-filter: blur(5px);
+}
+
+.pause-overlay h2 {
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.pause-sound-btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: background 0.2s;
+}
+
+.pause-sound-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Landscape Permission Overlay */
+.portrait-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    animation: fadeInOverlay 0.3s ease forwards;
+}
+
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.portrait-prompt {
+    text-align: center;
+    padding: 40px 35px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    max-width: 340px;
+    width: 90%;
+}
+
+.portrait-icon {
+    margin-bottom: 20px;
+    animation: rotatePhone 2.5s ease-in-out infinite;
+}
+
+@keyframes rotatePhone {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-90deg); }
+    60% { transform: rotate(-90deg); }
+}
+
+.portrait-prompt h2 {
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+}
+
+.portrait-msg {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.portrait-msg strong {
+    color: #4dabf7;
+}
+
+.portrait-sub {
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 28px;
+}
+
+.portrait-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+}
+
+.portrait-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 20px rgba(56, 239, 125, 0.4);
+}
+
+.portrait-btn-icon {
+    display: flex;
+    align-items: center;
 }
 
 /* Menu Styles */
@@ -300,12 +520,21 @@ kbd {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 3rem;
-    color: #ffd43b;
-    text-shadow: 0 0 20px rgba(255, 212, 59, 0.8);
+    font-weight: bold;
     animation: goalPulse 1.5s ease-out forwards;
     z-index: 50;
     pointer-events: none;
     white-space: nowrap;
+}
+
+.goal-good {
+    color: #51cf66;
+    text-shadow: 0 0 20px rgba(81, 207, 102, 0.8);
+}
+
+.goal-bad {
+    color: #ff6b6b;
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
 }
 
 @keyframes goalPulse {
@@ -365,8 +594,7 @@ kbd {
     }
 
     .header h1 {
-        font-size: 1.2rem;
-        margin-bottom: 5px;
+        display: none;
     }
 
     .score-board {
@@ -399,6 +627,10 @@ kbd {
         display: block;
     }
 
+    .pause-btn {
+        display: block;
+    }
+
     .goal-animation {
         font-size: 2rem;
     }
@@ -406,14 +638,24 @@ kbd {
 
 /* Small phones */
 @media (max-width: 400px) {
-    .joystick-base {
-        width: 100px;
-        height: 100px;
+    .dpad {
+        width: 140px;
+        height: 140px;
+        left: 15px;
+        bottom: 20px;
     }
 
-    .joystick-stick {
-        width: 40px;
-        height: 40px;
+    .dpad-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+    }
+
+    .kick-container {
+        right: 15px;
+        bottom: 20px;
+        width: 110px;
+        height: 110px;
     }
 
     .kick-btn {
@@ -422,12 +664,10 @@ kbd {
         font-size: 0.8rem;
     }
 
-    .joystick-container.left {
-        left: 10px;
-    }
-
-    .joystick-container.right {
-        right: 10px;
+    .pause-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.85rem;
     }
 }
 
@@ -439,8 +679,7 @@ kbd {
     }
 
     .header h1 {
-        font-size: 1rem;
-        margin-bottom: 3px;
+        display: none;
     }
 
     .score-board {
@@ -456,27 +695,108 @@ kbd {
     }
 
     .mobile-controls {
+        height: 140px;
+    }
+
+    .dpad {
+        width: 150px;
         height: 150px;
+        bottom: 15px;
+        left: 20px;
     }
 
-    .joystick-base {
-        width: 80px;
-        height: 80px;
+    .dpad-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
     }
 
-    .joystick-stick {
-        width: 35px;
-        height: 35px;
+    .kick-container {
+        bottom: 15px;
+        right: 20px;
+        width: 120px;
+        height: 120px;
     }
 
     .kick-btn {
-        width: 55px;
-        height: 55px;
-        font-size: 0.7rem;
+        width: 70px;
+        height: 70px;
+        font-size: 0.8rem;
     }
 
-    .joystick-container {
-        bottom: 10px;
-        gap: 10px;
+    .pause-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        top: 5px;
+        right: 5px;
     }
+}
+
+/* Fullscreen on mobile - canvas fills entire screen */
+:fullscreen body,
+:-webkit-full-screen body {
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+:fullscreen .game-container,
+:-webkit-full-screen .game-container {
+    padding: 0;
+    gap: 0;
+    max-width: none;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+:fullscreen .header,
+:-webkit-full-screen .header {
+    display: none;
+}
+
+:fullscreen .controls-info,
+:-webkit-full-screen .controls-info {
+    display: none;
+}
+
+:fullscreen .score-board,
+:-webkit-full-screen .score-board {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 250;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+:fullscreen #gameCanvas,
+:-webkit-full-screen #gameCanvas {
+    border-radius: 0;
+    box-shadow: none;
+    max-width: none;
+    display: block;
+}
+
+:fullscreen .mobile-controls,
+:-webkit-full-screen .mobile-controls {
+    z-index: 200;
+}
+
+:fullscreen .kick-btn,
+:-webkit-full-screen .kick-btn {
+    z-index: 201;
+}
+
+:fullscreen .pause-btn,
+:-webkit-full-screen .pause-btn {
+    z-index: 300;
+    top: 10px;
+    right: 10px;
 }

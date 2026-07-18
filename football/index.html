@@ -7,19 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Landscape Mode Permission Overlay -->
+    <div class="portrait-overlay" id="portraitOverlay">
+        <div class="portrait-prompt">
+            <div class="portrait-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#4dabf7" stroke-width="1.5">
+                    <rect x="2" y="5" width="20" height="14" rx="3" />
+                    <line x1="8" y1="12" x2="8" y2="12.01" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h2>2D Football</h2>
+            <p class="portrait-msg">Rotate your device to <strong>landscape</strong> to play</p>
+            <p class="portrait-sub">This game requires landscape mode on mobile</p>
+            <button class="portrait-btn" id="portraitBtn">
+                <span class="portrait-btn-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 2l4 4-4 4"/>
+                        <path d="M3 11v-1a4 4 0 0 1 4-4h14"/>
+                        <path d="M7 22l-4-4 4-4"/>
+                        <path d="M21 13v1a4 4 0 0 1-4 4H3"/>
+                    </svg>
+                </span>
+                Force Landscape
+            </button>
+        </div>
+    </div>
+
     <div class="game-container">
         <div class="header">
             <h1>2D Football</h1>
-            <div class="score-board">
-                <div class="score player1">
-                    <span class="team-name">You</span>
-                    <span class="score-value" id="score1">0</span>
-                </div>
-                <div class="timer" id="timer">01:00</div>
-                <div class="score player2">
-                    <span class="team-name">AI</span>
-                    <span class="score-value" id="score2">0</span>
-                </div>
+        </div>
+
+        <div class="score-board">
+            <div class="score player1">
+                <span class="team-name">You</span>
+                <span class="score-value" id="score1">0</span>
+            </div>
+            <div class="timer" id="timer">01:00</div>
+            <div class="score player2">
+                <span class="team-name">AI</span>
+                <span class="score-value" id="score2">0</span>
             </div>
         </div>
 
@@ -35,13 +62,21 @@
 
         <!-- Mobile Touch Controls -->
         <div class="mobile-controls" id="mobileControls">
-            <div class="joystick-container left" id="joystick1">
-                <div class="joystick-base">
-                    <div class="joystick-stick" id="stick1"></div>
-                </div>
-                <button class="kick-btn" id="kickBtn1">KICK</button>
-            </div>
         </div>
+
+        <!-- D-Pad (separate for draggable positioning) -->
+        <div class="dpad" id="dpad">
+            <button class="dpad-btn dpad-up" id="btnUp">&#9650;</button>
+            <button class="dpad-btn dpad-left" id="btnLeft">&#9664;</button>
+            <button class="dpad-btn dpad-right" id="btnRight">&#9654;</button>
+            <button class="dpad-btn dpad-down" id="btnDown">&#9660;</button>
+        </div>
+
+        <!-- Kick Button (separate for draggable positioning) -->
+        <div class="kick-container" id="kickContainer">
+            <button class="kick-btn" id="kickBtn1">KICK</button>
+        </div>
+        <button class="pause-btn" id="pauseBtn">| |</button>
 
         <div class="menu" id="menu">
             <h2>2D Football</h2>

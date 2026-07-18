@@ -1,4 +1,151 @@
-// Game Configuration
+// Sound Engine (Web Audio API - no external files)
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getAudioCtx() {
+    if (!audioCtx) audioCtx = new AudioCtx();
+    return audioCtx;
+}
+
+function playTone(freq, duration, type, volume, ramp) {
+    if (soundMuted) return;
+    try {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        if (ramp) osc.frequency.linearRampToValueAtTime(ramp, ctx.currentTime + duration);
+        gain.gain.setValueAtTime(volume || 0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + duration);
+    } catch (e) {}
+}
+
+function playNoise(duration, volume) {
+    if (soundMuted) return;
+    try {
+        const ctx = getAudioCtx();
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+        }
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(volume || 0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        source.connect(gain);
+        gain.connect(ctx.destination);
+        source.start(ctx.currentTime);
+    } catch (e) {}
+}
+
+const SFX = {
+    kick() {
+        playNoise(0.12, 0.4);
+        playTone(200, 0.1, 'sine', 0.3, 80);
+    },
+    goal(scoredBy) {
+        if (scoredBy === 'player') {
+            // Happy rising celebration
+            playTone(523, 0.15, 'sine', 0.3);
+            setTimeout(() => playTone(659, 0.15, 'sine', 0.3), 120);
+            setTimeout(() => playTone(784, 0.25, 'sine', 0.35), 240);
+            setTimeout(() => playTone(1047, 0.4, 'sine', 0.3), 400);
+        } else {
+            // Sad descending tone
+            playTone(600, 0.2, 'sine', 0.3, 300);
+            setTimeout(() => playTone(300, 0.4, 'sawtooth', 0.15), 200);
+        }
+    },
+    whistle() {
+        // Referee whistle
+        playTone(1800, 0.15, 'sine', 0.25);
+        setTimeout(() => playTone(2200, 0.35, 'sine', 0.3), 150);
+    },
+    whistleLong() {
+        // End game whistle - 3 short blasts
+        playTone(1800, 0.15, 'sine', 0.25);
+        setTimeout(() => playTone(2200, 0.15, 'sine', 0.3), 200);
+        setTimeout(() => playTone(1800, 0.15, 'sine', 0.25), 400);
+        setTimeout(() => playTone(2200, 0.15, 'sine', 0.3), 600);
+        setTimeout(() => playTone(2400, 0.4, 'sine', 0.35), 800);
+    },
+    pause() {
+        playTone(440, 0.1, 'sine', 0.2, 330);
+    },
+    unpause() {
+        playTone(330, 0.1, 'sine', 0.2, 440);
+    },
+    tick() {
+        playTone(800, 0.05, 'sine', 0.1);
+    },
+    countdown() {
+        playTone(600, 0.15, 'sine', 0.25);
+    }
+};
+
+// Background ambient sound
+let ambientNode = null;
+let ambientGain = null;
+
+function startAmbient() {
+    try {
+        const ctx = getAudioCtx();
+        if (ambientNode) return;
+
+        // Create looping crowd noise
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        // Filtered noise to sound like distant crowd murmur
+        let lastVal = 0;
+        for (let i = 0; i < bufferSize; i++) {
+            const noise = Math.random() * 2 - 1;
+            lastVal = lastVal * 0.97 + noise * 0.03;
+            data[i] = lastVal * 3;
+        }
+
+        ambientNode = ctx.createBufferSource();
+        ambientNode.buffer = buffer;
+        ambientNode.loop = true;
+
+        // Low-pass filter for muffled crowd sound
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 400;
+        filter.Q.value = 1;
+
+        ambientGain = ctx.createGain();
+        ambientGain.gain.value = 0.08;
+
+        ambientNode.connect(filter);
+        filter.connect(ambientGain);
+        ambientGain.connect(ctx.destination);
+        ambientNode.start();
+    } catch (e) {}
+}
+
+function stopAmbient() {
+    try {
+        if (ambientNode) {
+            ambientNode.stop();
+            ambientNode.disconnect();
+            ambientNode = null;
+        }
+        if (ambientGain) {
+            ambientGain.disconnect();
+            ambientGain = null;
+        }
+    } catch (e) {}
+}
 const CONFIG = {
     fieldWidth: 800,
     fieldHeight: 500,
@@ -32,9 +179,13 @@ let keys = {};
 let aiLastUpdate = 0;
 let aiTarget = { x: 0, y: 0 };
 
-// Touch/Joystick state
-let joystick = { active: false, dx: 0, dy: 0 };
+// Touch/DPad state
+let dpad = { up: false, down: false, left: false, right: false };
 let isMobile = false;
+let mobileSpeedMultiplier = 1;
+let isPaused = false;
+let swipeStart = null;
+let soundMuted = false;
 
 // Canvas Setup
 const canvas = document.getElementById('gameCanvas');
@@ -42,33 +193,56 @@ const ctx = canvas.getContext('2d');
 
 // Responsive canvas sizing
 function resizeCanvas() {
-    const maxWidth = Math.min(window.innerWidth - 20, 800);
-    const maxHeight = window.innerHeight - 250;
+    const isFullscreen = !!document.fullscreenElement || !!document.webkitFullscreenElement;
 
-    const aspectRatio = CONFIG.fieldWidth / CONFIG.fieldHeight;
-    let width = maxWidth;
-    let height = width / aspectRatio;
+    if (isFullscreen && isMobile) {
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        canvas.style.margin = '0';
+        canvas.style.display = 'block';
+    } else {
+        const headerHeight = 250;
+        const maxWidth = Math.min(window.innerWidth - 20, 800);
+        const maxHeight = window.innerHeight - headerHeight;
 
-    if (height > maxHeight) {
-        height = maxHeight;
-        width = height * aspectRatio;
+        const aspectRatio = CONFIG.fieldWidth / CONFIG.fieldHeight;
+        let width = maxWidth;
+        let height = width / aspectRatio;
+
+        if (height > maxHeight) {
+            height = maxHeight;
+            width = height * aspectRatio;
+        }
+
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        canvas.style.margin = '';
+        canvas.style.display = '';
     }
 
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
     canvas.width = CONFIG.fieldWidth;
     canvas.height = CONFIG.fieldHeight;
+
+    if (isMobile) {
+        const screenScale = window.innerWidth / 800;
+        mobileSpeedMultiplier = Math.max(0.8, Math.min(1.2, screenScale));
+    } else {
+        mobileSpeedMultiplier = 1;
+    }
 }
 
 // Check if mobile
 function checkMobile() {
     isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
     const mobileControls = document.getElementById('mobileControls');
+    const pauseBtn = document.getElementById('pauseBtn');
 
     if (isMobile && gameState.running) {
         mobileControls.style.display = 'block';
+        if (pauseBtn) pauseBtn.style.display = 'block';
     } else if (!gameState.running) {
         mobileControls.style.display = 'none';
+        if (pauseBtn) pauseBtn.style.display = 'none';
     }
 }
 
@@ -169,14 +343,19 @@ function drawField() {
 }
 
 function drawPlayer(p, isPlayer) {
+    const w = parseFloat(canvas.style.width) || CONFIG.fieldWidth;
+    const h = parseFloat(canvas.style.height) || CONFIG.fieldHeight;
+    const sx = w / CONFIG.fieldWidth;
+    const sy = h / CONFIG.fieldHeight;
+
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.beginPath();
-    ctx.ellipse(p.x + 3, p.y + p.radius - 5, p.radius * 0.8, p.radius * 0.3, 0, 0, Math.PI * 2);
+    ctx.ellipse(p.x + 3, p.y + p.radius - 5, p.radius * 0.8 / sx, p.radius * 0.3 / sy, 0, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = p.color;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.ellipse(p.x, p.y, p.radius / sx, p.radius / sy, 0, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
@@ -191,22 +370,27 @@ function drawPlayer(p, isPlayer) {
 }
 
 function drawBall() {
+    const w = parseFloat(canvas.style.width) || CONFIG.fieldWidth;
+    const h = parseFloat(canvas.style.height) || CONFIG.fieldHeight;
+    const sx = w / CONFIG.fieldWidth;
+    const sy = h / CONFIG.fieldHeight;
+
     ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
     ctx.beginPath();
-    ctx.ellipse(ball.x + 2, ball.y + ball.radius, ball.radius * 0.8, ball.radius * 0.3, 0, 0, Math.PI * 2);
+    ctx.ellipse(ball.x + 2, ball.y + ball.radius, ball.radius * 0.8 / sx, ball.radius * 0.3 / sy, 0, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = '#fff';
     ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    ctx.ellipse(ball.x, ball.y, ball.radius / sx, ball.radius / sy, 0, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = '#333';
     const angle = Date.now() / 200;
     for (let i = 0; i < 5; i++) {
         const a = angle + (i * Math.PI * 2 / 5);
-        const px = ball.x + Math.cos(a) * ball.radius * 0.5;
-        const py = ball.y + Math.sin(a) * ball.radius * 0.5;
+        const px = ball.x + Math.cos(a) * ball.radius * 0.5 / sx;
+        const py = ball.y + Math.sin(a) * ball.radius * 0.5 / sy;
         ctx.beginPath();
         ctx.arc(px, py, 3, 0, Math.PI * 2);
         ctx.fill();
@@ -215,8 +399,9 @@ function drawBall() {
 
 // Physics Functions
 function moveEntity(entity, dx, dy) {
-    entity.x += dx * CONFIG.playerSpeed;
-    entity.y += dy * CONFIG.playerSpeed;
+    const speed = entity === player ? CONFIG.playerSpeed * mobileSpeedMultiplier : CONFIG.playerSpeed;
+    entity.x += dx * speed;
+    entity.y += dy * speed;
 
     entity.x = Math.max(entity.radius, Math.min(CONFIG.fieldWidth - entity.radius, entity.x));
     entity.y = Math.max(entity.radius, Math.min(CONFIG.fieldHeight - entity.radius, entity.y));
@@ -290,6 +475,7 @@ function kickBall(entity, power) {
         const ny = dy / dist;
         ball.vx = nx * power;
         ball.vy = ny * power;
+        SFX.kick();
     }
 }
 
@@ -300,6 +486,9 @@ function updateAI() {
 
     if (now - aiLastUpdate < aiConfig.reactionDelay) return;
     aiLastUpdate = now;
+
+    const mobilePenalty = isMobile ? 0.85 : 1;
+    const effectiveSpeed = aiConfig.speed * mobilePenalty;
 
     const ballMovingTowardsAI = ball.vx > 0;
     const distToBall = Math.sqrt((ball.x - ai.x) ** 2 + (ball.y - ai.y) ** 2);
@@ -323,8 +512,8 @@ function updateAI() {
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     if (dist > 5) {
-        const moveX = (dx / dist) * aiConfig.speed;
-        const moveY = (dy / dist) * aiConfig.speed;
+        const moveX = (dx / dist) * effectiveSpeed;
+        const moveY = (dy / dist) * effectiveSpeed;
         moveEntity(ai, moveX / CONFIG.playerSpeed, moveY / CONFIG.playerSpeed);
     }
 
@@ -343,14 +532,21 @@ function scoreGoal(scorer) {
         score2Display.textContent = gameState.score.ai;
     }
 
-    showGoalAnimation();
+    SFX.goal(scorer);
+    showGoalAnimation(scorer);
     resetPositions();
 }
 
-function showGoalAnimation() {
+function showGoalAnimation(scorer) {
     const goalDiv = document.createElement('div');
     goalDiv.className = 'goal-animation';
-    goalDiv.textContent = 'GOAL!';
+    if (scorer === 'player') {
+        goalDiv.textContent = 'GOAL!';
+        goalDiv.classList.add('goal-good');
+    } else {
+        goalDiv.textContent = 'CONCEDED!';
+        goalDiv.classList.add('goal-bad');
+    }
     document.querySelector('.game-container').appendChild(goalDiv);
 
     setTimeout(() => goalDiv.remove(), 1500);
@@ -375,6 +571,10 @@ function updateTimer() {
     const seconds = gameState.timeLeft % 60;
     timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
+    if (gameState.timeLeft <= 5 && gameState.timeLeft > 0) {
+        SFX.countdown();
+    }
+
     if (gameState.timeLeft <= 0) {
         endGame();
     }
@@ -383,6 +583,8 @@ function updateTimer() {
 function endGame() {
     gameState.running = false;
     mobileControls.style.display = 'none';
+    stopAmbient();
+    SFX.whistleLong();
 
     let winner;
     if (gameState.score.player > gameState.score.ai) {
@@ -402,6 +604,15 @@ function startGame() {
     menu.style.display = 'none';
     gameOver.style.display = 'none';
 
+    isPaused = false;
+    gameState.paused = false;
+
+    const overlay = document.querySelector('.pause-overlay');
+    if (overlay) overlay.style.display = 'none';
+
+    const pauseBtn = document.getElementById('pauseBtn');
+    if (pauseBtn) pauseBtn.textContent = '| |';
+
     gameState.running = true;
     gameState.timeLeft = CONFIG.gameDuration;
     gameState.score = { player: 0, ai: 0 };
@@ -412,13 +623,15 @@ function startGame() {
 
     initGameObjects();
     checkMobile();
+    startAmbient();
+    SFX.whistle();
 }
 
 // Keyboard Input
 document.addEventListener('keydown', (e) => {
     keys[e.code] = true;
 
-    if (e.code === 'Space' && gameState.running) {
+    if (e.code === 'Space' && gameState.running && !gameState.paused) {
         e.preventDefault();
         kickBall(player, CONFIG.kickPower);
     }
@@ -428,85 +641,237 @@ document.addEventListener('keyup', (e) => {
     keys[e.code] = false;
 });
 
-// Joystick Touch Controls
-function setupJoystick() {
-    const base = document.querySelector('#joystick1 .joystick-base');
-    const stick = document.getElementById('stick1');
+// D-Pad Controls
+function setupDpad() {
+    const dpadEl = document.getElementById('dpad');
+    if (!dpadEl) return;
 
-    if (!base || !stick) return;
+    // Prevent context menu on D-pad
+    dpadEl.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    const maxDistance = 35;
+    const dirs = [
+        { id: 'btnUp', key: 'up' },
+        { id: 'btnDown', key: 'down' },
+        { id: 'btnLeft', key: 'left' },
+        { id: 'btnRight', key: 'right' }
+    ];
 
-    function handleStart(e) {
-        e.preventDefault();
-        joystick.active = true;
+    // Drag state
+    let dragging = false;
+    let dragStartX = 0, dragStartY = 0;
+    let dpadStartX = 0, dpadStartY = 0;
+    let moved = false;
+    const DRAG_THRESHOLD = 10;
+
+    function startDrag(x, y) {
+        const rect = dpadEl.getBoundingClientRect();
+        dragging = true;
+        moved = false;
+        dragStartX = x;
+        dragStartY = y;
+        dpadStartX = rect.left;
+        dpadStartY = rect.top;
+        dpadEl.classList.add('dragging');
     }
 
-    function handleMove(e) {
-        if (!joystick.active) return;
-        e.preventDefault();
-
-        const rect = base.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        let clientX, clientY;
-        if (e.touches) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        } else {
-            clientX = e.clientX;
-            clientY = e.clientY;
+    function moveDrag(x, y) {
+        if (!dragging) return;
+        const dx = x - dragStartX;
+        const dy = y - dragStartY;
+        if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) {
+            moved = true;
         }
+        if (moved) {
+            const dpadW = dpadEl.offsetWidth;
+            const dpadH = dpadEl.offsetHeight;
+            let newLeft = dpadStartX + dx;
+            let newTop = dpadStartY + dy;
 
-        let dx = clientX - centerX;
-        let dy = clientY - centerY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+            // Clamp to screen bounds
+            newLeft = Math.max(0, Math.min(window.innerWidth - dpadW, newLeft));
+            newTop = Math.max(0, Math.min(window.innerHeight - dpadH, newTop));
 
-        if (distance > maxDistance) {
-            dx = (dx / distance) * maxDistance;
-            dy = (dy / distance) * maxDistance;
+            dpadEl.style.left = newLeft + 'px';
+            dpadEl.style.top = newTop + 'px';
+            dpadEl.style.bottom = 'auto';
         }
-
-        stick.style.transform = `translate(${dx}px, ${dy}px)`;
-
-        joystick.dx = dx / maxDistance;
-        joystick.dy = dy / maxDistance;
     }
 
-    function handleEnd(e) {
-        e.preventDefault();
-        joystick.active = false;
-        joystick.dx = 0;
-        joystick.dy = 0;
-        stick.style.transform = 'translate(0, 0)';
+    function endDrag() {
+        dragging = false;
+        dpadEl.classList.remove('dragging');
     }
 
-    base.addEventListener('touchstart', handleStart, { passive: false });
-    base.addEventListener('touchmove', handleMove, { passive: false });
-    base.addEventListener('touchend', handleEnd, { passive: false });
-    base.addEventListener('touchcancel', handleEnd, { passive: false });
+    // D-pad touch drag
+    dpadEl.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        startDrag(t.clientX, t.clientY);
+    }, { passive: true });
 
-    base.addEventListener('mousedown', handleStart);
-    document.addEventListener('mousemove', (e) => {
-        if (joystick.active) handleMove(e);
+    dpadEl.addEventListener('touchmove', (e) => {
+        const t = e.touches[0];
+        moveDrag(t.clientX, t.clientY);
+        if (moved) e.preventDefault();
+    }, { passive: false });
+
+    dpadEl.addEventListener('touchend', endDrag);
+    dpadEl.addEventListener('touchcancel', endDrag);
+
+    // D-pad mouse drag
+    dpadEl.addEventListener('mousedown', (e) => {
+        startDrag(e.clientX, e.clientY);
     });
-    document.addEventListener('mouseup', handleEnd);
+
+    document.addEventListener('mousemove', (e) => {
+        moveDrag(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('mouseup', endDrag);
+
+    // Button direction input (only if not dragging)
+    dirs.forEach(({ id, key }) => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        btn.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            if (!moved) {
+                dpad[key] = true;
+                btn.classList.add('pressed');
+            }
+        }, { passive: true });
+
+        btn.addEventListener('touchend', (e) => {
+            e.stopPropagation();
+            dpad[key] = false;
+            btn.classList.remove('pressed');
+        });
+
+        btn.addEventListener('touchcancel', () => {
+            dpad[key] = false;
+            btn.classList.remove('pressed');
+        });
+
+        btn.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            if (!moved) {
+                dpad[key] = true;
+                btn.classList.add('pressed');
+            }
+        });
+
+        btn.addEventListener('mouseup', () => {
+            dpad[key] = false;
+            btn.classList.remove('pressed');
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            dpad[key] = false;
+            btn.classList.remove('pressed');
+        });
+    });
 }
 
 // Setup kick button
 function setupKickButton() {
     const kickBtn = document.getElementById('kickBtn1');
+    const kickContainer = document.getElementById('kickContainer');
 
     if (kickBtn) {
         kickBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            if (gameState.running) kickBall(player, CONFIG.kickPower);
+            e.stopPropagation();
+            if (gameState.running && !isPaused) {
+                kickBall(player, CONFIG.kickPower);
+                kickBtn.classList.add('pressed');
+                if (navigator.vibrate) navigator.vibrate(30);
+            }
         }, { passive: false });
 
-        kickBtn.addEventListener('click', () => {
-            if (gameState.running) kickBall(player, CONFIG.kickPower);
+        kickBtn.addEventListener('touchend', (e) => {
+            kickBtn.classList.remove('pressed');
         });
+
+        kickBtn.addEventListener('click', () => {
+            if (gameState.running && !isPaused) {
+                kickBall(player, CONFIG.kickPower);
+                if (navigator.vibrate) navigator.vibrate(30);
+            }
+        });
+    }
+
+    // Kick button drag
+    if (kickContainer) {
+        let dragging = false;
+        let dragStartX = 0, dragStartY = 0;
+        let containerStartX = 0, containerStartY = 0;
+        let moved = false;
+        const DRAG_THRESHOLD = 10;
+
+        function startDrag(x, y) {
+            const rect = kickContainer.getBoundingClientRect();
+            dragging = true;
+            moved = false;
+            dragStartX = x;
+            dragStartY = y;
+            containerStartX = rect.left;
+            containerStartY = rect.top;
+            kickContainer.classList.add('dragging');
+        }
+
+        function moveDrag(x, y) {
+            if (!dragging) return;
+            const dx = x - dragStartX;
+            const dy = y - dragStartY;
+            if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) {
+                moved = true;
+            }
+            if (moved) {
+                const cw = kickContainer.offsetWidth;
+                const ch = kickContainer.offsetHeight;
+                let newLeft = containerStartX + dx;
+                let newTop = containerStartY + dy;
+
+                newLeft = Math.max(0, Math.min(window.innerWidth - cw, newLeft));
+                newTop = Math.max(0, Math.min(window.innerHeight - ch, newTop));
+
+                kickContainer.style.left = newLeft + 'px';
+                kickContainer.style.top = newTop + 'px';
+                kickContainer.style.right = 'auto';
+                kickContainer.style.bottom = 'auto';
+            }
+        }
+
+        function endDrag() {
+            dragging = false;
+            kickContainer.classList.remove('dragging');
+        }
+
+        kickContainer.addEventListener('touchstart', (e) => {
+            const t = e.touches[0];
+            startDrag(t.clientX, t.clientY);
+        }, { passive: true });
+
+        kickContainer.addEventListener('touchmove', (e) => {
+            const t = e.touches[0];
+            moveDrag(t.clientX, t.clientY);
+            if (moved) e.preventDefault();
+        }, { passive: false });
+
+        kickContainer.addEventListener('touchend', endDrag);
+        kickContainer.addEventListener('touchcancel', endDrag);
+
+        kickContainer.addEventListener('mousedown', (e) => {
+            startDrag(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            moveDrag(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mouseup', endDrag);
+
+        kickContainer.addEventListener('contextmenu', (e) => e.preventDefault());
     }
 }
 
@@ -520,15 +885,105 @@ function handleInput() {
     if (keys['KeyA'] || keys['ArrowLeft']) dx = -1;
     if (keys['KeyD'] || keys['ArrowRight']) dx = 1;
 
-    // Joystick
-    if (joystick.dx !== 0 || joystick.dy !== 0) {
-        dx = joystick.dx;
-        dy = joystick.dy;
-    }
+    // D-Pad
+    if (dpad.up) dy = -1;
+    if (dpad.down) dy = 1;
+    if (dpad.left) dx = -1;
+    if (dpad.right) dx = 1;
 
     if (dx !== 0 || dy !== 0) {
         const len = Math.sqrt(dx * dx + dy * dy);
         moveEntity(player, dx / len, dy / len);
+    }
+}
+
+// Swipe-to-kick gesture (right half of screen)
+function setupSwipeToKick() {
+    document.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        if (touch.clientX > window.innerWidth / 2) {
+            swipeStart = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+        if (!swipeStart || !gameState.running || isPaused) {
+            swipeStart = null;
+            return;
+        }
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - swipeStart.x;
+        const dy = touch.clientY - swipeStart.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const elapsed = Date.now() - swipeStart.time;
+
+        if (dist > 30 && elapsed < 300) {
+            kickBall(player, CONFIG.kickPower);
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+        swipeStart = null;
+    }, { passive: true });
+}
+
+// Pause functionality
+function setupPause() {
+    const pauseBtn = document.getElementById('pauseBtn');
+    if (!pauseBtn) return;
+
+    pauseBtn.addEventListener('click', () => {
+        if (!gameState.running) return;
+        togglePause();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Escape' && gameState.running) {
+            togglePause();
+        }
+    });
+}
+
+function togglePause() {
+    isPaused = !isPaused;
+    const pauseBtn = document.getElementById('pauseBtn');
+
+    if (isPaused) {
+        gameState.paused = true;
+        pauseBtn.textContent = '>';
+        SFX.pause();
+
+        let overlay = document.querySelector('.pause-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.className = 'pause-overlay';
+            overlay.innerHTML = `
+                <h2>PAUSED</h2>
+                <button class="pause-sound-btn" id="soundToggle">${soundMuted ? '🔇 Unmute Sound' : '🔊 Mute Sound'}</button>
+            `;
+            document.querySelector('.game-container').appendChild(overlay);
+
+            document.getElementById('soundToggle').addEventListener('click', toggleSound);
+        } else {
+            const soundBtn = document.getElementById('soundToggle');
+            if (soundBtn) soundBtn.textContent = soundMuted ? '🔇 Unmute Sound' : '🔊 Mute Sound';
+        }
+        overlay.style.display = 'flex';
+    } else {
+        gameState.paused = false;
+        pauseBtn.textContent = '| |';
+        SFX.unpause();
+
+        const overlay = document.querySelector('.pause-overlay');
+        if (overlay) overlay.style.display = 'none';
+    }
+}
+
+function toggleSound() {
+    soundMuted = !soundMuted;
+    const soundBtn = document.getElementById('soundToggle');
+    if (soundBtn) soundBtn.textContent = soundMuted ? '🔇 Unmute Sound' : '🔊 Mute Sound';
+
+    if (ambientGain) {
+        ambientGain.gain.value = soundMuted ? 0 : 0.08;
     }
 }
 
@@ -552,9 +1007,10 @@ menuBtn.addEventListener('click', () => {
 // Game Loop
 function gameLoop() {
     ctx.clearRect(0, 0, CONFIG.fieldWidth, CONFIG.fieldHeight);
+
     drawField();
 
-    if (gameState.running) {
+    if (gameState.running && !gameState.paused) {
         handleInput();
         updateAI();
         updateBall();
@@ -573,8 +1029,10 @@ function gameLoop() {
 function init() {
     resizeCanvas();
     initGameObjects();
-    setupJoystick();
+    setupDpad();
     setupKickButton();
+    setupSwipeToKick();
+    setupPause();
     checkMobile();
     gameLoop();
 }
@@ -585,14 +1043,82 @@ window.addEventListener('resize', () => {
     checkMobile();
 });
 
+document.addEventListener('fullscreenchange', () => {
+    resizeCanvas();
+});
+document.addEventListener('webkitfullscreenchange', () => {
+    resizeCanvas();
+});
+
 setInterval(updateTimer, 1000);
 
 // Prevent default touch behaviors
 document.addEventListener('touchmove', (e) => {
-    if (gameState.running) {
+    if (gameState.running && !gameState.paused) {
         e.preventDefault();
     }
 }, { passive: false });
 
+// Landscape Mode Lock
+function setupLandscapeLock() {
+    const overlay = document.getElementById('portraitOverlay');
+    const portraitBtn = document.getElementById('portraitBtn');
+
+    if (!overlay) return;
+
+    const isMobileDevice = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        || (navigator.maxTouchPoints > 0 && window.innerWidth <= 1024);
+
+    if (!isMobileDevice) {
+        overlay.style.display = 'none';
+        return;
+    }
+
+    function isLandscape() {
+        return window.innerWidth > window.innerHeight;
+    }
+
+    function updateOverlay() {
+        if (isLandscape()) {
+            overlay.style.display = 'none';
+        } else {
+            overlay.style.display = 'flex';
+        }
+    }
+
+    updateOverlay();
+
+    window.addEventListener('orientationchange', () => {
+        setTimeout(updateOverlay, 150);
+    });
+
+    window.addEventListener('resize', () => {
+        updateOverlay();
+    });
+
+    portraitBtn.addEventListener('click', async () => {
+        try {
+            const elem = document.documentElement;
+            const requestFS = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+            if (requestFS) {
+                await requestFS.call(elem);
+            }
+
+            if (screen.orientation && screen.orientation.lock) {
+                await screen.orientation.lock('landscape-primary');
+            }
+        } catch (err) {
+            console.log('Orientation/Fullscreen API not available:', err.message);
+        }
+
+        resizeCanvas();
+
+        setTimeout(updateOverlay, 200);
+        setTimeout(updateOverlay, 500);
+        setTimeout(updateOverlay, 1000);
+    });
+}
+
 // Start
+setupLandscapeLock();
 init();

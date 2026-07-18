@@ -700,6 +700,8 @@ function setupDpad() {
     function endDrag() {
         dragging = false;
         dpadEl.classList.remove('dragging');
+        // Reset moved after a tick so the current touchup doesn't count
+        setTimeout(() => { moved = false; }, 50);
     }
 
     // D-pad touch drag
@@ -845,6 +847,7 @@ function setupKickButton() {
         function endDrag() {
             dragging = false;
             kickContainer.classList.remove('dragging');
+            setTimeout(() => { moved = false; }, 50);
         }
 
         kickContainer.addEventListener('touchstart', (e) => {

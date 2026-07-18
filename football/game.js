@@ -1159,7 +1159,7 @@ function setupLandscapeLock() {
                 await screen.orientation.lock('landscape-primary');
             }
         } catch (err) {
-            console.log('Orientation/Fullscreen API not available:', err.message);
+            // Orientation/Fullscreen API not available
         }
 
         resizeCanvas();

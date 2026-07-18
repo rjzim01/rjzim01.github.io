@@ -1205,13 +1205,35 @@ async function renderHistory() {
     const statLosses = document.getElementById('statLosses');
     const statDraws = document.getElementById('statDraws');
 
+    // Clear old items
+    historyList.querySelectorAll('.history-item').forEach(el => el.remove());
+
     if (!isFirebaseConfigured()) {
         historyEmpty.textContent = 'Firebase not configured. Add your config to firebase-config.js';
         historyEmpty.style.display = 'block';
         return;
     }
 
+    if (firebaseError) {
+        historyEmpty.textContent = 'Error: ' + firebaseError;
+        historyEmpty.style.display = 'block';
+        return;
+    }
+
+    if (!firebaseReady) {
+        historyEmpty.textContent = 'Connecting to Firebase...';
+        historyEmpty.style.display = 'block';
+        return;
+    }
+
     const games = await loadGameHistory(50);
+
+    // Check for load error
+    if (firebaseError && games.length === 0) {
+        historyEmpty.textContent = 'Error: ' + firebaseError;
+        historyEmpty.style.display = 'block';
+        return;
+    }
 
     let wins = 0, losses = 0, draws = 0;
     games.forEach(g => {

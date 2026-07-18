@@ -3,6 +3,8 @@ let firebaseApp = null;
 let firebaseAuth = null;
 let firebaseDb = null;
 let currentUserId = null;
+let firebaseReady = false;
+let firebaseError = null;
 
 function isFirebaseConfigured() {
     return FIREBASE_CONFIG && FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY_HERE';
@@ -11,28 +13,36 @@ function isFirebaseConfigured() {
 async function initFirebase() {
     if (!isFirebaseConfigured()) {
         console.log('Firebase not configured. History feature disabled.');
+        firebaseError = 'Not configured. Add keys to firebase-config.js';
         return false;
     }
 
     try {
-        // Initialize Firebase using the compat SDK (loaded via CDN)
         firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
         firebaseAuth = firebase.auth();
         firebaseDb = firebase.firestore();
 
-        // Sign in anonymously
         const result = await firebaseAuth.signInAnonymously();
         currentUserId = result.user.uid;
+        firebaseReady = true;
         console.log('Firebase connected. User:', currentUserId);
         return true;
     } catch (err) {
-        console.error('Firebase init failed:', err.message);
+        console.error('Firebase init failed:', err.code, err.message);
+        if (err.code === 'auth/operation-not-allowed') {
+            firebaseError = 'Anonymous auth not enabled. Enable it in Firebase Console → Authentication → Sign-in method.';
+        } else {
+            firebaseError = err.code + ': ' + err.message;
+        }
         return false;
     }
 }
 
 async function saveGameResult(score, difficulty) {
-    if (!firebaseDb || !currentUserId) return;
+    if (!firebaseReady || !firebaseDb || !currentUserId) {
+        console.warn('Save skipped: Firebase not ready.', { firebaseReady, hasDb: !!firebaseDb, userId: currentUserId });
+        return;
+    }
 
     let result;
     if (score.player > score.ai) result = 'win';
@@ -49,7 +59,8 @@ async function saveGameResult(score, difficulty) {
         });
         console.log('Game result saved.');
     } catch (err) {
-        console.error('Failed to save game result:', err.message);
+        console.error('Failed to save game result:', err.code, err.message);
+        firebaseError = 'Save failed: ' + err.message;
     }
 }
 
@@ -57,11 +68,11 @@ async function loadGameHistory(limitCount) {
     if (!firebaseDb || !currentUserId) return [];
 
     try {
+        // Avoid orderBy to skip Firestore index requirement — sort in JS instead
         const snapshot = await firebaseDb
             .collection('users')
             .doc(currentUserId)
             .collection('games')
-            .orderBy('timestamp', 'desc')
             .limit(limitCount || 50)
             .get();
 
@@ -77,9 +88,13 @@ async function loadGameHistory(limitCount) {
                 duration: data.duration
             });
         });
+
+        // Sort newest first in JS
+        games.sort((a, b) => b.timestamp - a.timestamp);
         return games;
     } catch (err) {
-        console.error('Failed to load history:', err.message);
+        console.error('Failed to load history:', err.code, err.message);
+        firebaseError = 'Load failed: ' + err.message;
         return [];
     }
 }
@@ -99,6 +114,6 @@ async function clearGameHistory() {
         await batch.commit();
         console.log('History cleared.');
     } catch (err) {
-        console.error('Failed to clear history:', err.message);
+        console.error('Failed to clear history:', err.code, err.message);
     }
 }

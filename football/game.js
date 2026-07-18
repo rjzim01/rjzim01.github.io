@@ -1114,16 +1114,20 @@ document.addEventListener('touchmove', (e) => {
 function setupLandscapeLock() {
     const overlay = document.getElementById('portraitOverlay');
     const portraitBtn = document.getElementById('portraitBtn');
-
-    if (!overlay) return;
+    const desktopOverlay = document.getElementById('desktopOverlay');
+    const gameContainer = document.querySelector('.game-container');
 
     const isMobileDevice = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
         || (navigator.maxTouchPoints > 0 && window.innerWidth <= 1024);
 
     if (!isMobileDevice) {
         overlay.style.display = 'none';
+        if (desktopOverlay) desktopOverlay.style.display = 'flex';
+        if (gameContainer) gameContainer.style.display = 'none';
         return;
     }
+
+    if (desktopOverlay) desktopOverlay.style.display = 'none';
 
     function isLandscape() {
         return window.innerWidth > window.innerHeight;
@@ -1132,8 +1136,10 @@ function setupLandscapeLock() {
     function updateOverlay() {
         if (isLandscape()) {
             overlay.style.display = 'none';
+            if (gameContainer) gameContainer.style.display = '';
         } else {
             overlay.style.display = 'flex';
+            if (gameContainer) gameContainer.style.display = 'none';
         }
     }
 

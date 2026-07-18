@@ -642,6 +642,8 @@ function endGame() {
     winnerText.textContent = winner;
     finalScore.textContent = `Final Score: ${gameState.score.player} - ${gameState.score.ai}`;
     gameOver.style.display = 'block';
+
+    saveGameResult(gameState.score, gameState.aiLevel);
 }
 
 function startGame() {
@@ -1082,6 +1084,8 @@ function init() {
     setupPause();
     checkMobile();
     gameLoop();
+    initFirebase();
+    setupHistory();
 }
 
 // Event listeners
@@ -1163,6 +1167,93 @@ function setupLandscapeLock() {
         setTimeout(updateOverlay, 200);
         setTimeout(updateOverlay, 500);
         setTimeout(updateOverlay, 1000);
+    });
+}
+
+// History Modal
+function setupHistory() {
+    const historyBtn = document.getElementById('historyBtn');
+    const historyOverlay = document.getElementById('historyOverlay');
+    const historyClose = document.getElementById('historyClose');
+    const historyClearBtn = document.getElementById('historyClearBtn');
+
+    historyBtn.addEventListener('click', async () => {
+        historyOverlay.style.display = 'flex';
+        await renderHistory();
+    });
+
+    historyClose.addEventListener('click', () => {
+        historyOverlay.style.display = 'none';
+    });
+
+    historyOverlay.addEventListener('click', (e) => {
+        if (e.target === historyOverlay) historyOverlay.style.display = 'none';
+    });
+
+    historyClearBtn.addEventListener('click', async () => {
+        if (confirm('Clear all game history?')) {
+            await clearGameHistory();
+            await renderHistory();
+        }
+    });
+}
+
+async function renderHistory() {
+    const historyEmpty = document.getElementById('historyEmpty');
+    const historyList = document.getElementById('historyList');
+    const statWins = document.getElementById('statWins');
+    const statLosses = document.getElementById('statLosses');
+    const statDraws = document.getElementById('statDraws');
+
+    if (!isFirebaseConfigured()) {
+        historyEmpty.textContent = 'Firebase not configured. Add your config to firebase-config.js';
+        historyEmpty.style.display = 'block';
+        return;
+    }
+
+    const games = await loadGameHistory(50);
+
+    let wins = 0, losses = 0, draws = 0;
+    games.forEach(g => {
+        if (g.result === 'win') wins++;
+        else if (g.result === 'loss') losses++;
+        else draws++;
+    });
+
+    statWins.textContent = wins;
+    statLosses.textContent = losses;
+    statDraws.textContent = draws;
+
+    // Clear old items but keep the empty message element
+    historyList.querySelectorAll('.history-item').forEach(el => el.remove());
+
+    if (games.length === 0) {
+        historyEmpty.textContent = 'No games played yet.';
+        historyEmpty.style.display = 'block';
+        return;
+    }
+
+    historyEmpty.style.display = 'none';
+
+    games.forEach(g => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+
+        const dateStr = g.timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const timeStr = g.timestamp.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const resultLabel = g.result === 'win' ? 'Win' : g.result === 'loss' ? 'Loss' : 'Draw';
+
+        item.innerHTML = `
+            <div class="history-item-left">
+                <span class="history-result ${g.result}">${resultLabel}</span>
+                <span class="history-meta">${dateStr} ${timeStr}</span>
+            </div>
+            <div class="history-item-right">
+                <span class="history-score">${g.score.player} - ${g.score.ai}</span>
+                <span class="history-difficulty">${g.difficulty}</span>
+            </div>
+        `;
+        historyList.appendChild(item);
     });
 }
 

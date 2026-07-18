@@ -490,22 +490,44 @@ function updateAI() {
     const mobilePenalty = isMobile ? 0.85 : 1;
     const effectiveSpeed = aiConfig.speed * mobilePenalty;
 
-    const ballMovingTowardsAI = ball.vx > 0;
     const distToBall = Math.sqrt((ball.x - ai.x) ** 2 + (ball.y - ai.y) ** 2);
+    const aiCloseToBall = distToBall < 200;
 
-    if (ballMovingTowardsAI || ball.x > CONFIG.fieldWidth * 0.5) {
-        aiTarget.x = ball.x - 30;
+    // Corner/edge detection
+    const nearLeftWall = ball.x < 60;
+    const nearRightWall = ball.x > CONFIG.fieldWidth - 60;
+    const nearTopWall = ball.y < 60;
+    const nearBottomWall = ball.y > CONFIG.fieldHeight - 60;
+    const inCorner = (nearLeftWall || nearRightWall) && (nearTopWall || nearBottomWall);
+    const nearAnyWall = nearLeftWall || nearRightWall || nearTopWall || nearBottomWall;
+
+    // Determine AI behavior
+    if (inCorner) {
+        // Ball is stuck in corner - push it toward center/goal
+        aiTarget.x = ball.x + (nearRightWall ? -80 : 80);
+        aiTarget.y = CONFIG.fieldHeight / 2;
+    } else if (nearAnyWall && ball.x < CONFIG.fieldWidth * 0.3) {
+        // Ball near player's side wall - attack it toward goal
+        aiTarget.x = ball.x + 30;
         aiTarget.y = ball.y;
-
-        if (Math.random() > aiConfig.accuracy) {
-            aiTarget.y += (Math.random() - 0.5) * 100;
-        }
+    } else if (ball.x <= CONFIG.fieldWidth * 0.55) {
+        // Ball is at center or player's half - attack aggressively
+        aiTarget.x = Math.max(40, ball.x - 50);
+        aiTarget.y = ball.y;
     } else {
-        aiTarget.x = ball.x + 50;
+        // Ball is on AI's side - chase and clear
+        aiTarget.x = ball.x - 20;
         aiTarget.y = ball.y;
     }
 
-    aiTarget.x = Math.max(CONFIG.fieldWidth * 0.4, aiTarget.x);
+    // Add inaccuracy based on difficulty
+    if (Math.random() > aiConfig.accuracy) {
+        aiTarget.y += (Math.random() - 0.5) * 70;
+    }
+
+    // Clamp AI position
+    aiTarget.x = Math.max(CONFIG.fieldWidth * 0.08, aiTarget.x);
+    aiTarget.x = Math.min(CONFIG.fieldWidth * 0.95, aiTarget.x);
 
     const dx = aiTarget.x - ai.x;
     const dy = aiTarget.y - ai.y;
@@ -517,8 +539,30 @@ function updateAI() {
         moveEntity(ai, moveX / CONFIG.playerSpeed, moveY / CONFIG.playerSpeed);
     }
 
-    if (distToBall < ai.radius + ball.radius + 15) {
-        kickBall(ai, CONFIG.kickPower * (0.8 + Math.random() * 0.4));
+    // Kick the ball when close
+    if (distToBall < ai.radius + ball.radius + 20) {
+        if (inCorner || nearAnyWall) {
+            // Stuck near wall - kick toward center of field
+            const escapeX = CONFIG.fieldWidth / 2 - ball.x;
+            const escapeY = CONFIG.fieldHeight / 2 - ball.y;
+            const escapeDist = Math.sqrt(escapeX * escapeX + escapeY * escapeY) || 1;
+            ball.vx = (escapeX / escapeDist) * CONFIG.kickPower * 1.1;
+            ball.vy = (escapeY / escapeDist) * CONFIG.kickPower * 1.1;
+            SFX.kick();
+        } else if (ball.x < CONFIG.fieldWidth * 0.55) {
+            // On player's half - shoot at goal
+            const goalX = 0;
+            const goalY = CONFIG.fieldHeight / 2;
+            const kickDx = goalX - ball.x;
+            const kickDy = goalY - ball.y;
+            const kickDist = Math.sqrt(kickDx * kickDx + kickDy * kickDy) || 1;
+            ball.vx = (kickDx / kickDist) * CONFIG.kickPower * (0.9 + Math.random() * 0.3);
+            ball.vy = (kickDy / kickDist) * CONFIG.kickPower * (0.7 + Math.random() * 0.3);
+            SFX.kick();
+        } else {
+            // On AI's half - clear forward
+            kickBall(ai, CONFIG.kickPower * (0.9 + Math.random() * 0.3));
+        }
     }
 }
 

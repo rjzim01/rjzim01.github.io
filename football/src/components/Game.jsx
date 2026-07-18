@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useImperativeHandle } from 'react'
+import React, { useRef, useEffect, useCallback, useImperativeHandle } from 'react'
 import { CONFIG } from '../engine/config'
 import { initGameObjects, resetPositions, moveEntity, updateBall, checkCollision, kickBall } from '../engine/physics'
 import { updateAI } from '../engine/ai'

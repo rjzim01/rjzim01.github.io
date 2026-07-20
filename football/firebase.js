@@ -7,7 +7,7 @@ let firebaseReady = false;
 let firebaseError = null;
 
 function isFirebaseConfigured() {
-    return FIREBASE_CONFIG && FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY_HERE';
+    return FIREBASE_CONFIG && FIREBASE_CONFIG.apiKey !== 'YOUR_FOOTBALL_API_KEY';
 }
 
 async function initFirebase() {

@@ -82,6 +82,15 @@ export default function About() {
               </p>
             </div>
           </div>
+
+          <a
+            href="https://drive.google.com/file/d/1ZrGGRtDpH7nKS3LcRKT9fcihx0OxCNab/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-4 bg-primary text-white rounded-lg border-2 border-primary shadow-lg transition-all duration-300 hover:bg-transparent hover:text-primary hover:-translate-y-1 active:translate-y-0"
+          >
+            Download CV
+          </a>
         </div>
       </div>
     </section>

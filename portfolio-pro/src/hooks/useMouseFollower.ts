@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import gsap from 'gsap'
 
 export function useMouseFollower(element: React.RefObject<HTMLElement>) {

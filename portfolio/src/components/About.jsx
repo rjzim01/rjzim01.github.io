@@ -45,7 +45,7 @@ export default function About() {
           </span>
           
           <h2 className="font-headline text-3xl md:text-5xl leading-tight mb-6 md:mb-8 italic">
-            Junior Software Developer
+            Junior Software Engineer
           </h2>
           
           <p className="text-on-surface-variant text-base md:text-xl font-body leading-relaxed mb-6 md:mb-8">
@@ -87,7 +87,7 @@ export default function About() {
             href="https://drive.google.com/file/d/1ZrGGRtDpH7nKS3LcRKT9fcihx0OxCNab/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-primary text-white rounded-lg border-2 border-primary shadow-lg transition-all duration-300 hover:bg-transparent hover:text-primary hover:-translate-y-1 active:translate-y-0"
+            className="inline-block px-8 py-4 bg-primary text-on-primary rounded-lg border-2 border-primary shadow-lg transition-all duration-300 hover:bg-transparent hover:text-primary hover:-translate-y-1 active:translate-y-0"
           >
             Download CV
           </a>

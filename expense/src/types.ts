@@ -1,0 +1,19 @@
+export interface Expense {
+  id: string;
+  amount: number;
+  category: string;
+  description: string;
+  date: string; // ISO date format
+  createdAt: number;
+}
+
+export interface CategoryTotal {
+  category: string;
+  total: number;
+  count: number;
+}
+
+export interface MonthlyData {
+  month: string;
+  total: number;
+}

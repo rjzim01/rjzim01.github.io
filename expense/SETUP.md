@@ -191,3 +191,5 @@ firebase deploy
 Project Console: https://console.firebase.google.com/project/expense-e8998/overview
 Hosting URL: https://expense-e8998.web.app
 rifatjahanzim007@gmail.com
+---------------------------
+rm -rf .vite node_modules/.vite && npm run dev

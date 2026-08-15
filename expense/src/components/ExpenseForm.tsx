@@ -58,7 +58,7 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
       <h2>{isEditing ? 'Edit Expense' : 'Add New Expense'}</h2>
 
       <div className="form-group">
-        <label htmlFor="amount">Amount ($)</label>
+        <label htmlFor="amount">Amount (৳)</label>
         <input
           id="amount"
           type="number"

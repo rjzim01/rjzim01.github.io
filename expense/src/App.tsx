@@ -1,173 +1,53 @@
-import { useState, useEffect } from 'react';
-import { collection, query, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from './firebase';
-import type { Expense } from './types';
-import Dashboard from './components/Dashboard';
-import ExpenseForm from './components/ExpenseForm';
-import ExpenseList from './components/ExpenseList';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import VerifyEmail from './pages/VerifyEmail';
+import ExpenseTracker from './pages/ExpenseTracker';
+import Profile from './pages/Profile';
 import './App.css';
 
 function App() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [filterCategory, setFilterCategory] = useState<string>('all');
-  const [dateRange, setDateRange] = useState({ start: '', end: '' });
-
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
-
-  const fetchExpenses = async () => {
-    try {
-      setLoading(true);
-      const q = query(collection(db, 'expenses'));
-      const snapshot = await getDocs(q);
-      const data: Expense[] = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as Expense));
-      setExpenses(data.sort((a, b) => b.createdAt - a.createdAt));
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const addExpense = async (expense: Omit<Expense, 'id' | 'createdAt'>) => {
-    try {
-      await addDoc(collection(db, 'expenses'), {
-        ...expense,
-        createdAt: Date.now()
-      });
-      fetchExpenses();
-    } catch (error) {
-      console.error('Error adding expense:', error);
-    }
-  };
-
-  const updateExpense = async (id: string, updates: Partial<Expense>) => {
-    try {
-      await updateDoc(doc(db, 'expenses', id), updates);
-      fetchExpenses();
-      setEditingId(null);
-    } catch (error) {
-      console.error('Error updating expense:', error);
-    }
-  };
-
-  const deleteExpense = async (id: string) => {
-    try {
-      await deleteDoc(doc(db, 'expenses', id));
-      fetchExpenses();
-    } catch (error) {
-      console.error('Error deleting expense:', error);
-    }
-  };
-
-  const getFilteredExpenses = () => {
-    let filtered = expenses;
-
-    if (filterCategory !== 'all') {
-      filtered = filtered.filter(e => e.category === filterCategory);
-    }
-
-    if (dateRange.start) {
-      filtered = filtered.filter(e => e.date >= dateRange.start);
-    }
-
-    if (dateRange.end) {
-      filtered = filtered.filter(e => e.date <= dateRange.end);
-    }
-
-    return filtered;
-  };
-
-  const filteredExpenses = getFilteredExpenses();
-  const categories = Array.from(new Set(expenses.map(e => e.category)));
-
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>💰 Expense Tracker</h1>
-        <p>Track and manage your expenses easily</p>
-      </header>
-
-      <div className="container">
-        <div className="main-content">
-          <Dashboard expenses={filteredExpenses} />
-
-          <div className="form-section">
-            <ExpenseForm
-              onSubmit={editingId ?
-                (data: Partial<Expense> & { amount: number; category: string; description: string; date: string }) => updateExpense(editingId, data) :
-                addExpense
+    <Router>
+      <ThemeProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/verify-email"
+              element={
+                <ProtectedRoute requireVerified={false}>
+                  <VerifyEmail />
+                </ProtectedRoute>
               }
-              initialData={editingId ? expenses.find(e => e.id === editingId) : undefined}
-              isEditing={!!editingId}
-              onCancel={() => setEditingId(null)}
             />
-          </div>
-
-          <div className="filters">
-            <div className="filter-group">
-              <label htmlFor="category-filter">Category:</label>
-              <select
-                id="category-filter"
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value)}
-              >
-                <option value="all">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="start-date">From:</label>
-              <input
-                id="start-date"
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => setDateRange({...dateRange, start: e.target.value})}
-              />
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="end-date">To:</label>
-              <input
-                id="end-date"
-                type="date"
-                value={dateRange.end}
-                onChange={(e) => setDateRange({...dateRange, end: e.target.value})}
-              />
-            </div>
-
-            <button
-              className="btn-secondary"
-              onClick={() => {
-                setFilterCategory('all');
-                setDateRange({ start: '', end: '' });
-              }}
-            >
-              Clear Filters
-            </button>
-          </div>
-
-          {loading ? (
-            <div className="loading">Loading expenses...</div>
-          ) : (
-            <ExpenseList
-              expenses={filteredExpenses}
-              onEdit={setEditingId}
-              onDelete={deleteExpense}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute requireVerified={true}>
+                  <ExpenseTracker />
+                </ProtectedRoute>
+              }
             />
-          )}
-        </div>
-      </div>
-    </div>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute requireVerified={true}>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </AuthProvider>
+      </ThemeProvider>
+    </Router>
   );
 }
 

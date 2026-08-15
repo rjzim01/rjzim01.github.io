@@ -51,7 +51,7 @@ function Dashboard({ expenses }: DashboardProps) {
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-label">Total Spent</div>
-          <div className="stat-value">${stats.total.toFixed(2)}</div>
+          <div className="stat-value">৳{stats.total.toFixed(2)}</div>
         </div>
         <div className="stat-card">
           <div className="stat-label">Transactions</div>
@@ -59,12 +59,12 @@ function Dashboard({ expenses }: DashboardProps) {
         </div>
         <div className="stat-card">
           <div className="stat-label">Average</div>
-          <div className="stat-value">${stats.avgExpense.toFixed(2)}</div>
+          <div className="stat-value">৳{stats.avgExpense.toFixed(2)}</div>
         </div>
         <div className="stat-card">
           <div className="stat-label">Top Category</div>
           <div className="stat-value">{stats.highestCategory?.category || 'N/A'}</div>
-          <div className="stat-subtext">${stats.highestCategory?.total.toFixed(2) || '0.00'}</div>
+          <div className="stat-subtext">৳{stats.highestCategory?.total.toFixed(2) || '0.00'}</div>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ function Dashboard({ expenses }: DashboardProps) {
                   ))}
                 </Pie>
                 <Tooltip formatter={(value) => {
-                  if (typeof value === 'number') return `$${value.toFixed(2)}`;
+                  if (typeof value === 'number') return `৳${value.toFixed(2)}`;
                   return value;
                 }} />
               </PieChart>
@@ -104,7 +104,7 @@ function Dashboard({ expenses }: DashboardProps) {
                 <XAxis dataKey="month" angle={-45} textAnchor="end" height={80} />
                 <YAxis />
                 <Tooltip formatter={(value) => {
-                  if (typeof value === 'number') return `$${value.toFixed(2)}`;
+                  if (typeof value === 'number') return `৳${value.toFixed(2)}`;
                   return value;
                 }} />
                 <Bar dataKey="total" fill="#4ECDC4" />
@@ -125,7 +125,7 @@ function Dashboard({ expenses }: DashboardProps) {
                   <div className="breakdown-category">{cat.category}</div>
                   <div className="breakdown-count">{cat.count} transaction{cat.count !== 1 ? 's' : ''}</div>
                 </div>
-                <div className="breakdown-amount">${cat.total.toFixed(2)}</div>
+                <div className="breakdown-amount">৳{cat.total.toFixed(2)}</div>
               </div>
             ))}
           </div>

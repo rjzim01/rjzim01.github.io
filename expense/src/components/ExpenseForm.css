@@ -8,8 +8,12 @@
   backdrop-filter: blur(10px);
 }
 
+.form-header {
+  margin-bottom: 1.75rem;
+}
+
 .expense-form h2 {
-  margin: 0 0 1.75rem 0;
+  margin: 0 0 1rem 0;
   color: var(--color-text);
   font-size: 1.75rem;
   font-weight: 800;
@@ -17,6 +21,37 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.type-toggle {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-input-bg);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-btn:hover {
+  border-color: var(--color-primary);
+  background: var(--color-hover-bg);
+}
+
+.toggle-btn.active {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: white;
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 .form-group {
@@ -117,6 +152,14 @@
 
 .form-buttons .btn-primary:active {
   transform: translateY(-2px);
+}
+
+.form-buttons .btn-primary.expense-btn {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8A65 100%);
+}
+
+.form-buttons .btn-primary.income-btn {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
 }
 
 .form-buttons .btn-secondary {

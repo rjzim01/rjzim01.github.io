@@ -5,6 +5,7 @@ export interface Expense {
   category: string;
   description: string;
   date: string; // ISO date format
+  type: 'income' | 'expense';
   createdAt: number;
 }
 

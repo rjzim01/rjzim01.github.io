@@ -1,9 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import type { Expense } from '../types';
 import './ExpenseList.css';
 
 interface ExpenseListProps {
   expenses: Expense[];
-  onEdit: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -15,24 +15,32 @@ const CATEGORY_EMOJI: Record<string, string> = {
   'Shopping': '🛍️',
   'Health': '🏥',
   'Education': '📚',
-  'Other': '📌'
+  'Other': '📌',
+  'Salary': '💼',
+  'Freelance': '💻',
+  'Investment': '📈',
+  'Bonus': '🎁',
+  'Gift': '🎀',
+  'Other Income': '💸'
 };
 
-function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListProps) {
+function ExpenseList({ expenses, onDelete }: ExpenseListProps) {
+  const navigate = useNavigate();
+
   if (expenses.length === 0) {
     return (
       <div className="expense-list empty">
-        <p>No expenses yet. Add one to get started!</p>
+        <p>No transactions yet. Add income or expense to get started!</p>
       </div>
     );
   }
 
   return (
     <div className="expense-list">
-      <h2>Expense History</h2>
+      <h2>Transaction History</h2>
       <div className="expenses-container">
         {expenses.map((expense) => (
-          <div key={expense.id} className="expense-item">
+          <div key={expense.id} className={`expense-item ${expense.type}`}>
             <div className="expense-emoji">
               {CATEGORY_EMOJI[expense.category] || '📌'}
             </div>
@@ -40,7 +48,10 @@ function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListProps) {
               <div className="expense-header">
                 <div>
                   <h4 className="expense-description">{expense.description}</h4>
-                  <p className="expense-category">{expense.category}</p>
+                  <p className="expense-category">
+                    {expense.category}
+                    <span className="expense-type-badge">{expense.type === 'income' ? '💵 Income' : '💸 Expense'}</span>
+                  </p>
                 </div>
               </div>
               <p className="expense-date">
@@ -52,13 +63,13 @@ function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListProps) {
                 })}
               </p>
             </div>
-            <div className="expense-amount">
-              ৳{expense.amount.toFixed(2)}
+            <div className={`expense-amount ${expense.type}`}>
+              {expense.type === 'income' ? '+' : '-'}৳{expense.amount.toFixed(2)}
             </div>
             <div className="expense-actions">
               <button
                 className="btn-edit"
-                onClick={() => onEdit(expense.id)}
+                onClick={() => navigate(`/add?id=${expense.id}`)}
                 title="Edit expense"
                 aria-label={`Edit ${expense.description}`}
               >

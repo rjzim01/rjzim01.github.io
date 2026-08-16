@@ -3,18 +3,20 @@ import type { Expense } from '../types';
 import './ExpenseForm.css';
 
 interface ExpenseFormProps {
-  onSubmit: (expense: Partial<Expense> & { amount: number; category: string; description: string; date: string }) => void;
+  onSubmit: (expense: Partial<Expense> & { amount: number; category: string; description: string; date: string; type: 'income' | 'expense' }) => void;
   initialData?: Expense;
   isEditing: boolean;
   onCancel: () => void;
 }
 
-const CATEGORIES = ['Food', 'Transport', 'Entertainment', 'Utilities', 'Shopping', 'Health', 'Education', 'Other'];
+const EXPENSE_CATEGORIES = ['Food', 'Transport', 'Entertainment', 'Utilities', 'Shopping', 'Health', 'Education', 'Other'];
+const INCOME_CATEGORIES = ['Salary', 'Freelance', 'Investment', 'Bonus', 'Gift', 'Other Income'];
 
 function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseFormProps) {
   const [formData, setFormData] = useState({
+    type: 'expense' as 'income' | 'expense',
     amount: '',
-    category: CATEGORIES[0],
+    category: EXPENSE_CATEGORIES[0],
     description: '',
     date: new Date().toISOString().split('T')[0]
   });
@@ -22,6 +24,7 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
   useEffect(() => {
     if (initialData) {
       setFormData({
+        type: initialData.type,
         amount: initialData.amount.toString(),
         category: initialData.category,
         description: initialData.description,
@@ -29,6 +32,16 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
       });
     }
   }, [initialData]);
+
+  const categories = formData.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+
+  const handleTypeChange = (newType: 'income' | 'expense') => {
+    setFormData({
+      ...formData,
+      type: newType,
+      category: newType === 'income' ? INCOME_CATEGORIES[0] : EXPENSE_CATEGORIES[0]
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,12 +55,14 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
       amount: parseFloat(formData.amount),
       category: formData.category,
       description: formData.description,
-      date: formData.date
+      date: formData.date,
+      type: formData.type
     });
 
     setFormData({
+      type: 'expense',
       amount: '',
-      category: CATEGORIES[0],
+      category: EXPENSE_CATEGORIES[0],
       description: '',
       date: new Date().toISOString().split('T')[0]
     });
@@ -55,7 +70,27 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
 
   return (
     <form className="expense-form" onSubmit={handleSubmit}>
-      <h2>{isEditing ? 'Edit Expense' : 'Add New Expense'}</h2>
+      <div className="form-header">
+        <h2>{isEditing ? `Edit ${formData.type === 'income' ? 'Income' : 'Expense'}` : 'Add New Transaction'}</h2>
+        {!isEditing && (
+          <div className="type-toggle">
+            <button
+              type="button"
+              className={`toggle-btn ${formData.type === 'expense' ? 'active' : ''}`}
+              onClick={() => handleTypeChange('expense')}
+            >
+              💸 Expense
+            </button>
+            <button
+              type="button"
+              className={`toggle-btn ${formData.type === 'income' ? 'active' : ''}`}
+              onClick={() => handleTypeChange('income')}
+            >
+              💵 Income
+            </button>
+          </div>
+        )}
+      </div>
 
       <div className="form-group">
         <label htmlFor="amount">Amount (৳)</label>
@@ -79,7 +114,7 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
           onChange={(e) => setFormData({...formData, category: e.target.value})}
           required
         >
-          {CATEGORIES.map(cat => (
+          {categories.map(cat => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
@@ -109,8 +144,8 @@ function ExpenseForm({ onSubmit, initialData, isEditing, onCancel }: ExpenseForm
       </div>
 
       <div className="form-buttons">
-        <button type="submit" className="btn-primary">
-          {isEditing ? 'Update Expense' : 'Add Expense'}
+        <button type="submit" className={`btn-primary ${formData.type === 'income' ? 'income-btn' : 'expense-btn'}`}>
+          {isEditing ? `Update ${formData.type === 'income' ? 'Income' : 'Expense'}` : `Add ${formData.type === 'income' ? 'Income' : 'Expense'}`}
         </button>
         {isEditing && (
           <button type="button" className="btn-secondary" onClick={onCancel}>

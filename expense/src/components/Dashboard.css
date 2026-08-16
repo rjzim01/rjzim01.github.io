@@ -36,6 +36,22 @@
   box-shadow: 0 24px 60px var(--color-shadow), 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
+.stat-card.balance-card.positive {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+}
+
+.stat-card.balance-card.negative {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8A65 100%);
+}
+
+.stat-card.income-card {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+}
+
+.stat-card.expense-card {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8A65 100%);
+}
+
 .stat-label {
   font-size: 0.85rem;
   opacity: 0.92;

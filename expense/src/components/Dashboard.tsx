@@ -11,7 +11,15 @@ const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'
 
 function Dashboard({ expenses }: DashboardProps) {
   const stats = useMemo(() => {
-    const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const totalIncome = expenses
+      .filter(e => e.type === 'income')
+      .reduce((sum, e) => sum + e.amount, 0);
+
+    const totalExpense = expenses
+      .filter(e => e.type === 'expense')
+      .reduce((sum, e) => sum + e.amount, 0);
+
+    const balance = totalIncome - totalExpense;
 
     const byCategory: CategoryTotal[] = expenses.reduce((acc: CategoryTotal[], e) => {
       const existing = acc.find(c => c.category === e.category);
@@ -40,25 +48,35 @@ function Dashboard({ expenses }: DashboardProps) {
         }));
     })();
 
-    const avgExpense = expenses.length > 0 ? Math.round((total / expenses.length) * 100) / 100 : 0;
-    const highestCategory = byCategory[0];
+    const avgExpense = expenses.filter(e => e.type === 'expense').length > 0
+      ? Math.round((totalExpense / expenses.filter(e => e.type === 'expense').length) * 100) / 100
+      : 0;
+    const highestCategory = byCategory.find(c => expenses.some(e => e.category === c.category && e.type === 'expense')) || byCategory[0];
 
-    return { total, byCategory, monthlyData, avgExpense, highestCategory };
+    return { totalIncome, totalExpense, balance, byCategory, monthlyData, avgExpense, highestCategory };
   }, [expenses]);
 
   return (
     <div className="dashboard">
       <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-label">Total Spent</div>
-          <div className="stat-value">৳{stats.total.toFixed(2)}</div>
+        <div className={`stat-card balance-card ${stats.balance >= 0 ? 'positive' : 'negative'}`}>
+          <div className="stat-label">💰 Balance</div>
+          <div className="stat-value">৳{stats.balance.toFixed(2)}</div>
+        </div>
+        <div className="stat-card income-card">
+          <div className="stat-label">💵 Income</div>
+          <div className="stat-value">৳{stats.totalIncome.toFixed(2)}</div>
+        </div>
+        <div className="stat-card expense-card">
+          <div className="stat-label">💸 Expenses</div>
+          <div className="stat-value">৳{stats.totalExpense.toFixed(2)}</div>
         </div>
         <div className="stat-card">
           <div className="stat-label">Transactions</div>
           <div className="stat-value">{expenses.length}</div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Average</div>
+          <div className="stat-label">Average Expense</div>
           <div className="stat-value">৳{stats.avgExpense.toFixed(2)}</div>
         </div>
         <div className="stat-card">

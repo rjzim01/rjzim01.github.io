@@ -1,21 +1,29 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import type { Expense } from '../types';
 import Dashboard from '../components/Dashboard';
-import ExpenseForm from '../components/ExpenseForm';
 import ExpenseList from '../components/ExpenseList';
 import UserHeader from '../components/UserHeader';
 import '../pages/ExpenseTracker.css';
 
 function ExpenseTracker() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingId, setEditingId] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
+  const [filtersExpanded, setFiltersExpanded] = useState(() => {
+    const saved = localStorage.getItem('filtersExpanded');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('filtersExpanded', JSON.stringify(filtersExpanded));
+  }, [filtersExpanded]);
 
   useEffect(() => {
     if (user) {
@@ -41,30 +49,6 @@ function ExpenseTracker() {
       console.error('Error fetching expenses:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const addExpense = async (expense: Omit<Expense, 'id' | 'createdAt' | 'userId'>) => {
-    if (!user) return;
-    try {
-      await addDoc(collection(db, 'expenses'), {
-        ...expense,
-        userId: user.uid,
-        createdAt: Date.now()
-      });
-      fetchExpenses();
-    } catch (error) {
-      console.error('Error adding expense:', error);
-    }
-  };
-
-  const updateExpense = async (id: string, updates: Partial<Expense>) => {
-    try {
-      await updateDoc(doc(db, 'expenses', id), updates);
-      fetchExpenses();
-      setEditingId(null);
-    } catch (error) {
-      console.error('Error updating expense:', error);
     }
   };
 
@@ -102,79 +86,84 @@ function ExpenseTracker() {
     <div className="app">
       <UserHeader />
 
-      <div className="app-header">
-        <h1>💰 Expense Tracker</h1>
-        <p>Track and manage your expenses easily</p>
-      </div>
-
       <div className="container">
         <div className="main-content">
-          <Dashboard expenses={filteredExpenses} />
+          <div className="filters">
+            <div className="filters-header">
+              <h3>Filters</h3>
+              <button
+                className="btn-toggle"
+                onClick={() => setFiltersExpanded(!filtersExpanded)}
+              >
+                {filtersExpanded ? '▲ Collapse' : '▼ Expand'}
+              </button>
+            </div>
 
-          <div className="form-section">
-            <ExpenseForm
-              onSubmit={editingId ?
-                (data: Partial<Expense> & { amount: number; category: string; description: string; date: string }) => updateExpense(editingId, data) :
-                addExpense
-              }
-              initialData={editingId ? expenses.find(e => e.id === editingId) : undefined}
-              isEditing={!!editingId}
-              onCancel={() => setEditingId(null)}
-            />
+            {filtersExpanded && (
+              <>
+                <div className="filter-group">
+                  <label htmlFor="category-filter">Category:</label>
+                  <select
+                    id="category-filter"
+                    value={filterCategory}
+                    onChange={(e) => setFilterCategory(e.target.value)}
+                  >
+                    <option value="all">All Categories</option>
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="filter-group">
+                  <label htmlFor="start-date">From:</label>
+                  <input
+                    id="start-date"
+                    type="date"
+                    value={dateRange.start}
+                    onChange={(e) => setDateRange({...dateRange, start: e.target.value})}
+                  />
+                </div>
+
+                <div className="filter-group">
+                  <label htmlFor="end-date">To:</label>
+                  <input
+                    id="end-date"
+                    type="date"
+                    value={dateRange.end}
+                    onChange={(e) => setDateRange({...dateRange, end: e.target.value})}
+                  />
+                </div>
+
+                <button
+                  className="btn-secondary"
+                  onClick={() => {
+                    setFilterCategory('all');
+                    setDateRange({ start: '', end: '' });
+                  }}
+                >
+                  Clear Filters
+                </button>
+              </>
+            )}
           </div>
 
-          <div className="filters">
-            <div className="filter-group">
-              <label htmlFor="category-filter">Category:</label>
-              <select
-                id="category-filter"
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value)}
-              >
-                <option value="all">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="start-date">From:</label>
-              <input
-                id="start-date"
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => setDateRange({...dateRange, start: e.target.value})}
-              />
-            </div>
-
-            <div className="filter-group">
-              <label htmlFor="end-date">To:</label>
-              <input
-                id="end-date"
-                type="date"
-                value={dateRange.end}
-                onChange={(e) => setDateRange({...dateRange, end: e.target.value})}
-              />
-            </div>
-
+          <div className="add-transaction">
             <button
-              className="btn-secondary"
-              onClick={() => {
-                setFilterCategory('all');
-                setDateRange({ start: '', end: '' });
-              }}
+              className="btn-primary"
+              onClick={() => navigate('/add')}
             >
-              Clear Filters
+              + Add New Transaction
             </button>
           </div>
+
+          <Dashboard expenses={filteredExpenses} />
 
           {loading ? (
             <div className="loading">Loading expenses...</div>
           ) : (
             <ExpenseList
               expenses={filteredExpenses}
-              onEdit={setEditingId}
               onDelete={deleteExpense}
             />
           )}

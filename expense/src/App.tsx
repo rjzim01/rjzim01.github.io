@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import ExpenseTracker from './pages/ExpenseTracker';
+import AddTransaction from './pages/AddTransaction';
 import Profile from './pages/Profile';
 import './App.css';
 
@@ -32,6 +33,14 @@ function App() {
               element={
                 <ProtectedRoute requireVerified={true}>
                   <ExpenseTracker />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add"
+              element={
+                <ProtectedRoute requireVerified={true}>
+                  <AddTransaction />
                 </ProtectedRoute>
               }
             />

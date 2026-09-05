@@ -30,16 +30,17 @@ export default function About() {
 
   return (
     <section id="about" className="py-20 md:py-40 px-4 md:px-12">
-      <div className="max-w-[1920px] mx-auto grid grid-cols-12 gap-8 md:gap-12">
-        <div className="col-span-12 lg:col-span-5">
+      <div className="max-w-[1920px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12">
+        <div className="md:col-span-5 min-w-0">
           <img 
-            src="assets/img/zim_01_49kb.webp" 
+            // src="assets/img/zim_01_49kb.webp"
+            src="/assets/img/zim_31-july-2026_47-kb.jpeg"
             className="rounded-lg w-full max-w-sm md:max-w-md opacity-80 hover:opacity-100 transition-opacity duration-500 mx-auto lg:mx-0" 
             alt="RJ ZIM" 
           />
         </div>
         
-        <div className="col-span-12 lg:col-span-7">
+        <div className="md:col-span-7 min-w-0">
           <span className="font-label text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.2em] text-primary mb-4 md:mb-8 block">
             About Me
           </span>

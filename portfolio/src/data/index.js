@@ -41,11 +41,11 @@ export const workData = [
 
 export const educationData = [
   {
-    period: "May 2025 - 2026",
+    period: "May 2025 - July 2026",
     title: "Masters (PMSCS) in Computer Science and Engineering (CSE)",
     institution: "Jahangirnagar University, Dhaka, Bangladesh",
     description: "Strengthening knowledge in advanced computer science topics, research methods, and practical problem-solving.",
-    result: "Second Semester complete"
+    result: "3.07 (A)"
   },
   {
     period: "2020 - 2023",

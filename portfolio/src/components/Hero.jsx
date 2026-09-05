@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import heroBg from '../assets/zim_31-july-2026_47-kb.jpeg';
 
 const typedTexts = [
   "I'm a Software Engineer",
@@ -132,7 +133,7 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} id="hero" className="relative min-h-screen md:min-h-screen md:flex md:items-center px-0 md:px-12 pt-0 md:pt-32 pb-10 md:pb-24 overflow-hidden hero-bg">
-      <div ref={bgRef} className="hero-image" style={{ transformStyle: 'preserve-3d' }}></div>
+      <div ref={bgRef} className="hero-image" style={{ transformStyle: 'preserve-3d', backgroundImage: `url(${heroBg})` }}></div>
       <div className="absolute inset-0 z-[1] md:bg-gradient-to-r md:from-background/95 md:via-background/70 md:to-background/40 bg-gradient-to-b from-background/30 via-background/70 to-background pointer-events-none"></div>
 
       <div className="relative z-10 w-full max-w-[1920px] mx-auto md:grid md:grid-cols-12 flex flex-col justify-end min-h-screen md:min-h-0 px-4 md:px-0 pt-28 md:pt-0">

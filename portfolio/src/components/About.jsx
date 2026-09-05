@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import heroImg from '../assets/zim_31-july-2026_47-kb.jpeg';
 
 export default function About() {
   const [bmi, setBmi] = useState({ value: 0, category: '' });
@@ -34,7 +35,7 @@ export default function About() {
         <div className="md:col-span-5 min-w-0">
           <img 
             // src="assets/img/zim_01_49kb.webp"
-            src="/assets/img/zim_31-july-2026_47-kb.jpeg"
+            src={heroImg}
             className="rounded-lg w-full max-w-sm md:max-w-md opacity-80 hover:opacity-100 transition-opacity duration-500 mx-auto lg:mx-0" 
             alt="RJ ZIM" 
           />

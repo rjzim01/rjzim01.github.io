@@ -34,7 +34,6 @@ body {
 .hero-image {
   position: absolute;
   inset: -8%;
-  background-image: url('/assets/img/zim_31-july-2026_47-kb.jpeg');
   background-size: 90% auto;
   background-position: center 25%;
   background-repeat: no-repeat;
